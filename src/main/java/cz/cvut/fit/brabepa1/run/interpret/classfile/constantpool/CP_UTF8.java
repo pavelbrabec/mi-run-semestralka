@@ -1,4 +1,4 @@
-package cz.cvut.fit.brabepa1.run.interpret.ConstantPool;
+package cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -31,6 +31,10 @@ public class CP_UTF8 extends CP_Item {
         }
     }
 
+    public String getStringContent() {
+        return string;
+    }
+    
     @Override
     public String toString() {
         return "CP_UTF8 {tag=" + super.tag.name() + ", string=" + string + '}';

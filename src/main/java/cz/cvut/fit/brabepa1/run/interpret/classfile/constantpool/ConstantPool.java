@@ -1,7 +1,7 @@
-package cz.cvut.fit.brabepa1.run.interpret.ConstantPool;
+package cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool;
 
 import java.io.DataInputStream;
-import cz.cvut.fit.brabepa1.run.interpret.ConstantPool.CP_Item.Tag;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Item.Tag;
 import java.io.IOException;
 
 /**
@@ -94,7 +94,7 @@ public class ConstantPool {
     public String toString() {
         String str = "ConstantPool {count=" + count + "}\n";
         for (int i = 0; i < items.length; i++) {
-            str += "\t\t" + i + ": ";
+            str += "\t\t" + (i+1) + ": ";
             str += items[i].toString();
             if (i < items.length - 1 && items.length > 1) {
                 str += ", ";

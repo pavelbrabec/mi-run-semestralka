@@ -1,4 +1,4 @@
-package cz.cvut.fit.brabepa1.run.interpret.ConstantPool;
+package cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
