@@ -96,9 +96,6 @@ public class ConstantPool {
         for (int i = 0; i < items.length; i++) {
             str += "\t\t" + (i+1) + ": ";
             str += items[i].toString();
-            if (i < items.length - 1 && items.length > 1) {
-                str += ", ";
-            }
             str += '\n';
         }
         return str;

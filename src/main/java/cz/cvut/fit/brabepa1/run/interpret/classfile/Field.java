@@ -1,18 +1,14 @@
 package cz.cvut.fit.brabepa1.run.interpret.classfile;
 
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute;
-import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Class;
-import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.ConstantPool;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author pavel
  */
-class Field {
+public class Field {
 
     short accessFlags;
     short nameIndex;
@@ -20,7 +16,7 @@ class Field {
     short attributesCount;
     Attribute[] attributes;
 
-    public Field(DataInputStream dis, ConstantPool constantPool) {
+    public Field(DataInputStream dis, ClassFile classFile) {
         try {
             accessFlags = dis.readShort();
             nameIndex = dis.readShort();
@@ -28,7 +24,7 @@ class Field {
             attributesCount = dis.readShort();
             attributes = new Attribute[attributesCount];
             for (int i = 0; i < attributesCount; i++) {
-                attributes[i] = ClassFileReader.readAttribute(dis, constantPool);
+                attributes[i] = ClassFileReader.readAttribute(dis, classFile);
             }
         } catch (IOException ex) {
             System.out.println("ERROR\t" + Field.class.getName() + ": exception: " + ex);
@@ -37,10 +33,17 @@ class Field {
 
     @Override
     public String toString() {
-        return "Field{" + "accessFlags=" + accessFlags
+        String str = "Field{" + "accessFlags=" + accessFlags
                 + ", nameIndex=" + nameIndex
                 + ", descriptorIndex=" + descriptorIndex
                 + ", attributesCount=" + attributesCount + '}';
+        if (attributesCount > 0) str += '\n';
+        for (int i = 0; i < attributesCount; i++) {
+            str += "\t\t\t" + (i+1) + ": ";
+            str += attributes[i].toString();
+            str += '\n';
+        }
+        return str;
     }
 
 }

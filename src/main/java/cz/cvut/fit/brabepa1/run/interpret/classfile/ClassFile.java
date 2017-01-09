@@ -46,7 +46,7 @@ public class ClassFile {
             str += "0x" + Integer.toHexString(interfaces[i]);
             str += '\n';
         }
-        str += "Fields{fieldsCount=0x" + fieldsCount + "}\n";
+        str += "\tFields{fieldsCount=0x" + fieldsCount + "}\n";
         for (int i = 0; i < fieldsCount; i++) {
             str += "\t\t" + i + ": ";
             str += fields[i].toString();

@@ -17,6 +17,21 @@ import java.io.IOException;
  */
 public class ClassFileReader {
 
+    
+// TODO think about some global access to all loaded classfiles
+//    private static ArrayList<ClassFile> classFiles = null;
+//
+//    public static ClassFile getClassFile(int index) {
+//        if (classFiles == null || classFiles.isEmpty()) {
+//            System.out.println("ERROR\t" + ClassFileReader.class.getName() + 
+//                    " No classfile read yet! -> EXITING...");
+//            System.exit(1);
+//            return null; // only or netbeans checker
+//        } else {
+//            return classFiles.get(index);
+//        }
+//    }
+    
     public static ClassFile readFromFile(String path) {
         ClassFile cf = new ClassFile();
         try (DataInputStream fis = new DataInputStream(new FileInputStream(path))) {
@@ -36,7 +51,7 @@ public class ClassFileReader {
             cf.fieldsCount = fis.readShort();
             cf.fields = new Field [cf.fieldsCount];
             for (int i = 0; i < cf.fieldsCount; i++) {
-                cf.fields[i] = new Field(fis, cf.constantPool);
+                cf.fields[i] = new Field(fis, cf);
             }
 
         } catch (FileNotFoundException ex) {
@@ -44,10 +59,11 @@ public class ClassFileReader {
         } catch (IOException ex) {
             System.out.println("ERROR\tUnexpected IOException occured: " + ex.getMessage());
         }
-        return cf;
+        
+        return cf; 
     }
 
-    public static Attribute readAttribute(DataInputStream dis, ConstantPool constantPool) {
+    public static Attribute readAttribute(DataInputStream dis, ClassFile classFile) {
         short attrNameIndex;
         try {
             attrNameIndex = dis.readShort();
@@ -56,17 +72,18 @@ public class ClassFileReader {
                     + "- readAttribute(): exception: " + ex);
             return null;
         }
-        String type = constantPool.getItem(attrNameIndex, CP_UTF8.class).getStringContent();
+        String type = classFile.constantPool.getItem(attrNameIndex, CP_UTF8.class)
+                        .getStringContent();
         AttrType valueOf = Attribute.getType(type);
 
         switch (valueOf) {
             case Code:
-                return new Attr_Code(attrNameIndex, dis);
+                return new Attr_Code(attrNameIndex, dis, classFile, null);
 //            TODO add more cases epending on the content of Attribute.Type
 //            TODO add more cases epending on the content of Attribute.Type
 //            TODO add more cases epending on the content of Attribute.Type
             default:
-                return new Attr_NotImplemented(attrNameIndex, dis);
+                return new Attr_NotImplemented(attrNameIndex, dis, classFile, null);
         }
     }
 }
