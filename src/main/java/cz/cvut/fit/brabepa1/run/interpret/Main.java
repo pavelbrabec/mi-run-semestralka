@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ClassFile cf = ClassFileReader.readFromFile("test_files/Test2.class");
+        ClassFile cf = ClassFileReader.readFromFile("test_files/Test.class");
         System.out.println(cf);
     }
 

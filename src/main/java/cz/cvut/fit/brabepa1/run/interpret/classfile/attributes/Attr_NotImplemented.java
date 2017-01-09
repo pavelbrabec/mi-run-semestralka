@@ -24,7 +24,7 @@ public class Attr_NotImplemented extends Attribute {
             System.out.println("ERROR\t" + Attr_NotImplemented.class.getName()
                     + ": exception: " + ex);
         }
-        System.out.println("ERROR\t" + Attr_NotImplemented.class.getName()
+        System.out.println("WARNING\t" + Attr_NotImplemented.class.getName()
                 + "Just read attribute which is not implemented!");
     }
 

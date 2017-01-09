@@ -27,5 +27,9 @@ public class ExceptionHandler {
                     ": exception: " + ex);
         }
     }
-    
+
+    @Override
+    public String toString() {
+        return "ExceptionHandler{" + "startPc=" + startPc + ", endPc=" + endPc + ", handlerPc=" + handlerPc + ", catchType=" + catchType + '}';
+    }
 }

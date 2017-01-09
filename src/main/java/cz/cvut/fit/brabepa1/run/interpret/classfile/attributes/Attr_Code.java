@@ -39,9 +39,10 @@ public class Attr_Code extends Attribute {
             }
             attributesCount = dis.readShort();
         } catch (IOException ex) {
-            System.out.println("ERROR\t" + Attr_Code.class.getName() +
-                    ": exception: " + ex);
+            System.out.println("ERROR\t" + Attr_Code.class.getName()
+                    + ": exception: " + ex);
         }
+        attributes = new Attribute[attributesCount];
         for (int i = 0; i < attributesCount; i++) {
             attributes[i] = ClassFileReader.
                     readAttribute(dis, classFile);
@@ -50,12 +51,32 @@ public class Attr_Code extends Attribute {
 
     @Override
     public String toString() {
-        String str = super.toString() + ", maxStack=" + maxStack +
-                ", maxLocals=" + maxLocals +
-                ", codeLength=" + codeLength +
-                ", exceptionTableLength=" + exceptionTableLength +
-                ", attributesCount=" + attributesCount + '}';
+        String str = super.toString() + ", maxStack=" + maxStack
+                + ", maxLocals=" + maxLocals
+                + ", codeLength=" + codeLength
+                + ", exceptionTableLength=" + exceptionTableLength
+                + ", attributesCount=" + attributesCount + '}';
         //TODO print code, exceptionTable and attributes Content
+        if (attributesCount > 0) {
+            str += "\n\t\t\t\tAttributes\n";
+        }
+        for (int i = 0; i < attributesCount; i++) {
+            str += "\t\t\t\t\t" + (i + 1) + ": ";
+            str += attributes[i].toString();
+            if (i < attributesCount - 1) {
+                str += '\n';
+            }
+        }
+        if (exceptionTableLength > 0) {
+            str += "\n\t\t\t\tExceptionTable\n";
+        }
+        for (int i = 0; i < exceptionTableLength; i++) {
+            str += "\t\t\t\t\t" + (i + 1) + ": ";
+            str += exceptionTable[i].toString();
+            if (i < exceptionTableLength - 1) {
+                str += '\n';
+            }
+        }
         return str;
     }
 }

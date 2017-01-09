@@ -35,12 +35,12 @@ public class ClassFile {
                 + ", minorVersion=0x" + Integer.toHexString(minorVersion)
                 + ", majorVersion=0x" + Integer.toHexString(majorVersion)
                 + ", constantPoolSize=0x" + Integer.toHexString(constantPoolCount)
-                + "}\n\t"
-                + constantPool.toString()
-                + "\t{accessFlags=0x" + Integer.toHexString(accessFlags)
+                + ", accessFlags=0x" + Integer.toHexString(accessFlags)
                 + ", thisClass=0x" + Integer.toHexString(thisClass)
                 + ", superClass=0x" + Integer.toHexString(superClass)
-                + "}\n\tInterfaces{interfacesCount=0x" + Integer.toHexString(interfacesCount) + "}\n\t";
+                + "}\n\t"
+                + constantPool.toString() + '\n'
+                + "\tInterfaces{interfacesCount=0x" + Integer.toHexString(interfacesCount) + "}\n";
         for (int i = 0; i < interfacesCount; i++) {
             str += "\t\t" + i + ": ";
             str += "0x" + Integer.toHexString(interfaces[i]);
@@ -50,6 +50,18 @@ public class ClassFile {
         for (int i = 0; i < fieldsCount; i++) {
             str += "\t\t" + i + ": ";
             str += fields[i].toString();
+            str += '\n';
+        }
+        str += "\tMethods{methodsCount=0x" + methodsCount + "}\n";
+        for (int i = 0; i < methodsCount; i++) {
+            str += "\t\t" + i + ": ";
+            str += methods[i].toString();
+            str += '\n';
+        }
+        str += "\tAttributes{attributesCount=0x" + attributesCount + "}\n";
+        for (int i = 0; i < attributesCount; i++) {
+            str += "\t\t" + (i + 1) + ": ";
+            str += attributes[i].toString();
             str += '\n';
         }
         return str;

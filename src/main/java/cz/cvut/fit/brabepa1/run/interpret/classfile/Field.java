@@ -41,7 +41,7 @@ public class Field {
         for (int i = 0; i < attributesCount; i++) {
             str += "\t\t\t" + (i+1) + ": ";
             str += attributes[i].toString();
-            str += '\n';
+            if (i < attributesCount - 1) str += '\n';
         }
         return str;
     }

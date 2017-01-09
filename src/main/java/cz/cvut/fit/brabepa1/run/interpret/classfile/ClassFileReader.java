@@ -53,6 +53,16 @@ public class ClassFileReader {
             for (int i = 0; i < cf.fieldsCount; i++) {
                 cf.fields[i] = new Field(fis, cf);
             }
+            cf.methodsCount = fis.readShort();
+            cf.methods = new Method[cf.methodsCount];
+            for (int i = 0; i < cf.methodsCount; i++) {
+                cf.methods[i] = new Method(fis, cf);
+            }
+            cf.attributesCount = fis.readShort();
+            cf.attributes = new Attribute[cf.attributesCount];
+            for (int i = 0; i < cf.attributesCount; i++) {
+                cf.attributes[i] = ClassFileReader.readAttribute(fis, cf);
+            }
 
         } catch (FileNotFoundException ex) {
             System.out.println("ERROR\tFile not found: " + path);
@@ -79,9 +89,9 @@ public class ClassFileReader {
         switch (valueOf) {
             case Code:
                 return new Attr_Code(attrNameIndex, dis, classFile, null);
-//            TODO add more cases epending on the content of Attribute.Type
-//            TODO add more cases epending on the content of Attribute.Type
-//            TODO add more cases epending on the content of Attribute.Type
+//            TODO add more cases depending on the content of Attribute.Type
+//            TODO add more cases depending on the content of Attribute.Type
+//            TODO add more cases depending on the content of Attribute.Type
             default:
                 return new Attr_NotImplemented(attrNameIndex, dis, classFile, null);
         }
