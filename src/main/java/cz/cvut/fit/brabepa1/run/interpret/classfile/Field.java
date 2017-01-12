@@ -10,11 +10,11 @@ import java.io.IOException;
  */
 public class Field {
 
-    short accessFlags;
-    short nameIndex;
-    short descriptorIndex;
-    short attributesCount;
-    Attribute[] attributes;
+    public short accessFlags;
+    public short nameIndex;
+    public short descriptorIndex;
+    public short attributesCount;
+    public Attribute[] attributes;
 
     public Field(DataInputStream dis, ClassFile classFile) {
         try {

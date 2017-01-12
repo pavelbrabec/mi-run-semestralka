@@ -8,8 +8,8 @@ import java.io.IOException;
  */
 public class CP_InvokeDynamic extends CP_Item {
 
-    short bootstrapMethodAttrIndex;
-    short nameAndTypeIndex;
+    public short bootstrapMethodAttrIndex;
+    public short nameAndTypeIndex;
     
     CP_InvokeDynamic(ConstantPool cp, Tag tag) {
         super(cp, tag);

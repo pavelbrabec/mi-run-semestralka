@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  */
 public class CP_UTF8 extends CP_Item {
 
-    String string;
+    public String string;
 
 //    CONSTANT_Utf8_info
 //        u1 tag;

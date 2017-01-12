@@ -8,7 +8,7 @@ import java.io.IOException;
  */
 public class CP_MethodType extends CP_Item {
 
-    short descriptorIndex;
+    public short descriptorIndex;
 
     CP_MethodType(ConstantPool cp, Tag tag) {
         super(cp, tag);

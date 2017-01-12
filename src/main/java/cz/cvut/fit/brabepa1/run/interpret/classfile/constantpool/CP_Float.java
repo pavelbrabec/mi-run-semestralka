@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
  */
 public class CP_Float extends CP_Item {
 
-    float value;
+    public float value;
 
     CP_Float(ConstantPool cp, Tag tag) {
         super(cp, tag);

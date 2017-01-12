@@ -13,14 +13,14 @@ import java.io.IOException;
  */
 public class Attr_Code extends Attribute {
 
-    short maxStack;
-    short maxLocals;
-    int codeLength;
-    byte code[];
-    short exceptionTableLength;
-    ExceptionHandler[] exceptionTable;
-    short attributesCount;
-    Attribute[] attributes;
+    public short maxStack;
+    public short maxLocals;
+    public int codeLength;
+    public byte code[];
+    public short exceptionTableLength;
+    public ExceptionHandler[] exceptionTable;
+    public short attributesCount;
+    public Attribute[] attributes;
 
     public Attr_Code(short nameIndex, DataInputStream dis, ClassFile classFile, Field field) {
         super(nameIndex, dis, classFile, field);

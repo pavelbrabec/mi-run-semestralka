@@ -8,7 +8,7 @@ import java.io.IOException;
  */
 public class CP_Class extends CP_Item {
 
-    short nameIndex;
+    public short nameIndex;
 
     CP_Class(ConstantPool cp, Tag tag) {
         super(cp, tag);

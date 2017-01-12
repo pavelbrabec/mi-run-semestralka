@@ -8,8 +8,8 @@ import java.io.IOException;
  */
 public class CP_NameAndType extends CP_Item {
 
-    short nameIndex;
-    short descriptorIndex;
+    public short nameIndex;
+    public short descriptorIndex;
     
     CP_NameAndType(ConstantPool cp, Tag tag) {
         super(cp, tag);

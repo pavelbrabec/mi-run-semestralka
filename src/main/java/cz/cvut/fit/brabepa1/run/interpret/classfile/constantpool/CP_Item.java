@@ -6,8 +6,8 @@ package cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool;
  */
 public class CP_Item {
 
-    ConstantPool constantPool;
-    Tag tag;
+    public ConstantPool constantPool;
+    public Tag tag;
 
     public CP_Item(ConstantPool constantPool, Tag tag) {
         this.constantPool = constantPool;

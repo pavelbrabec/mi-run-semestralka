@@ -14,8 +14,8 @@ import java.util.logging.Logger;
  */
 public class Attr_LineNumberTable extends Attribute{
     
-    short line_number_table_length;
-    LineNumberTable[] line_number_table;
+    public short line_number_table_length;
+    public LineNumberTable[] line_number_table;
 
     public Attr_LineNumberTable(short attrNameIndex, DataInputStream dis, ClassFile classFile, Field field) {
         super(attrNameIndex, dis, classFile, field);

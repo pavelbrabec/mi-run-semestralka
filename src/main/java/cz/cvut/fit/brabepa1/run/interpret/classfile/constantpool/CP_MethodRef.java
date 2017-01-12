@@ -8,8 +8,8 @@ import java.io.IOException;
  */
 public class CP_MethodRef extends CP_Item {
 
-    short classIndex;
-    short nameAndTypeIndex;
+    public short classIndex;
+    public short nameAndTypeIndex;
     
     CP_MethodRef(ConstantPool cp, Tag tag) {
         super(cp, tag);

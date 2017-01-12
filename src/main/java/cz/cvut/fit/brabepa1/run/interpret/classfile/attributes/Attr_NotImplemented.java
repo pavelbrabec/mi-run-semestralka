@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class Attr_NotImplemented extends Attribute {
 
-    byte[] body;
+    public byte[] body;
 
     public Attr_NotImplemented(short nameIndex, DataInputStream dis, ClassFile classFile, Field field) {
         super(nameIndex, dis, classFile, field);

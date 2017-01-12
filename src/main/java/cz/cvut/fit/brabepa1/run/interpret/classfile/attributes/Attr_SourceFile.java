@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class Attr_SourceFile extends Attribute{
     
-    short sourcefile_index;
+    public short sourcefile_index;
 
     public Attr_SourceFile(short attrNameIndex, DataInputStream dis, ClassFile classFile, Field field) {
         super(attrNameIndex, dis, classFile, field);

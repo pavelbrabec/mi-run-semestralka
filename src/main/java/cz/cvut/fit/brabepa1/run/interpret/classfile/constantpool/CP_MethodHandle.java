@@ -9,8 +9,8 @@ import java.io.IOException;
 public class CP_MethodHandle extends CP_Item {
 
     
-    byte referenceKind;
-    short referenceIndex;
+    public byte referenceKind;
+    public short referenceIndex;
 
     CP_MethodHandle(ConstantPool cp, Tag tag) {
         super(cp, tag);

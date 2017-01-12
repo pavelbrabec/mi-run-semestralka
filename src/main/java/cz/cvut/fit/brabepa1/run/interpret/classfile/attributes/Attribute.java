@@ -12,10 +12,10 @@ import java.io.IOException;
  */
 public class Attribute {
 
-    protected short attrNameIndex;
-    protected int attrLength;
-    protected ClassFile classFile;
-    protected Field field;
+    public short attrNameIndex;
+    public int attrLength;
+    public ClassFile classFile;
+    public Field field;
     
     //field - bcs of determining type of field, where e.g. Attr_ConstValue belongs to (more in attr_constValue)
     public Attribute(short attrNameIndex, DataInputStream dis, ClassFile classFile, Field field) {

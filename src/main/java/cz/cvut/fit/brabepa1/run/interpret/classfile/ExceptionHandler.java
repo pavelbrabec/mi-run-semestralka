@@ -9,12 +9,12 @@ import java.io.IOException;
  */
 public class ExceptionHandler {
 
-    short startPc;
-    short endPc;
-    short handlerPc;
+    public short startPc;
+    public short endPc;
+    public short handlerPc;
     
     //get it by calling ConstantPool.getItem(catchType, ConstantPoolClass.class);
-    short catchType; 
+    public short catchType; 
 
     public ExceptionHandler(DataInputStream dis) {
         try {

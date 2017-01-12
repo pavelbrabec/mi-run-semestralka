@@ -11,12 +11,12 @@ import java.io.IOException;
  */
 class Method {
 
-    short accessFlags;
-    short nameIndex;
-    short descriptorIndex;
-    short attributesCount;
-    Attribute[] attributes;
-    Attr_Code codeAttribute;
+    public short accessFlags;
+    public short nameIndex;
+    public short descriptorIndex;
+    public short attributesCount;
+    public Attribute[] attributes;
+    public Attr_Code codeAttribute;
 
     public Method(DataInputStream dis, ClassFile classFile) {
         try {

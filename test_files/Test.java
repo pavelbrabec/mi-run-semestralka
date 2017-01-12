@@ -10,6 +10,5 @@ public class Test {
         } else {
             a++;
         }
-        System.out.println(a);
     }
 }

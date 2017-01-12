@@ -10,10 +10,10 @@ import java.io.IOException;
  */
 public class ConstantPool {
 
-    final int count;
-    DataInputStream input;
+    public final int count;
+    public DataInputStream input;
 
-    CP_Item[] items;
+    public CP_Item[] items;
 
     public ConstantPool(int count, DataInputStream dis) {
         this.count = count;
