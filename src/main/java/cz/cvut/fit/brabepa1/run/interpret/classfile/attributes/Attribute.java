@@ -34,6 +34,7 @@ public class Attribute {
         try {
             type = AttrType.valueOf(name);
         } catch (IllegalArgumentException | NullPointerException ex) {
+            System.out.println("Unimplemented AttrType "+name);
             type = AttrType.NotImplemented;
         }
         return type;
@@ -41,9 +42,8 @@ public class Attribute {
 
     public enum AttrType {
         Code,
-        ConstantValue,
-        StackMapTable,
-        Exceptions,
+        LineNumberTable,
+        SourceFile,
         NotImplemented
     }
 

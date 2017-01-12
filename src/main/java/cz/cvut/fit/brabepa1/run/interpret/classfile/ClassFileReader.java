@@ -1,7 +1,9 @@
 package cz.cvut.fit.brabepa1.run.interpret.classfile;
 
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attr_Code;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attr_LineNumberTable;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attr_NotImplemented;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attr_SourceFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.ConstantPool;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute.AttrType;
@@ -89,9 +91,10 @@ public class ClassFileReader {
         switch (valueOf) {
             case Code:
                 return new Attr_Code(attrNameIndex, dis, classFile, null);
-//            TODO add more cases depending on the content of Attribute.Type
-//            TODO add more cases depending on the content of Attribute.Type
-//            TODO add more cases depending on the content of Attribute.Type
+            case LineNumberTable:
+                return new Attr_LineNumberTable(attrNameIndex, dis, classFile, null);
+            case SourceFile:
+                return new Attr_SourceFile(attrNameIndex, dis, classFile, null);
             default:
                 return new Attr_NotImplemented(attrNameIndex, dis, classFile, null);
         }
