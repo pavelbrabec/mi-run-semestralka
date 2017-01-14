@@ -32,11 +32,6 @@ public class IfIcmple extends JavaInstruction {
     }
 
     @Override
-    public JavaInstruction newInstance() {
-        return new IfIcmple();
-    }
-
-    @Override
     public String toString() {
         return super.toString() + " " + branchOffset;
     }

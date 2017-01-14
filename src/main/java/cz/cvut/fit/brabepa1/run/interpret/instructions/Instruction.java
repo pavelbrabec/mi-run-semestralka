@@ -24,7 +24,5 @@ public interface Instruction {
 
     
     public void setParameters(int pointer, byte[] bytecode);
-    
-    public Instruction newInstance();
-    
+        
 }

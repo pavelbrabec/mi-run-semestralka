@@ -37,11 +37,6 @@ public class Iinc extends JavaInstruction {
     public int bytes() {
         return 3;
     }
-
-    @Override
-    public JavaInstruction newInstance() {
-        return new Iinc();
-    }
     
     @Override
     public void setParameters(int pointer, byte[] bytecode) {

@@ -1,5 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -7,6 +8,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -53,7 +56,12 @@ public class JavaInstructionFactory implements InstructionFactory {
         while (pointer < bc.length) {
             Instruction instr = getInstruction(bc[pointer]);
             if (instr.bytes() > 1) {
-                instr=instr.newInstance();
+                Class clazz = instr.getClass();             
+                try {
+                    instr=(Instruction) clazz.getConstructor().newInstance();
+                } catch (ReflectiveOperationException ex) {
+                    System.out.println("ERROR\tAll instructions must have public empty constructor");
+                }
                 instr.setParameters(pointer, bytecode);
             }
             instrs.add(instr);

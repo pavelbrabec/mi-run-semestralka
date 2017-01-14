@@ -34,11 +34,6 @@ public class Goto extends JavaInstruction {
     public void setParameters(int pointer, byte[] bytecode) {
         branchoffset = branchoffset(bytecode[pointer + 1], bytecode[pointer + 2]);
     }
-
-    @Override
-    public JavaInstruction newInstance() {
-        return new Goto();
-    }
     
     @Override
     public String toString() {

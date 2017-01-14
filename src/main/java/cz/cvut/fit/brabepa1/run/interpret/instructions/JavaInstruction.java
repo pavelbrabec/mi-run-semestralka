@@ -14,18 +14,7 @@ public abstract class JavaInstruction implements Instruction {
      */
     @Override
     public abstract void execute(VirtualMachine vm);
-    
-    
-    /**
-     * Metoda nemusi byt implementovanu u jedno bytovych instrukci
-     * @return nova instance stejne instrukce, je nutne implementovat pouze pro
-     * instance delsi nez jeden byte.
-     */
-    @Override
-    public JavaInstruction newInstance(){
-        throw new UnsupportedOperationException("Method newInstance is necessary only for instructions longer than one byte.");
-    }
-    
+        
     /**
      * Metoda nemusi byt implementovanu u jedno bytovych instrukci.
      * @return delka instrukce v bytech 
