@@ -9,7 +9,7 @@ import java.io.IOException;
  *
  * @author pajcak
  */
-class Method {
+public class Method {
 
     public short accessFlags;
     public short nameIndex;
