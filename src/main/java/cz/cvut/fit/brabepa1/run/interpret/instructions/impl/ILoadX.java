@@ -17,20 +17,22 @@ public class ILoadX extends JavaInstruction {
         JavaInstructionFactory.getInstance().registerInstruction(0x1D, new ILoadX(3));
     }
 
-    private final int value;
+    private final int index;
 
-    public ILoadX(int value) {
-        this.value = value;
+    public ILoadX(int index) {
+        this.index = index;
     }
 
     @Override
     public void execute(VirtualMachine vm) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Object value = vm.getValue(index);
+        vm.stackPush(value);
+        vm.incrementPc();
     }
 
     @Override
     public String toString() {
-        return super.toString() + " " + value;
+        return super.toString() + " " + index;
     }
 
 }

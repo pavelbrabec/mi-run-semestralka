@@ -18,7 +18,14 @@ public class IfIcmple extends JavaInstruction {
 
     @Override
     public void execute(VirtualMachine vm) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Integer value1 = (Integer)vm.stackPop();
+        Integer value2 = (Integer)vm.stackPop();
+        if(value1 <= value2){
+            vm.incrementPc();
+        }else{
+            vm.addOffsetToPc(branchOffset);
+        }
+        
     }
 
     @Override

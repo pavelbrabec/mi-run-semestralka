@@ -6,7 +6,6 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.Method;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
-import java.net.URLClassLoader;
 import java.util.List;
 import java.util.Set;
 import org.reflections.Reflections;
@@ -30,7 +29,7 @@ public class Main {
         });
         System.out.println("Loaded "+instructions.size()+ " instructions.");
 
-        ClassFile cf = ClassFileReader.readFromFile("test_files/TestOutput.class");
+        ClassFile cf = ClassFileReader.readFromFile("test_files/Test.class");
         System.out.println(cf);
 
         System.out.println("_________________________________");
@@ -46,6 +45,9 @@ public class Main {
             System.out.println(nthByte + ": " + i);
             nthByte += i.bytes();
         }
+        
+        VirtualMachine vm = new VirtualMachine(instrs);
+        vm.run();
     }
 
 }

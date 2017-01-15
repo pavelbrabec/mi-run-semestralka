@@ -29,7 +29,8 @@ public class IConstX extends JavaInstruction {
 
     @Override
     public void execute(VirtualMachine vm) {
-        throw new UnsupportedOperationException("Not supported yet.");  
+        vm.stackPush(value);
+        vm.incrementPc();
     }
 
     @Override

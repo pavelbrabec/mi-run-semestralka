@@ -22,7 +22,7 @@ public class Goto extends JavaInstruction {
 
     @Override
     public void execute(VirtualMachine vm) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        vm.addOffsetToPc(branchoffset);
     }
 
     @Override

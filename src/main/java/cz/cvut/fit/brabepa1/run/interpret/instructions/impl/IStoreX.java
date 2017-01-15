@@ -18,20 +18,22 @@ public class IStoreX extends JavaInstruction {
         JavaInstructionFactory.getInstance().registerInstruction(0x3e, new IStoreX(3));
     }
 
-    private final int value;
+    private final int index;
 
-    public IStoreX(int value) {
-        this.value = value;
+    public IStoreX(int index) {
+        this.index = index;
     }
 
     @Override
     public void execute(VirtualMachine vm) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Object value = vm.stackPop();
+        vm.setValue(index, value);
+        vm.incrementPc();
     }
 
     @Override
     public String toString() {
-        return super.toString() + " " + value;
+        return super.toString() + " " + index;
     }
 
 }

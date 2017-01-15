@@ -47,10 +47,6 @@ public abstract class JavaInstruction implements Instruction {
     }
     
     protected final int branchoffset(byte b1, byte b2){
-        System.out.println("br offset");
-        System.out.println(b1 + "\t" +Integer.valueOf(b1));
-        System.out.println(b2 + "\t" +Integer.valueOf(b2));
-        System.out.println(b1 << 8 | b2);
         return b1 << 8 | b2;
     }
     

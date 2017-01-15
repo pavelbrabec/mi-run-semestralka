@@ -30,7 +30,10 @@ public class Iinc extends JavaInstruction {
 
     @Override
     public void execute(VirtualMachine vm) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Integer value = (Integer)vm.getValue(index);
+        value+=constant;
+        vm.setValue(index, value);
+        vm.incrementPc();
     }
 
     @Override
