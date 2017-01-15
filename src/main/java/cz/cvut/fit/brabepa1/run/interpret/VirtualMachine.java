@@ -12,9 +12,17 @@ import java.util.List;
 public class VirtualMachine {
 
     private final LinkedList<Object> stack = new LinkedList<>();
-    private List<Instruction> instructions;
+    private final List<Instruction> instructions;
     private int pc = 0;
-    private Object[] values = new Object[4];
+    private final Object[] values = new Object[4];
+
+    /*
+    Pole pcToBc a bcToPc resi problem, branch offset u goto nebo if prikazu je 
+    v bytech a ne v instrukcich. V konstruktoru si predpocitam hodnoty prevodu aby
+    v runtimu jsem nemusel nic pocitat.
+    */
+    private final int[] pcToBc;
+    private final int[] bcToPc;
 
 
     /*
@@ -22,13 +30,35 @@ public class VirtualMachine {
      */
     public VirtualMachine(List<Instruction> instructions) {
         this.instructions = instructions;
+
+        pcToBc = new int[instructions.size()];
+        pcToBc[0] = 0;
+        for (int i = 1; i < instructions.size(); i++) {
+            pcToBc[i] = pcToBc[i-1] + instructions.get(i-1).bytes();
+        }
+
+        int bytCodeLenght = instructions.stream().mapToInt(Instruction::bytes).sum();
+        bcToPc = new int[bytCodeLenght];
+        for (int i = 0; i < bcToPc.length; i++) {
+            bcToPc[i] = -1;
+        }
+        int tmpPc = 0;
+        int bcPointer = 0;
+        do {
+            bcToPc[bcPointer] = tmpPc;
+            bcPointer += instructions.get(tmpPc).bytes();
+            tmpPc++;
+        } while (tmpPc < instructions.size());
+
+        System.out.println("pc2bc " + Arrays.toString(pcToBc));
+        System.out.println("bc2pc " + Arrays.toString(bcToPc));
     }
 
     public void run() {
         while (pc < instructions.size()) {
             Instruction ins = instructions.get(pc);
-            ins.execute(this);
             System.out.println(ins.toString());
+            ins.execute(this);
             System.out.println(this);
         }
     }
@@ -46,11 +76,13 @@ public class VirtualMachine {
     }
 
     public void incrementPc() {
-        addOffsetToPc(1);
+        pc++;
     }
 
     public void addOffsetToPc(int offset) {
-        pc += offset;
+        int bcPointer = pcToBc[pc];
+        bcPointer += offset;
+        pc = bcToPc[bcPointer];
     }
 
     public void setValue(int index, Object value) {
@@ -65,6 +97,7 @@ public class VirtualMachine {
     public String toString() {
         return "VirtualMachine{\n"
                 + "\tpc=" + pc + ",\n"
+                + "\tbc=" + pcToBc[pc] + ",\n"
                 + "\tvalues=" + Arrays.toString(values) + ",\n"
                 + "\tstack=" + Arrays.toString(stack.toArray()) + "\n"
                 + "}";

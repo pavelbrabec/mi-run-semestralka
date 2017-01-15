@@ -41,9 +41,11 @@ public class Main {
 
         List<Instruction> instrs = JavaInstructionFactory.getInstance().createInstructions(main.codeAttribute.code);
         int nthByte = 0;
+        int tmpPc=0;
         for (Instruction i : instrs) {
-            System.out.println(nthByte + ": " + i);
+            System.out.println(tmpPc + " | "+nthByte + ": " + i);
             nthByte += i.bytes();
+            tmpPc++;
         }
         
         VirtualMachine vm = new VirtualMachine(instrs);
