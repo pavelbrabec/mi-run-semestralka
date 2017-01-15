@@ -8,6 +8,9 @@ import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
  */
 public abstract class JavaInstruction implements Instruction {
 
+    public JavaInstruction() {
+    }
+    
     /**
      * Metoda provede instrukci ve VM.
      * @param vm 
