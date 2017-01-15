@@ -41,9 +41,11 @@ public class Main {
         Method main = cf.methods[1];
 
         List<Instruction> instrs = JavaInstructionFactory.getInstance().createInstructions(main.codeAttribute.code);
-        instrs.stream().forEach(i -> {
-            System.out.println(i);
-        });
+        int nthByte = 0;
+        for (Instruction i : instrs) {
+            System.out.println(nthByte + ": " + i);
+            nthByte += i.bytes();
+        }
     }
 
 }
