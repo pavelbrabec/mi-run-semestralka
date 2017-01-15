@@ -29,7 +29,7 @@ public class Main {
         });
         System.out.println("Loaded "+instructions.size()+ " instructions.");
 
-        ClassFile cf = ClassFileReader.readFromFile("test_files/Test.class");
+        ClassFile cf = ClassFileReader.readFromFile("test_files/TestLoops.class");
         System.out.println(cf);
 
         System.out.println("_________________________________");

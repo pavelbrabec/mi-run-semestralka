@@ -8,39 +8,36 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
  *
  * @author pavel
  */
-public class IfIcmple extends JavaInstruction {
+public class Bipush extends JavaInstruction {
 
     static {
-        JavaInstructionFactory.getInstance().registerInstruction(0xA4, new IfIcmple());
+        JavaInstructionFactory.getInstance().registerInstruction(0x10, new Bipush());
     }
 
-    private int branchOffset;
+    private int byteValue;
 
+    public Bipush() {
+    }
+    
     @Override
     public void execute(VirtualMachine vm) {
-        Integer value1 = (Integer)vm.stackPop();
-        Integer value2 = (Integer)vm.stackPop();
-        if(value1 <= value2){
-            vm.incrementPc();
-        }else{
-            vm.addOffsetToPc(branchOffset);
-        }
-        
+        vm.stackPush(byteValue);
+        vm.incrementPc();
     }
 
     @Override
     public int bytes() {
-        return 3;
+        return 2;
     }
 
     @Override
     public void setParameters(int pointer, byte[] bytecode) {
-        branchOffset = branchoffset(bytecode[pointer+1], bytecode[pointer+2]);
+        byteValue = bytecode[pointer+1];
     }
 
     @Override
     public String toString() {
-        return super.toString() + " " + branchOffset;
+        return super.toString() + " " + byteValue;
     }
 
 }
