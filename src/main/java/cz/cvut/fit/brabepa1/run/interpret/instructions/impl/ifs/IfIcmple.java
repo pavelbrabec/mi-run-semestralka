@@ -18,7 +18,7 @@ public class IfIcmple extends IfInstruction {
     public void execute(VirtualMachine vm) {
         Integer value1 = (Integer)vm.stackPop();
         Integer value2 = (Integer)vm.stackPop();
-        if(value1 <= value2){
+        if(value2 <= value1){
             vm.incrementPc();
         }else{
             vm.addOffsetToPc(branchOffset);

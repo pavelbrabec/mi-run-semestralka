@@ -23,7 +23,7 @@ public class IfIcmpgt extends IfInstruction {
     public void execute(VirtualMachine vm) {
         Integer val1 = (Integer) vm.stackPop();
         Integer val2 = (Integer) vm.stackPop();
-        if (val1 > val2) {
+        if (val2 > val1) {
             vm.incrementPc();
         } else {
             vm.addOffsetToPc(branchOffset);
