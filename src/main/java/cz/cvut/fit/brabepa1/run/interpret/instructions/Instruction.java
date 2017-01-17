@@ -1,12 +1,13 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions;
 
+import com.oracle.truffle.api.nodes.NodeInterface;
 import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
 
 /**
  *
  * @author pavel
  */
-public interface Instruction {
+public interface Instruction extends NodeInterface{
 
     /**
      * Executes instruction in VM

@@ -1,44 +1,48 @@
 package cz.cvut.fit.brabepa1.run.interpret;
 
+import com.oracle.truffle.api.TruffleLanguage;
+import com.oracle.truffle.api.frame.VirtualFrame;
+import com.oracle.truffle.api.nodes.ExplodeLoop;
+import com.oracle.truffle.api.nodes.RootNode;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  *
  * @author pavel
  */
-public class VirtualMachine {
+public class VirtualMachine extends RootNode {
 
     private final LinkedList<Object> stack = new LinkedList<>();
-    private final List<Instruction> instructions;
+    @Children
+    private final Instruction[] instructions;
     private int pc = 0;
-    private final Object[] values = new Object[4];
+    private Object[] values = new Object[4];
 
     /*
-    Pole pcToBc a bcToPc resi problem, branch offset u goto nebo if prikazu je 
-    v bytech a ne v instrukcich. V konstruktoru si predpocitam hodnoty prevodu aby
-    v runtimu jsem nemusel nic pocitat.
-    */
-    private final int[] pcToBc;
-    private final int[] bcToPc;
-
-
-    /*
-     Dobudoucna bude potreba rozsirit nebo mozna setovat pres settry
+     Pole pcToBc a bcToPc resi problem, branch offset u goto nebo if prikazu je 
+     v bytech a ne v instrukcich. V konstruktoru si predpocitam hodnoty prevodu aby
+     v runtimu jsem nemusel nic pocitat.
      */
-    public VirtualMachine(List<Instruction> instructions) {
-        this.instructions = instructions;
+    private int[] pcToBc;
+    private int[] bcToPc;
 
-        pcToBc = new int[instructions.size()];
+    public VirtualMachine(Instruction[] instructions) {
+        super(TruffleLanguage.class, null, null);
+        this.instructions = instructions;
+        pcToBc = new int[instructions.length];
         pcToBc[0] = 0;
-        for (int i = 1; i < instructions.size(); i++) {
-            pcToBc[i] = pcToBc[i-1] + instructions.get(i-1).bytes();
+        for (int i = 1; i < instructions.length; i++) {
+            pcToBc[i] = pcToBc[i - 1] + instructions[i - 1].bytes();
         }
 
-        int bytCodeLenght = instructions.stream().mapToInt(Instruction::bytes).sum();
-        bcToPc = new int[bytCodeLenght];
+        //int bytCodeLenght = instructions.stream().mapToInt(Instruction::bytes).sum();
+        int byteCodeLenght = 0;
+        for (Instruction ins : instructions) {
+            byteCodeLenght += ins.bytes();
+        }
+        bcToPc = new int[byteCodeLenght];
         for (int i = 0; i < bcToPc.length; i++) {
             bcToPc[i] = -1;
         }
@@ -46,21 +50,24 @@ public class VirtualMachine {
         int bcPointer = 0;
         do {
             bcToPc[bcPointer] = tmpPc;
-            bcPointer += instructions.get(tmpPc).bytes();
+            bcPointer += instructions[tmpPc].bytes();
             tmpPc++;
-        } while (tmpPc < instructions.size());
+        } while (tmpPc < instructions.length);
 
         System.out.println("pc2bc " + Arrays.toString(pcToBc));
         System.out.println("bc2pc " + Arrays.toString(bcToPc));
     }
-
-    public void run() {
-        while (pc < instructions.size()) {
-            Instruction ins = instructions.get(pc);
+    
+    @Override
+    @ExplodeLoop
+    public Object execute(VirtualFrame vf) {
+        while (pc < instructions.length) {
+            Instruction ins = instructions[pc];
             System.out.println(ins.toString());
             ins.execute(this);
             System.out.println(this);
         }
+        return null;
     }
 
     public Object stackPeek() {

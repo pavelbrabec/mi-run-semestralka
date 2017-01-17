@@ -1,15 +1,13 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions;
 
+import com.oracle.truffle.api.nodes.Node;
 import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
 
 /**
  *
  * @author pavel
  */
-public abstract class JavaInstruction implements Instruction {
-
-    public JavaInstruction() {
-    }
+public abstract class JavaInstruction extends Node implements Instruction {
     
     /**
      * Metoda provede instrukci ve VM.
