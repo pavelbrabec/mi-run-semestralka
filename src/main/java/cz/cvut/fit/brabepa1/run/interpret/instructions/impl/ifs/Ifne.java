@@ -7,23 +7,19 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
  *
  * @author pavel
  */
-public class IfIcmpeq extends IfInstruction {
+public class Ifne extends IfInstruction {
 
     static {
-        JavaInstructionFactory.getInstance().registerInstruction(0x9F, new IfIcmpeq());
+        JavaInstructionFactory.getInstance().registerInstruction(0x9A, new Ifne());
     }
 
-    public IfIcmpeq() {
-    }
-    
     @Override
     public void execute(VirtualMachine vm) {
         int val1 = (Integer) vm.stackPop();
-        int val2 = (Integer) vm.stackPop();
-        if (val1 != val2) {
-            vm.incrementPc();
-        } else {
+        if (val1 != 0) {
             vm.addOffsetToPc(branchOffset);
+        } else {
+            vm.incrementPc();
         }
     }
 

@@ -31,7 +31,7 @@ public class Main {
         });
         System.out.println("Loaded "+instructionImpls.size()+ " instructions.");
 
-        ClassFile cf = ClassFileReader.readFromFile("test_files/TestLoops.class");
+        ClassFile cf = ClassFileReader.readFromFile("test_files/TestBool.class");
         System.out.println(cf);
 
         System.out.println("_________________________________");
