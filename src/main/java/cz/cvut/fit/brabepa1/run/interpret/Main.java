@@ -26,12 +26,12 @@ public class Main {
             try {
                 Class.forName(clazz.getCanonicalName());
             } catch (ClassNotFoundException ex) {
-                System.out.println("WARNING\tCannot load class "+clazz.getCanonicalName());
+                System.out.println("WARNING\tCannot load class " + clazz.getCanonicalName());
             }
         });
-        System.out.println("Loaded "+instructionImpls.size()+ " instructions.");
+        System.out.println("Loaded " + instructionImpls.size() + " instructions.");
 
-        ClassFile cf = ClassFileReader.readFromFile("test_files/TestMath.class");
+        ClassFile cf = ClassFileReader.readFromFile("test_files/TestDyn.class");
         System.out.println(cf);
 
         System.out.println("_________________________________");
@@ -53,13 +53,13 @@ public class Main {
         Instruction[] instructionsTmp = new Instruction[instructions.size()];
         instructionsTmp = instructions.toArray(instructionsTmp);
 
-        if(instructionsTmp == null){
+        if (instructionsTmp == null) {
             System.out.println("Array is null");
-        }else{
-            System.out.println("instrs: "+instructionsTmp.length);
+        } else {
+            System.out.println("instrs: " + instructionsTmp.length);
         }
-        
-        VirtualMachine vm = new VirtualMachine(instructionsTmp);
+
+        VirtualMachine vm = new VirtualMachine(instructionsTmp, cf);
         CallTarget target = Truffle.getRuntime().createCallTarget(vm);
         target.call();
     }

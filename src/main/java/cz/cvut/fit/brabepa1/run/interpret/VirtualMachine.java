@@ -4,6 +4,7 @@ import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.ExplodeLoop;
 import com.oracle.truffle.api.nodes.RootNode;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -19,7 +20,7 @@ public class VirtualMachine extends RootNode {
     private final Instruction[] instructions;
     private int pc = 0;
     private Object[] values = new Object[4];
-
+    private ClassFile classFile;
     /*
      Pole pcToBc a bcToPc resi problem, branch offset u goto nebo if prikazu je 
      v bytech a ne v instrukcich. V konstruktoru si predpocitam hodnoty prevodu aby
@@ -28,9 +29,14 @@ public class VirtualMachine extends RootNode {
     private int[] pcToBc;
     private int[] bcToPc;
 
-    public VirtualMachine(Instruction[] instructions) {
+    /*
+        Predavam class file, nebot nektere instrukce potrebuji videt na constant pool
+        classfilu, ze ktereho byly precteny (e.g. instrukce New)
+    */
+    public VirtualMachine(Instruction[] instructions, ClassFile cf) {
         super(TruffleLanguage.class, null, null);
         this.instructions = instructions;
+        this.classFile = cf;
         pcToBc = new int[instructions.length];
         pcToBc[0] = 0;
         for (int i = 1; i < instructions.length; i++) {
@@ -57,7 +63,7 @@ public class VirtualMachine extends RootNode {
         System.out.println("pc2bc " + Arrays.toString(pcToBc));
         System.out.println("bc2pc " + Arrays.toString(bcToPc));
     }
-    
+
     @Override
     @ExplodeLoop
     public Object execute(VirtualFrame vf) {
@@ -98,6 +104,10 @@ public class VirtualMachine extends RootNode {
 
     public Object getValue(int index) {
         return values[index];
+    }
+
+    public ClassFile getClassFile() {
+        return classFile;
     }
 
     @Override
