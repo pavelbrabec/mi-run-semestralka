@@ -31,7 +31,7 @@ public class Main {
         });
         System.out.println("Loaded " + instructionImpls.size() + " instructions.");
 
-        ClassFile cf = ClassFileReader.readFromFile("test_files/TestDyn.class");
+        ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
         System.out.println(cf);
 
         System.out.println("_________________________________");
@@ -63,5 +63,4 @@ public class Main {
         CallTarget target = Truffle.getRuntime().createCallTarget(vm);
         target.call();
     }
-
 }

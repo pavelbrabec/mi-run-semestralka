@@ -19,6 +19,10 @@ public class CP_Class extends CP_Item {
         }
     }
 
+    public String getClassName() {
+        return constantPool.getItem(nameIndex, CP_UTF8.class).getStringContent();
+    }
+
     @Override
     public String toString() {
         return "CP_Class {tag=" + super.tag.name() + ", nameIndex=" + nameIndex + '}';

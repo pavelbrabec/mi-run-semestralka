@@ -7,34 +7,59 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attr_SourceFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.ConstantPool;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute.AttrType;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_FieldRef;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
+import cz.cvut.fit.brabepa1.run.interpret.exceptions.ClassNotFound;
+import cz.cvut.fit.brabepa1.run.interpret.exceptions.InterpretException;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
- * @author pavel
+ * @author pavel & pajcak
  */
 public class ClassFileReader {
 
-    
-// TODO think about some global access to all loaded classfiles
-//    private static ArrayList<ClassFile> classFiles = null;
-//
-//    public static ClassFile getClassFile(int index) {
-//        if (classFiles == null || classFiles.isEmpty()) {
-//            System.out.println("ERROR\t" + ClassFileReader.class.getName() + 
-//                    " No classfile read yet! -> EXITING...");
-//            System.exit(1);
-//            return null; // only or netbeans checker
-//        } else {
-//            return classFiles.get(index);
-//        }
-//    }
-    
-    public static ClassFile readFromFile(String path) {
+    private static List<String> classpaths = new ArrayList<String>() {
+        {
+            add("java_classpath/");
+            add("test_files/");
+        }
+    };
+    private static Map<String, ClassFile> classFiles = new HashMap<String, ClassFile>();
+
+    public static ClassFile lookupAndResolve(String cfName) {
+        ClassFile cf = classFiles.get(cfName);
+        if (cf != null) {
+            return cf;
+        }
+
+        for (String classpath : classpaths) {
+            File f = new File(classpath + cfName + ".class");
+            if (f.exists() && !f.isDirectory() && f.canRead()) {
+                cf = readFromFile(f.getPath());
+                classFiles.put(cfName, cf);
+                System.out.println("INFO\tLoaded class:" + classpath + cfName + ".class");
+                return cf; 
+            }
+        }
+        try { //useless
+            throw new ClassNotFound(cfName + ".class");
+        } catch (InterpretException ex) {
+            System.out.println("ERROR\t" + ClassFileReader.class.getName()
+                    + ": exception: " + ex);
+        }
+        return null;
+    }
+
+    private static ClassFile readFromFile(String path) {
         ClassFile cf = new ClassFile();
         try (DataInputStream fis = new DataInputStream(new FileInputStream(path))) {
             cf.magicNumber = fis.readInt();
@@ -51,7 +76,7 @@ public class ClassFileReader {
                 cf.interfaces[i] = fis.readShort();
             }
             cf.fieldsCount = fis.readShort();
-            cf.fields = new Field [cf.fieldsCount];
+            cf.fields = new Field[cf.fieldsCount];
             for (int i = 0; i < cf.fieldsCount; i++) {
                 cf.fields[i] = new Field(fis, cf);
             }
@@ -71,8 +96,8 @@ public class ClassFileReader {
         } catch (IOException ex) {
             System.out.println("ERROR\tUnexpected IOException occured: " + ex.getMessage());
         }
-        
-        return cf; 
+
+        return cf;
     }
 
     public static Attribute readAttribute(DataInputStream dis, ClassFile classFile) {
@@ -85,7 +110,7 @@ public class ClassFileReader {
             return null;
         }
         String type = classFile.constantPool.getItem(attrNameIndex, CP_UTF8.class)
-                        .getStringContent();
+                .getStringContent();
         AttrType valueOf = Attribute.getType(type);
 
         switch (valueOf) {
@@ -99,4 +124,5 @@ public class ClassFileReader {
                 return new Attr_NotImplemented(attrNameIndex, dis, classFile, null);
         }
     }
+
 }
