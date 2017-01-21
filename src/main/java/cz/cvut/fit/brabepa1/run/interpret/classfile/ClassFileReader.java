@@ -7,7 +7,6 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attr_SourceFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.ConstantPool;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute.AttrType;
-import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_FieldRef;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
 import cz.cvut.fit.brabepa1.run.interpret.exceptions.ClassNotFound;
 import cz.cvut.fit.brabepa1.run.interpret.exceptions.InterpretException;
