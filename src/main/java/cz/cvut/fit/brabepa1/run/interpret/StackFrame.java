@@ -3,6 +3,7 @@ package cz.cvut.fit.brabepa1.run.interpret;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.Method;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
+import cz.cvut.fit.brabepa1.run.interpret.heap.ObjectRef;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 import java.util.Arrays;
@@ -108,9 +109,11 @@ public class StackFrame {
     }
 
     public void addOffsetToPc(int offset) {
-        int bcPointer = pcToBc[pc];
-        bcPointer += offset;
-        pc = bcToPc[bcPointer];
+        if (pc < instructions.length) { // frame is not discarded yet
+            int bcPointer = pcToBc[pc];
+            bcPointer += offset;
+            pc = bcToPc[bcPointer];
+        }
     }
 
     public void setValue(int index, Object value) {
@@ -125,12 +128,28 @@ public class StackFrame {
         return stackRef;
     }
 
+    // used mostly by <X>RETURN instructions
+    public void discard() {
+        for (int i = 0; i < operandStack.size(); i++) {
+            Object o = operandStack.pop();
+            // TODO if there are more heap types then ObjectRef, release them too
+            if (o instanceof ObjectRef) {
+                ((ObjectRef) o).release();
+            }
+        }
+        // the next call to nextInstruction() will certainly return null (OK)
+        pc = instructions.length;
+    }
+
     @Override
     public String toString() {
         String invk = null;
         if (invoker != null) {
             invk = invoker.classFile.constantPool
                     .getItem(invoker.method.nameIndex, CP_UTF8.class).getStringContent();
+        }
+        if (pc >= instructions.length) {
+            return "Frame(#" + System.identityHashCode(this) + ") -- DISCARDED";
         }
         return "Frame(#" + System.identityHashCode(this) + "){\n"
                 + "\tinvoker=" + invk + ",\n"

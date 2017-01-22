@@ -16,7 +16,7 @@ public class Return extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        throw new UnsupportedOperationException("Not supported yet.");  
+        frame.discard();
     }
 
 }
