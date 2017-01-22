@@ -31,7 +31,8 @@ public class Main {
         });
         System.out.println("Loaded " + instructionImpls.size() + " instructions.");
 
-        ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
+//        ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
+        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
         System.out.println(cf);
 
         System.out.println("_________________________________");
