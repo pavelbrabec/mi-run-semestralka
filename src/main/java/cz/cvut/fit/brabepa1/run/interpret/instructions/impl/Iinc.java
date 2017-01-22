@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -29,18 +29,18 @@ public class Iinc extends JavaInstruction {
     }
 
     @Override
-    public void execute(VirtualMachine vm) {
-        Integer value = (Integer)vm.getValue(index);
-        value+=constant;
-        vm.setValue(index, value);
-        vm.incrementPc();
+    public void execute(StackFrame frame) {
+        Integer value = (Integer) frame.getValue(index);
+        value += constant;
+        frame.setValue(index, value);
+        frame.incrementPc();
     }
 
     @Override
     public int bytes() {
         return 3;
     }
-    
+
     @Override
     public void setParameters(int pointer, byte[] bytecode) {
         index = bytecode[pointer + 1];
@@ -49,7 +49,7 @@ public class Iinc extends JavaInstruction {
 
     @Override
     public String toString() {
-        return super.toString() + " " + index+ " " + constant;
+        return super.toString() + " " + index + " " + constant;
     }
 
 }

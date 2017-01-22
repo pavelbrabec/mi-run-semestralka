@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.heap.ObjectRef;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
@@ -25,10 +25,10 @@ public class AStoreX extends JavaInstruction {
     }
 
     @Override
-    public void execute(VirtualMachine vm) {
-        ObjectRef value = (ObjectRef) vm.stackPop();
-        vm.setValue(index, value);
-        vm.incrementPc();
+    public void execute(StackFrame frame) {
+        ObjectRef value = (ObjectRef) frame.popOperand();
+        frame.setValue(index, value);
+        frame.incrementPc();
     }
 
     @Override

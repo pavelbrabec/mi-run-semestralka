@@ -8,6 +8,7 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  *
@@ -16,6 +17,7 @@ import java.util.List;
 public class StackFrame {
 
     private final StackFrame invoker;
+    private final Stack<StackFrame> stackRef;
     private final ClassFile classFile;
     private final Method method;
     private int pc = 0;
@@ -30,20 +32,22 @@ public class StackFrame {
     private int[] pcToBc;
     private int[] bcToPc;
 
-    public StackFrame(StackFrame invoker, ClassFile classFile, Method method) {
+    public StackFrame(Stack<StackFrame> stackRef, StackFrame invoker, ClassFile classFile, Method method) {
         this.invoker = invoker;
         this.classFile = classFile;
         this.method = method;
+        this.stackRef = stackRef;
         List<Instruction> insts = JavaInstructionFactory.getInstance()
                 .createInstructions(method.codeAttribute.code);
         this.instructions = insts.toArray(new Instruction[insts.size()]);
 
-        calculateBcAndPc();
+        setupBcAndPc();
         System.out.println("pc2bc " + Arrays.toString(pcToBc));
         System.out.println("bc2pc " + Arrays.toString(bcToPc));
+        printInstructionSet();
     }
 
-    private void calculateBcAndPc() {
+    private void setupBcAndPc() {
         pcToBc = new int[instructions.length];
         pcToBc[0] = 0;
         for (int i = 1; i < instructions.length; i++) {
@@ -117,15 +121,30 @@ public class StackFrame {
         return values[index];
     }
 
+    public Stack<StackFrame> getStackRef() {
+        return stackRef;
+    }
+
     @Override
     public String toString() {
-        return "Frame{\n"
-                + "\tinvoker=" + invoker.classFile.constantPool
-                        .getItem(invoker.method.nameIndex, CP_UTF8.class).getStringContent() + ",\n"
+        String invk = null;
+        if (invoker != null) {
+            invk = invoker.classFile.constantPool
+                    .getItem(invoker.method.nameIndex, CP_UTF8.class).getStringContent();
+        }
+        return "Frame(#" + System.identityHashCode(this) + "){\n"
+                + "\tinvoker=" + invk + ",\n"
                 + "\tpc=" + pc + ",\n"
                 + "\tbc=" + pcToBc[pc] + ",\n"
                 + "\tvalues=" + Arrays.toString(values) + ",\n"
                 + "\toperandStack=" + Arrays.toString(operandStack.toArray()) + "\n"
                 + "}";
+    }
+
+    private void printInstructionSet() {
+        System.out.println("Instruction set (instr | offset):");
+        for (int i = 0; i < instructions.length; i++) {
+            System.out.println((i + 1) + ". | " + pcToBc[i] + ": " + instructions[i]);
+        }
     }
 }

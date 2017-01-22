@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFileReader;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Class;
@@ -26,13 +26,13 @@ public class New extends JavaInstruction {
     
 // create object on the heap (with ref count) and then push its ref onto the stack
     @Override
-    public void execute(VirtualMachine vm) {
-        String className = vm.getClassFile().constantPool
+    public void execute(StackFrame frame) {
+        String className = frame.getClassFile().constantPool
                 .getItem(objIndex, CP_Class.class).getClassName();
         ClassFile cf = ClassFileReader.lookupAndResolve(className);
         ObjectRef objRef = Heap.allocObject(cf);
-        vm.stackPush(objRef);
-        vm.incrementPc();
+        frame.pushOperand(objRef);
+        frame.incrementPc();
     }
 
     @Override

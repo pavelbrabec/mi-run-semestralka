@@ -17,7 +17,7 @@ import org.reflections.Reflections;
  * @author pavel
  */
 public class Main {
-    
+
     public static void main(String[] args) {
         //Register all implementations of Instruction interface into JavaInstructionFactory
         Reflections reflections = new Reflections("cz.cvut.fit.brabepa1.run.interpret.instructions.impl");
@@ -32,36 +32,13 @@ public class Main {
         System.out.println("Loaded " + instructionImpls.size() + " instructions.");
 
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
+//        ClassFile cf = ClassFileReader.lookupAndResolve("TestMath");
+//        ClassFile cf = ClassFileReader.lookupAndResolve("TestLoops");
         ClassFile cf = ClassFileReader.lookupAndResolve("Test");
         System.out.println(cf);
-
         System.out.println("_________________________________");
-        int nameIndex = cf.methods[1].nameIndex;
-        //System.out.println(nameIndex);
-        //System.out.println(cf.constantPool.items[--nameIndex]);
 
-        Method main = cf.methods[1];
-
-        List<Instruction> instructions = JavaInstructionFactory.getInstance().createInstructions(main.codeAttribute.code);
-        int nthByte = 0;
-        int tmpPc = 0;
-        for (Instruction i : instructions) {
-            System.out.println(tmpPc + " | " + nthByte + ": " + i);
-            nthByte += i.bytes();
-            tmpPc++;
-        }
-
-        Instruction[] instructionsTmp = new Instruction[instructions.size()];
-        instructionsTmp = instructions.toArray(instructionsTmp);
-
-        if (instructionsTmp == null) {
-            System.out.println("Array is null");
-        } else {
-            System.out.println("instrs: " + instructionsTmp.length);
-        }
-
-        VirtualMachine vm = new VirtualMachine(instructionsTmp, cf);
-        CallTarget target = Truffle.getRuntime().createCallTarget(vm);
-        target.call();
+        VirtualMachine vm = new VirtualMachine(cf);
+        vm.run();
     }
 }

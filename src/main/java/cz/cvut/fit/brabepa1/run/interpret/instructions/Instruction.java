@@ -1,7 +1,7 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions;
 
 import com.oracle.truffle.api.nodes.NodeInterface;
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 
 /**
  *
@@ -10,11 +10,11 @@ import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
 public interface Instruction extends NodeInterface{
 
     /**
-     * Executes instruction in VM
+     * Executes instruction in frame
      *
-     * @param vm
+     * @param frame
      */
-    public void execute(VirtualMachine vm);
+    public void execute(StackFrame frame);
 
     /**
      * lenght of instruction in bytes

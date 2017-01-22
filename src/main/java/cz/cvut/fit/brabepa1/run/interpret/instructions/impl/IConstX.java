@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -28,9 +28,9 @@ public class IConstX extends JavaInstruction {
     }
 
     @Override
-    public void execute(VirtualMachine vm) {
-        vm.stackPush(value);
-        vm.incrementPc();
+    public void execute(StackFrame frame) {
+        frame.pushOperand(value);
+        frame.incrementPc();
     }
 
     @Override

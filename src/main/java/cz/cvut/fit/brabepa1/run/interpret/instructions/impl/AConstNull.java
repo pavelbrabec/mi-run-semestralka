@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -15,8 +15,8 @@ public class AConstNull extends JavaInstruction {
     }
 
     @Override
-    public void execute(VirtualMachine vm) {
-        throw new UnsupportedOperationException("Not supported yet.");  
+    public void execute(StackFrame frame) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
 }

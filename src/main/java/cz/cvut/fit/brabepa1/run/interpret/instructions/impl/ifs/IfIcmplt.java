@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl.ifs;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
 /**
@@ -15,15 +15,15 @@ public class IfIcmplt extends IfInstruction {
 
     public IfIcmplt() {
     }
-    
+
     @Override
-    public void execute(VirtualMachine vm) {
-        Integer val1 = (Integer) vm.stackPop();
-        Integer val2 = (Integer) vm.stackPop();
+    public void execute(StackFrame frame) {
+        Integer val1 = (Integer) frame.popOperand();
+        Integer val2 = (Integer) frame.popOperand();
         if (val2 < val1) {
-            vm.incrementPc();
+            frame.incrementPc();
         } else {
-            vm.addOffsetToPc(branchOffset);
+            frame.addOffsetToPc(branchOffset);
         }
     }
 

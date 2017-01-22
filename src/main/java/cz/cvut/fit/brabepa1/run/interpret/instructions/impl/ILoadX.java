@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -24,10 +24,10 @@ public class ILoadX extends JavaInstruction {
     }
 
     @Override
-    public void execute(VirtualMachine vm) {
-        Object value = vm.getValue(index);
-        vm.stackPush(value);
-        vm.incrementPc();
+    public void execute(StackFrame frame) {
+        Object value = frame.getValue(index);
+        frame.pushOperand(value);
+        frame.incrementPc();
     }
 
     @Override

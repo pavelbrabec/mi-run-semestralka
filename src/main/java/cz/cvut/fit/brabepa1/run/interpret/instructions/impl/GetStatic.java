@@ -1,7 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
-import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -21,7 +20,7 @@ public class GetStatic extends JavaInstruction {
     private int cpIndex;
 
     @Override
-    public void execute(VirtualMachine vm) {
+    public void execute(StackFrame frame) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

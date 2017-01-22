@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -25,10 +25,10 @@ public class IStoreX extends JavaInstruction {
     }
 
     @Override
-    public void execute(VirtualMachine vm) {
-        Object value = vm.stackPop();
-        vm.setValue(index, value);
-        vm.incrementPc();
+    public void execute(StackFrame frame) {
+        Object value = frame.popOperand();
+        frame.setValue(index, value);
+        frame.incrementPc();
     }
 
     @Override

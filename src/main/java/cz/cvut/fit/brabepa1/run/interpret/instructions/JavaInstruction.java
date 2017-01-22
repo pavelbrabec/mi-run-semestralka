@@ -1,7 +1,7 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions;
 
 import com.oracle.truffle.api.nodes.Node;
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 
 /**
  *
@@ -10,11 +10,11 @@ import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
 public abstract class JavaInstruction extends Node implements Instruction {
     
     /**
-     * Metoda provede instrukci ve VM.
-     * @param vm 
+     * Metoda vykona kod instrukce.
+     * @param frame 
      */
     @Override
-    public abstract void execute(VirtualMachine vm);
+    public abstract void execute(StackFrame frame);
         
     /**
      * Metoda nemusi byt implementovanu u jedno bytovych instrukci.

@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -18,11 +18,11 @@ public class Bipush extends JavaInstruction {
 
     public Bipush() {
     }
-    
+
     @Override
-    public void execute(VirtualMachine vm) {
-        vm.stackPush(byteValue);
-        vm.incrementPc();
+    public void execute(StackFrame frame) {
+        frame.pushOperand(byteValue);
+        frame.incrementPc();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class Bipush extends JavaInstruction {
 
     @Override
     public void setParameters(int pointer, byte[] bytecode) {
-        byteValue = bytecode[pointer+1];
+        byteValue = bytecode[pointer + 1];
     }
 
     @Override

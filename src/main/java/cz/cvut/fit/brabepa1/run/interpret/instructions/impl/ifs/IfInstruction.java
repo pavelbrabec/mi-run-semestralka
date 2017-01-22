@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl.ifs;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 
 /**
@@ -15,7 +15,7 @@ public abstract class IfInstruction extends JavaInstruction{
     }
     
     @Override
-    public abstract void execute(VirtualMachine vm);
+    public abstract void execute(StackFrame frame);
 
     @Override
     public int bytes() {

@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.heap.ObjectRef;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
@@ -19,10 +19,12 @@ public class Dup extends JavaInstruction {
     }
 
     @Override
-    public void execute(VirtualMachine vm) {
-        Object value = vm.stackPeek();
-        if (value instanceof ObjectRef) ((ObjectRef) value).addReference();
-        vm.stackPush(value);
-        vm.incrementPc();
+    public void execute(StackFrame frame) {
+        Object value = frame.peekOperand();
+        if (value instanceof ObjectRef) {
+            ((ObjectRef) value).addReference();
+        }
+        frame.pushOperand(value);
+        frame.incrementPc();
     }
 }

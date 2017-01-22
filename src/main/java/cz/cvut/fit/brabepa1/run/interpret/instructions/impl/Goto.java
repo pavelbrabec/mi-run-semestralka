@@ -1,6 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
-import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
+import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -21,8 +21,8 @@ public class Goto extends JavaInstruction {
     }
 
     @Override
-    public void execute(VirtualMachine vm) {
-        vm.addOffsetToPc(branchoffset);
+    public void execute(StackFrame frame) {
+        frame.addOffsetToPc(branchoffset);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class Goto extends JavaInstruction {
     public void setParameters(int pointer, byte[] bytecode) {
         branchoffset = branchoffset(bytecode[pointer + 1], bytecode[pointer + 2]);
     }
-    
+
     @Override
     public String toString() {
         return super.toString() + " " + branchoffset;

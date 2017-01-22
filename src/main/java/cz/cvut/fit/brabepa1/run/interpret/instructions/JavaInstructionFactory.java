@@ -44,7 +44,6 @@ public class JavaInstructionFactory implements InstructionFactory {
         for (int i = 0; i < bytecode.length; i++) {
             bc[i] = bytecode[i] & 0xFF;
         }
-        printHexStrings(bytecode);
         List<Instruction> instrs = new ArrayList<>();
         int pointer = 0;
         while (pointer < bc.length) {
@@ -66,6 +65,7 @@ public class JavaInstructionFactory implements InstructionFactory {
 
     //only for debugging
     private void printHexStrings(byte[] bc) {
+        System.out.print("Method code: ");
         for (int i : bc) {
             System.out.print(Integer.toHexString(i) + " ");
         }
