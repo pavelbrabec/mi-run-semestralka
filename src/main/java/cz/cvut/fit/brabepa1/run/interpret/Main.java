@@ -17,7 +17,7 @@ import org.reflections.Reflections;
  * @author pavel
  */
 public class Main {
-
+    
     public static void main(String[] args) {
         //Register all implementations of Instruction interface into JavaInstructionFactory
         Reflections reflections = new Reflections("cz.cvut.fit.brabepa1.run.interpret.instructions.impl");
