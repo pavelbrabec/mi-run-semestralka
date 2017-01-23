@@ -35,9 +35,14 @@ public class InvokeStatic extends JavaInstruction {
         ClassFile cf = ClassFileReader.lookupAndResolve(className);
         Method invokedMethod = cf.getMethod(methodRef.getNameAndType().getName(),
                         methodRef.getNameAndType().getDescriptor());
-        // TODO HANDLE METHOD ARGUMENTS
-        frame.getStackRef().push(new StackFrame(
-                frame.getStackRef(), frame, cf, invokedMethod));
+
+        int argCount = invokedMethod.getArgumentCount();
+        StackFrame newFrame = new StackFrame(frame.getStackRef(), frame, cf, invokedMethod);
+        for (int i = argCount - 1; i >= 0; i--) {
+            newFrame.setValue(i, frame.popOperand());
+        }
+        
+        frame.getStackRef().push(newFrame);
         frame.incrementPc();
     }
 

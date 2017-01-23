@@ -14,15 +14,15 @@ public class IStore extends JavaInstruction {
         JavaInstructionFactory.getInstance().registerInstruction(0x36, new IStore());
     }
 
-    private int value;
+    private int valueIdx;
 
     public IStore() {
     }
 
     @Override
     public void execute(StackFrame frame) {
-        Integer index = (Integer) frame.popOperand();
-        frame.setValue(index, value);
+        Integer value = (Integer) frame.popOperand();
+        frame.setValue(valueIdx, value);
         frame.incrementPc();
     }
 
@@ -33,12 +33,12 @@ public class IStore extends JavaInstruction {
 
     @Override
     public void setParameters(int pointer, byte[] bytecode) {
-        value = bytecode[pointer + 1];
+        valueIdx = bytecode[pointer + 1];
     }
 
     @Override
     public String toString() {
-        return super.toString() + "value=" + value;
+        return super.toString() + "valueIdx=" + valueIdx;
     }
 
 }

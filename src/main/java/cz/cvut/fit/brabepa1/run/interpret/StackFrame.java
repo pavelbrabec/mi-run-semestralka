@@ -117,6 +117,9 @@ public class StackFrame {
     }
 
     public void setValue(int index, Object value) {
+        if (index >= values.length) {
+            values = Arrays.copyOf(values, index * 2);
+        }
         values[index] = value;
     }
 

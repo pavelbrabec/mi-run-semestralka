@@ -1,15 +1,9 @@
 package cz.cvut.fit.brabepa1.run.interpret;
 
-import com.oracle.truffle.api.CallTarget;
-import com.oracle.truffle.api.Truffle;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFileReader;
-import cz.cvut.fit.brabepa1.run.interpret.classfile.Method;
 import cz.cvut.fit.brabepa1.run.interpret.exceptions.MethodNotFound;
-import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
-import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;

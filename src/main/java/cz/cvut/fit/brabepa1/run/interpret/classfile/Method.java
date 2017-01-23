@@ -48,6 +48,15 @@ public class Method {
         return classFile.constantPool.getItem(descriptorIndex, CP_UTF8.class).getStringContent();
     }
     
+    public int getArgumentCount() {
+        String dsc = getDescriptor();
+        String args = dsc.substring(dsc.indexOf("(") + 1, dsc.indexOf(")"));
+        args = args.replaceAll("L\\S+;", "L");
+        args = args.replace('[', ' ');
+//        System.out.println("ARGUMETNLIST: ("+args+")");
+        return args.replace(" ", "").length();
+    }
+    
     @Override
     public String toString() {
         String str = "Method{" + "accessFlags=" + accessFlags
