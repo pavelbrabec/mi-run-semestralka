@@ -2,6 +2,7 @@ package cz.cvut.fit.brabepa1.run.interpret.classfile;
 
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attr_Code;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
 import java.io.DataInputStream;
 import java.io.IOException;
 
@@ -17,9 +18,11 @@ public class Method {
     public short attributesCount;
     public Attribute[] attributes;
     public Attr_Code codeAttribute;
-
+    public ClassFile classFile;
+    
     public Method(DataInputStream dis, ClassFile classFile) {
         try {
+            this.classFile = classFile;
             codeAttribute = null;
             accessFlags = dis.readShort();
             nameIndex = dis.readShort();
@@ -37,6 +40,14 @@ public class Method {
         }
     }
 
+    public String getName() {
+        return classFile.constantPool.getItem(nameIndex, CP_UTF8.class).getStringContent();
+    }
+    
+    public String getDescriptor() {
+        return classFile.constantPool.getItem(descriptorIndex, CP_UTF8.class).getStringContent();
+    }
+    
     @Override
     public String toString() {
         String str = "Method{" + "accessFlags=" + accessFlags

@@ -1,10 +1,11 @@
 /**
  * Trida slouzici pro testovani interpretu
  */
-public class TestDyn {
+public class TestConstr {
+
+    public TestConstr() {
+    }
 
     public static void main(String[] args) {
-      Object o = new Object();
-//      Test test = new Test();
     }
 }

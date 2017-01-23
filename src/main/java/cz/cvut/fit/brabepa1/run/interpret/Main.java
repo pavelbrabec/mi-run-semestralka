@@ -5,11 +5,14 @@ import com.oracle.truffle.api.Truffle;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFileReader;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.Method;
+import cz.cvut.fit.brabepa1.run.interpret.exceptions.MethodNotFound;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.reflections.Reflections;
 
 /**
@@ -34,11 +37,16 @@ public class Main {
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestMath");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestLoops");
-        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
+//        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
+        ClassFile cf = ClassFileReader.lookupAndResolve("TestMethod");
         System.out.println(cf);
         System.out.println("_________________________________");
 
-        VirtualMachine vm = new VirtualMachine(cf);
-        vm.run();
+        try {
+            VirtualMachine vm = new VirtualMachine(cf);
+            vm.run();
+        } catch (MethodNotFound ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -28,6 +28,15 @@ public class ClassFile {
     public Attribute[] attributes;//attributes_count
     //? public Instruction[] instructions;
 
+    public Method getMethod(String name, String descriptor) {
+        for (Method m : methods) {
+            if (m.getName().equals(name) && m.getDescriptor().equals(descriptor)) {
+                return m;
+            }
+        }
+        return null;
+    }
+    
     @Override
     public String toString() {
         String str = "ClassFile{"

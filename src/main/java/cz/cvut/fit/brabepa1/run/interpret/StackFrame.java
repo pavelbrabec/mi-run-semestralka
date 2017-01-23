@@ -43,8 +43,8 @@ public class StackFrame {
         this.instructions = insts.toArray(new Instruction[insts.size()]);
 
         setupBcAndPc();
-        System.out.println("pc2bc " + Arrays.toString(pcToBc));
-        System.out.println("bc2pc " + Arrays.toString(bcToPc));
+//        System.out.println("pc2bc " + Arrays.toString(pcToBc));
+//        System.out.println("bc2pc " + Arrays.toString(bcToPc));
         printInstructionSet();
     }
 

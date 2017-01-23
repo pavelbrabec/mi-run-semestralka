@@ -21,6 +21,14 @@ public class CP_NameAndType extends CP_Item {
         }
     }
 
+    public String getName() {
+        return constantPool.getItem(nameIndex, CP_UTF8.class).getStringContent();
+    }
+
+    public String getDescriptor() {
+        return constantPool.getItem(descriptorIndex, CP_UTF8.class).getStringContent();
+    }
+    
     @Override
     public String toString() {
         return "CP_NameAndType {tag=" + super.tag.name() + ", nameIndex=" + nameIndex +
