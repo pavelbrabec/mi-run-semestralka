@@ -36,7 +36,11 @@ public class ClassFile {
         }
         return null;
     }
-    
+
+    public long getSizeInBytes() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     @Override
     public String toString() {
         String str = "ClassFile{"
@@ -51,19 +55,19 @@ public class ClassFile {
                 + constantPool.toString() + '\n'
                 + "\tInterfaces{interfacesCount=0x" + Integer.toHexString(interfacesCount) + "}\n";
         for (int i = 0; i < interfacesCount; i++) {
-            str += "\t\t" + (i+1) + ": ";
+            str += "\t\t" + (i + 1) + ": ";
             str += "0x" + Integer.toHexString(interfaces[i]);
             str += '\n';
         }
         str += "\tFields{fieldsCount=0x" + fieldsCount + "}\n";
         for (int i = 0; i < fieldsCount; i++) {
-            str += "\t\t" + (i+1) + ": ";
+            str += "\t\t" + (i + 1) + ": ";
             str += fields[i].toString();
             str += '\n';
         }
         str += "\tMethods{methodsCount=0x" + methodsCount + "}\n";
         for (int i = 0; i < methodsCount; i++) {
-            str += "\t\t" + (i+1) + ": ";
+            str += "\t\t" + (i + 1) + ": ";
             str += methods[i].toString();
             str += '\n';
         }

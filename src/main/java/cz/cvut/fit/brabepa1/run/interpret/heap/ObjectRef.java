@@ -7,12 +7,15 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
  * @author pajcak
  */
 public class ObjectRef {
+    public static final int SIZE_IN_BYTES = 4 + 4 + 4;
     private int refs;
-    private ClassFile cf;
+    private ClassFile classFile;
+    private long byteOffset;
     
-    public ObjectRef(ClassFile cf) {
+    public ObjectRef(ClassFile cf, long byteOffset) {
         this.refs = 0;
-        this.cf = cf;
+        this.classFile = cf;
+        this.byteOffset = byteOffset;
     }
     
     /**
