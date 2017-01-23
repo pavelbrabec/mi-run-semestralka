@@ -3,12 +3,12 @@
  */
 public class TestMethod {
 
-    public static void foo(int x, int y, int u, int v) {
-      int p = 33;
-      int z = x + y;
+    public static int foo(int x, int y) {
+      return x + 3;
     }
 
     public static void main(String[] args) {
-        foo(1, 2, 3, 4);
+        int y = foo(1, 2);
+        y = y + 2;
     }
 }
