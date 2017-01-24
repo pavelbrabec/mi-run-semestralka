@@ -22,8 +22,9 @@ public class GetStatic extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        Field field = frame.getClassFile().getFieldWithLookup(cpIndex);
-        frame.pushOperand(field.getValue());
+//        Field field = frame.getClassFile().getFieldWithLookup(cpIndex);
+//        frame.pushOperand(field.getValue());
+        //skip instruction
         frame.incrementPc();
     }
 

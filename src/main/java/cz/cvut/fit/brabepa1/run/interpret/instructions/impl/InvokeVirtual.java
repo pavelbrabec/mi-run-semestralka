@@ -1,6 +1,10 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Class;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Item;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_MethodRef;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -16,6 +20,8 @@ public class InvokeVirtual extends JavaInstruction {
         JavaInstructionFactory.getInstance().registerInstruction(0xb6, new InvokeVirtual());
     }
 
+    private static String OUTPUT = "java/io/PrintStream";
+
     /**
      * Index to constant pool
      */
@@ -23,7 +29,25 @@ public class InvokeVirtual extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Object value = frame.popOperand();
+        CP_Item item = frame.getClassFile().constantPool.items[cpIndex - 1];
+        System.out.println(cpIndex - 1);
+        System.out.println(item.tag);
+        switch (item.tag) {
+            case METHODREF:
+                CP_MethodRef mrf = (CP_MethodRef) item;
+                CP_Class cpClass = (CP_Class) frame.getClassFile().constantPool.items[mrf.classIndex - 1];
+                CP_UTF8 name = (CP_UTF8) frame.getClassFile().constantPool.items[cpClass.nameIndex - 1];
+                if (OUTPUT.equalsIgnoreCase(name.string)) {
+                    System.out.println("VirtualMachine-output:\t" + value);
+                } else {
+                    throw new UnsupportedOperationException("Class " + name.string + " is not supported for output");
+                }
+                break;
+            default:
+                throw new UnsupportedOperationException("Not supported, yet");
+        }
+        frame.incrementPc();
     }
 
     @Override
