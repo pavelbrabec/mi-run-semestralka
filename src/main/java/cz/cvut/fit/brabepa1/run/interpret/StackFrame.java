@@ -15,7 +15,7 @@ import java.util.Stack;
  *
  * @author pajcak
  */
-public class StackFrame {
+public class StackFrame{
 
     private final StackFrame invoker;
     private final Stack<StackFrame> stackRef;
@@ -169,4 +169,6 @@ public class StackFrame {
             System.out.println((i + 1) + ". | " + pcToBc[i] + ": " + instructions[i]);
         }
     }
+    
+    
 }
