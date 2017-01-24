@@ -38,6 +38,7 @@ public class TestPrimes {
                 primesFound++;
             }
         }
+        System.out.println("--------");
         System.out.println(primesFound);
     }
 }
