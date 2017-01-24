@@ -32,7 +32,7 @@ public class Main {
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestMath");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestLoops");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
-        ClassFile cf = ClassFileReader.lookupAndResolve("TestMethod");
+        ClassFile cf = ClassFileReader.lookupAndResolve("TestFields");
         System.out.println(cf);
         System.out.println("_________________________________");
 

@@ -7,13 +7,15 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
 /**
+ * invoke instance method on object objectref and puts the result on the stack
+ * (might be void); the method is identified by method reference index in
+ * constant pool (indexbyte1 << 8 + indexbyte2)
  *
- * @author pavel
  */
-public class GetStatic extends JavaInstruction {
+public class PutStatic extends JavaInstruction {
 
     static {
-        JavaInstructionFactory.getInstance().registerInstruction(0xb2, new GetStatic());
+        JavaInstructionFactory.getInstance().registerInstruction(0xb3, new PutStatic());
     }
 
     /**
@@ -25,7 +27,7 @@ public class GetStatic extends JavaInstruction {
     public void execute(StackFrame frame) {
         try {
             Field field = frame.getClassFile().getFieldWithLookup(cpIndex);
-            frame.pushOperand(field.getValue());
+            field.setValue(frame.popOperand());
         } catch (FieldNotFound ex) {
             System.out.println("ERROR\t" + this.getClass().getName() + ": " + ex);
         }

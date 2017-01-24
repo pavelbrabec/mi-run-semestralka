@@ -21,6 +21,9 @@ public class CP_FieldRef extends CP_Item {
         }
     }
 
+    public CP_NameAndType getNameAndType() {
+        return constantPool.getItem(nameAndTypeIndex, CP_NameAndType.class);
+    }
     @Override
     public String toString() {
         return "CP_FieldRef {tag=" + super.tag.name() + ", classIndex=" + classIndex +

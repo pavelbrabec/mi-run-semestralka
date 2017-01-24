@@ -97,7 +97,12 @@ public class StackFrame {
     }
 
     public Object popOperand() {
-        return operandStack.pop();
+        Object obj = operandStack.pop();
+            // TODO if there are more heap types then ObjectRef, release them too
+            if (obj instanceof ObjectRef) {
+                ((ObjectRef) obj).release();
+            }
+            return obj;
     }
 
     public void pushOperand(Object o) {

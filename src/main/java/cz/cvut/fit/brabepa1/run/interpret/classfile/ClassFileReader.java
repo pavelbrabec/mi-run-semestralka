@@ -30,6 +30,7 @@ public class ClassFileReader {
         {
             add("java_classpath/");
             add("test_files/");
+            add("test_files/class_fields/");
         }
     };
     private static Map<String, ClassFile> classFiles = new HashMap<String, ClassFile>();
