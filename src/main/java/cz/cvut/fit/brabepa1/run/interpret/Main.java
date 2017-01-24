@@ -14,7 +14,7 @@ import org.reflections.Reflections;
  */
 public class Main {
 
-    public static void main(String[] args) throws Throwable{
+    public static void main(String[] args) throws Throwable {
         //Register all implementations of Instruction interface into JavaInstructionFactory
         Reflections reflections = new Reflections("cz.cvut.fit.brabepa1.run.interpret.instructions.impl");
         Set<Class<? extends JavaInstruction>> instructionImpls = reflections.getSubTypesOf(JavaInstruction.class);
@@ -31,19 +31,18 @@ public class Main {
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestMath");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestLoops");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
-        ClassFile cf = ClassFileReader.lookupAndResolve("TestPrimes");
+        ClassFile cf = ClassFileReader.lookupAndResolve("TestOutput");
         System.out.println(cf);
         System.out.println("_________________________________");
 
-//        try {
-//            VirtualMachine vm = new VirtualMachine(cf);
-//            vm.run();
-//        } catch (MethodNotFound ex) {
-//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        boolean useTruffle = false;
         VirtualMachine vm = new VirtualMachine(cf);
-        CallTarget target = Truffle.getRuntime().createCallTarget(vm);
-        target.call();
+        if (useTruffle) {
+            CallTarget target = Truffle.getRuntime().createCallTarget(vm);
+            target.call();
+        } else {
+            vm.execute(null);
+        }
     }
 
 }
