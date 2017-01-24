@@ -17,7 +17,7 @@ public class IfIcmple extends IfInstruction {
     public void execute(StackFrame frame) {
         Integer value1 = (Integer) frame.popOperand();
         Integer value2 = (Integer) frame.popOperand();
-        if (value2 <= value1) {
+        if (value1 <= value2) {
             frame.incrementPc();
         } else {
             frame.addOffsetToPc(branchOffset);

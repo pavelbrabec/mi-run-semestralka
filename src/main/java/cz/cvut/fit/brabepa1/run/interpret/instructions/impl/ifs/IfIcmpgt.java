@@ -20,7 +20,7 @@ public class IfIcmpgt extends IfInstruction {
     public void execute(StackFrame frame) {
         Integer val1 = (Integer) frame.popOperand();
         Integer val2 = (Integer) frame.popOperand();
-        if (val2 > val1) {
+        if (val1 > val2) {
             frame.incrementPc();
         } else {
             frame.addOffsetToPc(branchOffset);
