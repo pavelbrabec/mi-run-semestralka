@@ -2,7 +2,6 @@ package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.Field;
-import cz.cvut.fit.brabepa1.run.interpret.exceptions.FieldNotFound;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -23,12 +22,8 @@ public class GetStatic extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        try {
-            Field field = frame.getClassFile().getFieldWithLookup(cpIndex);
-            frame.pushOperand(field.getValue());
-        } catch (FieldNotFound ex) {
-            System.out.println("ERROR\t" + this.getClass().getName() + ": " + ex);
-        }
+        Field field = frame.getClassFile().getFieldWithLookup(cpIndex);
+        frame.pushOperand(field.getValue());
         frame.incrementPc();
     }
 

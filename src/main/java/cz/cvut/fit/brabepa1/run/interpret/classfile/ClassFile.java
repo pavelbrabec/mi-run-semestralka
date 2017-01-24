@@ -39,7 +39,7 @@ public class ClassFile {
         return null;
     }
 
-    public Field getFieldWithLookup(int fieldRefIdx) throws FieldNotFound {
+    public Field getFieldWithLookup(int fieldRefIdx) {
         CP_FieldRef fieldRef = constantPool.getItem(fieldRefIdx, CP_FieldRef.class);
         ClassFile cf = this;
         String fieldClassName = constantPool.getItem(fieldRef.classIndex, CP_Class.class).getClassName();

@@ -2,7 +2,6 @@ package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.Field;
-import cz.cvut.fit.brabepa1.run.interpret.exceptions.FieldNotFound;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -25,12 +24,8 @@ public class PutStatic extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        try {
-            Field field = frame.getClassFile().getFieldWithLookup(cpIndex);
-            field.setValue(frame.popOperand());
-        } catch (FieldNotFound ex) {
-            System.out.println("ERROR\t" + this.getClass().getName() + ": " + ex);
-        }
+        Field field = frame.getClassFile().getFieldWithLookup(cpIndex);
+        field.setValue(frame.popOperand());
         frame.incrementPc();
     }
 

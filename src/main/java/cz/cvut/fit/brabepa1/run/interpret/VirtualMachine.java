@@ -15,7 +15,7 @@ public class VirtualMachine {
 
     private final Stack<StackFrame> stack = new Stack<>();
 
-    public VirtualMachine(ClassFile cf) throws MethodNotFound {
+    public VirtualMachine(ClassFile cf) {
         Method main = null;
         for (Method m : cf.methods) {
             if (cf.constantPool.getItem(m.nameIndex, CP_UTF8.class)
@@ -24,7 +24,9 @@ public class VirtualMachine {
                 break;
             }
         }
-        if (main == null) throw new MethodNotFound("main");
+        if (main == null) {
+            throw new MethodNotFound("main");
+        }
         stack.push(new StackFrame(stack, null, cf, main));
     }
 
@@ -35,10 +37,10 @@ public class VirtualMachine {
             if (instruction == null) {
                 stack.pop();
             } else {
-                System.out.println("Before "+frame);
+                System.out.println("Before " + frame);
                 System.out.println("==> " + instruction.toString() + " <==");
                 instruction.execute(frame);
-                System.out.println("After "+frame);
+                System.out.println("After " + frame);
             }
         }
         return null;

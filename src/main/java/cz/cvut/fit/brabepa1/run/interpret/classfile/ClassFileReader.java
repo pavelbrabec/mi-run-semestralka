@@ -47,16 +47,10 @@ public class ClassFileReader {
                 cf = readFromFile(f.getPath());
                 classFiles.put(cfName, cf);
                 System.out.println("INFO\tLoaded class:" + classpath + cfName + ".class");
-                return cf; 
+                return cf;
             }
         }
-        try { //useless
-            throw new ClassNotFound(cfName + ".class");
-        } catch (InterpretException ex) {
-            System.out.println("ERROR\t" + ClassFileReader.class.getName()
-                    + ": exception: " + ex);
-        }
-        return null;
+        throw new ClassNotFound(cfName + ".class");
     }
 
     private static ClassFile readFromFile(String path) {
