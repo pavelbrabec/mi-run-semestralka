@@ -4,11 +4,8 @@ import com.oracle.truffle.api.CallTarget;
 import com.oracle.truffle.api.Truffle;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFileReader;
-import cz.cvut.fit.brabepa1.run.interpret.exceptions.MethodNotFound;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.reflections.Reflections;
 
 /**

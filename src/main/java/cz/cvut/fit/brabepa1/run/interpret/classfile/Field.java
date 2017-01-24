@@ -1,6 +1,7 @@
 package cz.cvut.fit.brabepa1.run.interpret.classfile;
 
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
 import java.io.DataInputStream;
 import java.io.IOException;
 
@@ -15,9 +16,12 @@ public class Field {
     public short descriptorIndex;
     public short attributesCount;
     public Attribute[] attributes;
-
+    public ClassFile classFile;
+    private Object value;
+    
     public Field(DataInputStream dis, ClassFile classFile) {
         try {
+            this.classFile = classFile;
             accessFlags = dis.readShort();
             nameIndex = dis.readShort();
             descriptorIndex = dis.readShort();
@@ -31,17 +35,37 @@ public class Field {
         }
     }
 
+    public String getName() {
+        return classFile.constantPool.getItem(nameIndex, CP_UTF8.class).getStringContent();
+    }
+
+    public String getDescriptor() {
+        return classFile.constantPool.getItem(descriptorIndex, CP_UTF8.class).getStringContent();
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
     @Override
     public String toString() {
         String str = "Field{" + "accessFlags=" + accessFlags
                 + ", nameIndex=" + nameIndex
                 + ", descriptorIndex=" + descriptorIndex
                 + ", attributesCount=" + attributesCount + '}';
-        if (attributesCount > 0) str += '\n';
+        if (attributesCount > 0) {
+            str += '\n';
+        }
         for (int i = 0; i < attributesCount; i++) {
-            str += "\t\t\t" + (i+1) + ": ";
+            str += "\t\t\t" + (i + 1) + ": ";
             str += attributes[i].toString();
-            if (i < attributesCount - 1) str += '\n';
+            if (i < attributesCount - 1) {
+                str += '\n';
+            }
         }
         return str;
     }
