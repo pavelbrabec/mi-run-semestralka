@@ -31,7 +31,8 @@ public class Main {
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestMath");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestLoops");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
-        ClassFile cf = ClassFileReader.lookupAndResolve("TestOutput");
+//        ClassFile cf = ClassFileReader.lookupAndResolve("TestOutput");
+        ClassFile cf = ClassFileReader.lookupAndResolve("TestConstr");
         System.out.println(cf);
         System.out.println("_________________________________");
 

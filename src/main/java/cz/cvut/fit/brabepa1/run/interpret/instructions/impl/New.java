@@ -30,7 +30,7 @@ public class New extends JavaInstruction {
         String className = frame.getClassFile().constantPool
                 .getItem(objIndex, CP_Class.class).getClassName();
         ClassFile cf = ClassFileReader.lookupAndResolve(className);
-        ObjectRef objRef = Heap.allocObject(cf);
+        ObjectRef objRef = Heap.getInstance().allocObject(cf);
         frame.pushOperand(objRef);
         frame.incrementPc();
     }

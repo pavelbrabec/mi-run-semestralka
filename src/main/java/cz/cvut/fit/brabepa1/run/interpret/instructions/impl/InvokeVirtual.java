@@ -23,6 +23,7 @@ public class InvokeVirtual extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
+        // will need a method getMethodWithLookup in ClassFile class (in case that the method is in superclasses)
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

@@ -18,7 +18,7 @@ public class Field {
     public Attribute[] attributes;
     public ClassFile classFile;
     private Object value;
-    
+
     public Field(DataInputStream dis, ClassFile classFile) {
         try {
             this.classFile = classFile;
@@ -49,6 +49,33 @@ public class Field {
 
     public void setValue(Object value) {
         this.value = value;
+    }
+
+    public long getSizeInBytes() {
+        switch (getDescriptor().charAt(0)) {
+            case 'B': // byte
+                return 1;
+            case 'Z': // boolean
+                return 1;
+            case 'C': // char
+                return 2;
+            case 'S': // short
+                return 2;
+            case 'F': // float
+                return 4;
+            case 'I': // int
+                return 4;
+            case 'J': // long
+                return 8;
+            case 'D': // double
+                return 8;       
+            case 'L': // object reference
+                return 8;
+            case '[': // array reference
+                throw new UnsupportedOperationException("Reference to array not implemented.");
+            default:
+                throw new UnsupportedOperationException("Invalid field descriptor!");
+        }
     }
 
     @Override

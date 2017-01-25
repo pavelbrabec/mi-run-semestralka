@@ -30,6 +30,8 @@ public class ClassFile {
     public short attributesCount;
     public Attribute[] attributes;//attributes_count
     //? public Instruction[] instructions;
+    // Contains number of bytes of all fields of this class and its superclasses
+    public long sizeInBytes;
 
     public ClassFile loadSuperClass() {
         if (superClass != 0) { // invalid CP index (this class has no superclass)
@@ -50,10 +52,10 @@ public class ClassFile {
         Field field = cf.getField(fieldRef.getNameAndType().getName(),
                 fieldRef.getNameAndType().getDescriptor());
         while (field == null) { // in case that the field is in superclasses
-                cf = cf.loadSuperClass();
-                if (cf == null) { // no superclass -> field doesn't exist
-                    throw new FieldNotFound(fieldRef.getNameAndType().getName());
-                }
+            cf = cf.loadSuperClass();
+            if (cf == null) { // no superclass -> field doesn't exist
+                throw new FieldNotFound(fieldRef.getNameAndType().getName());
+            }
             field = cf.getField(fieldRef.getNameAndType().getName(),
                     fieldRef.getNameAndType().getDescriptor());
         }
@@ -83,8 +85,13 @@ public class ClassFile {
         return constantPool.getItem(thisClass, CP_Class.class).getClassName();
     }
 
+    /**
+     * The size is calculated in ClassFileReader's readFromFile method
+     *
+     * @return Size in bytes of all fields of this class and its superclasses
+     */
     public long getSizeInBytes() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return sizeInBytes;
     }
 
     @Override

@@ -69,10 +69,13 @@ public class ClassFileReader {
             for (int i = 0; i < cf.interfacesCount; i++) {
                 cf.interfaces[i] = fis.readShort();
             }
+            
+            cf.sizeInBytes = 0;
             cf.fieldsCount = fis.readShort();
             cf.fields = new Field[cf.fieldsCount];
             for (int i = 0; i < cf.fieldsCount; i++) {
                 cf.fields[i] = new Field(fis, cf);
+                cf.sizeInBytes += cf.fields[i].getSizeInBytes();
             }
             cf.methodsCount = fis.readShort();
             cf.methods = new Method[cf.methodsCount];
@@ -85,6 +88,9 @@ public class ClassFileReader {
                 cf.attributes[i] = ClassFileReader.readAttribute(fis, cf);
             }
 
+            if (cf.superClass != 0) {
+                cf.sizeInBytes += cf.loadSuperClass().getSizeInBytes();
+            }
         } catch (FileNotFoundException ex) {
             System.out.println("ERROR\tFile not found: " + path);
         } catch (IOException ex) {

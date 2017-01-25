@@ -23,6 +23,7 @@ public class InvokeSpecial extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
+         // invoke method and push result on the stack if method is non-void ("...()V<-")
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
