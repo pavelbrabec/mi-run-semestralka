@@ -1,6 +1,7 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Integer;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Item;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_String;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
@@ -24,15 +25,19 @@ public class Ldc extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        CP_Item item = frame.getClassFile().constantPool.items[index-1];
+        CP_Item item = frame.getClassFile().constantPool.items[index - 1];
         switch (item.tag) {
             case STRING:
-                CP_String tmp = (CP_String)item;
-                CP_UTF8 utf8 = (CP_UTF8)frame.getClassFile().constantPool.items[tmp.stringIndex-1];
+                CP_String tmp = (CP_String) item;
+                CP_UTF8 utf8 = (CP_UTF8) frame.getClassFile().constantPool.items[tmp.stringIndex - 1];
                 frame.pushOperand(utf8.string);
                 break;
+            case INTEGER:
+                CP_Integer i = (CP_Integer) item;
+                frame.pushOperand(i.value);
+                break;
             default:
-                throw new UnsupportedOperationException("Not supported, yet");
+                throw new UnsupportedOperationException("Not supported, yet\t" + item.tag);
         }
         frame.incrementPc();
     }

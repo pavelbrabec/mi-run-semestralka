@@ -13,6 +13,9 @@ public class TestPrimes {
         if(n <= 5) {
             return n;
         }else{
+//            while((n/2)*(n/2)>=n){
+//                n/=2;
+//            }
             return n/2;
         }
     }
@@ -20,6 +23,9 @@ public class TestPrimes {
     public static int isPrime(int n){
         if(n==0 || n==1){
             return 0;
+        }
+        if(n==2 || n==3 ){
+            return 1;
         }
         int sqrt = sqrt(n);
         for(int i=2;i<sqrt;i++){
@@ -32,9 +38,9 @@ public class TestPrimes {
     
     public static void main(String[] args) {
         int primesFound = 0;
-        for (int i = 1; i < 100; i++) {
+        for (int i = 1; i < 70000; i++) {
             if(isPrime(i)==1){
-                System.out.println(i);
+                //System.out.println(i);
                 primesFound++;
             }
         }

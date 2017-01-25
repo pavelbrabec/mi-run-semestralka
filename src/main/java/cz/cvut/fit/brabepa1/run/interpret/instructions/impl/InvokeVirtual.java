@@ -1,5 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
+import com.oracle.truffle.api.CompilerDirectives;
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Class;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Item;
@@ -28,6 +29,7 @@ public class InvokeVirtual extends JavaInstruction {
     private int cpIndex;
 
     @Override
+    @CompilerDirectives.TruffleBoundary
     public void execute(StackFrame frame) {
         Object value = frame.popOperand();
         CP_Item item = frame.getClassFile().constantPool.items[cpIndex - 1];
