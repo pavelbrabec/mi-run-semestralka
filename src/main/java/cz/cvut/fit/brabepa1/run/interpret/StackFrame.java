@@ -15,7 +15,7 @@ import java.util.Stack;
  *
  * @author pajcak
  */
-public class StackFrame{
+public class StackFrame {
 
     private final StackFrame invoker;
     private final Stack<StackFrame> stackRef;
@@ -98,11 +98,11 @@ public class StackFrame{
 
     public Object popOperand() {
         Object obj = operandStack.pop();
-            // TODO if there are more heap types then ObjectRef, release them too
-            if (obj instanceof ObjectRef) {
-                ((ObjectRef) obj).release();
-            }
-            return obj;
+        // TODO if there are more heap types then ObjectRef, release them too
+        if (obj instanceof ObjectRef) {
+            ((ObjectRef) obj).release();
+        }
+        return obj;
     }
 
     public void pushOperand(Object o) {
@@ -169,11 +169,12 @@ public class StackFrame{
     }
 
     private void printInstructionSet() {
-        System.out.println("Instruction set (instr | offset):");
-        for (int i = 0; i < instructions.length; i++) {
-            System.out.println((i + 1) + ". | " + pcToBc[i] + ": " + instructions[i]);
+        if (VirtualMachine.VM_DEBUG) {
+            System.out.println("Instruction set (instr | offset):");
+            for (int i = 0; i < instructions.length; i++) {
+                System.out.println((i + 1) + ". | " + pcToBc[i] + ": " + instructions[i]);
+            }
         }
     }
-    
-    
+
 }

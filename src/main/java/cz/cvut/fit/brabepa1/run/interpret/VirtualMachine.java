@@ -18,7 +18,7 @@ import java.util.Stack;
 public class VirtualMachine extends RootNode {
 
     public static final boolean VM_DEBUG = false;
-
+    
     private final Stack<StackFrame> stack = new Stack<>();
 
     public VirtualMachine(ClassFile cf) throws MethodNotFound {
@@ -48,8 +48,8 @@ public class VirtualMachine extends RootNode {
             } else {
                 if (VM_DEBUG) {
                     System.out.println("Before " + frame);
+                    System.out.println("==> " + instruction.toString() + " <==");
                 }
-                System.out.println("==> " + instruction.toString() + " <==");
                 instruction.execute(frame);
                 if (VM_DEBUG) {
                     System.out.println("After " + frame);

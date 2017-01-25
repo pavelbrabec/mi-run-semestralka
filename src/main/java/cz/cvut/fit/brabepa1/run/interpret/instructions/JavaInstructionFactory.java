@@ -1,5 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions;
 
+import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,9 +50,9 @@ public class JavaInstructionFactory implements InstructionFactory {
         while (pointer < bc.length) {
             Instruction instr = getInstruction(bc[pointer]);
             if (instr.bytes() > 1) {
-                Class clazz = instr.getClass();             
+                Class clazz = instr.getClass();
                 try {
-                    instr=(Instruction) clazz.getConstructor().newInstance();
+                    instr = (Instruction) clazz.getConstructor().newInstance();
                 } catch (ReflectiveOperationException ex) {
                     System.out.println("ERROR\tAll instructions must have public empty constructor");
                 }
@@ -65,11 +66,13 @@ public class JavaInstructionFactory implements InstructionFactory {
 
     //only for debugging
     private void printHexStrings(byte[] bc) {
-        System.out.print("Method code: ");
-        for (int i : bc) {
-            System.out.print(Integer.toHexString(i) + " ");
+        if (VirtualMachine.VM_DEBUG) {
+            System.out.print("Method code: ");
+            for (int i : bc) {
+                System.out.print(Integer.toHexString(i) + " ");
+            }
+            System.out.println("");
         }
-        System.out.println("");
     }
 
 }

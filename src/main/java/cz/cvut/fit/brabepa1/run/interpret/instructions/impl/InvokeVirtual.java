@@ -31,8 +31,6 @@ public class InvokeVirtual extends JavaInstruction {
     public void execute(StackFrame frame) {
         Object value = frame.popOperand();
         CP_Item item = frame.getClassFile().constantPool.items[cpIndex - 1];
-        System.out.println(cpIndex - 1);
-        System.out.println(item.tag);
         switch (item.tag) {
             case METHODREF:
                 CP_MethodRef mrf = (CP_MethodRef) item;
