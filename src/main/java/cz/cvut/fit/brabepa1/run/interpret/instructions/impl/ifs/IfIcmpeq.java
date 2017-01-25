@@ -20,10 +20,10 @@ public class IfIcmpeq extends IfInstruction {
     public void execute(StackFrame frame) {
         int val1 = (Integer) frame.popOperand();
         int val2 = (Integer) frame.popOperand();
-        if (val1 != val2) {
-            frame.incrementPc();
-        } else {
+        if (val1 == val2) {
             frame.addOffsetToPc(branchOffset);
+        } else {
+            frame.incrementPc();
         }
     }
 

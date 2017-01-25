@@ -18,9 +18,10 @@ public class IfIcmpne extends IfInstruction {
         int val1 = (Integer) frame.popOperand();
         int val2 = (Integer) frame.popOperand();
         if (val1 != val2) {
-            frame.incrementPc();
-        } else {
             frame.addOffsetToPc(branchOffset);
+        } else {
+            frame.incrementPc();
+
         }
     }
 
