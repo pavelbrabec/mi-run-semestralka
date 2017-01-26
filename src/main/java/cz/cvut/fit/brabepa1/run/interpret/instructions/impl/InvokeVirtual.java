@@ -8,6 +8,9 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_MethodRef;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * invoke virtual method on object objectref and puts the result on the stack
@@ -22,6 +25,7 @@ public class InvokeVirtual extends JavaInstruction {
     }
 
     private static String OUTPUT = "java/io/PrintStream";
+    private static String INPUT = "java/io/InputStream";
 
     /**
      * Index to constant pool
@@ -31,7 +35,6 @@ public class InvokeVirtual extends JavaInstruction {
     @Override
     @CompilerDirectives.TruffleBoundary
     public void execute(StackFrame frame) {
-        Object value = frame.popOperand();
         CP_Item item = frame.getClassFile().constantPool.items[cpIndex - 1];
         switch (item.tag) {
             case METHODREF:
@@ -39,7 +42,16 @@ public class InvokeVirtual extends JavaInstruction {
                 CP_Class cpClass = (CP_Class) frame.getClassFile().constantPool.items[mrf.classIndex - 1];
                 CP_UTF8 name = (CP_UTF8) frame.getClassFile().constantPool.items[cpClass.nameIndex - 1];
                 if (OUTPUT.equalsIgnoreCase(name.string)) {
+                    Object value = frame.popOperand();
                     System.out.println("VirtualMachine-output:\t" + value);
+                } else if (INPUT.equalsIgnoreCase(name.string)) {
+                    try {
+                        Integer i = System.in.read();
+                        frame.pushOperand(i);
+                    } catch (IOException ex) {
+                        System.out.println("Can not read from input.");
+                        ex.printStackTrace();
+                    }
                 } else {
                     throw new UnsupportedOperationException("Class " + name.string + " is not supported for output");
                 }

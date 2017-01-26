@@ -32,7 +32,7 @@ public class Main {
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestLoops");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestOutput");
-        ClassFile cf = ClassFileReader.lookupAndResolve("TestPrimes");
+        ClassFile cf = ClassFileReader.lookupAndResolve("TestInput");
         System.out.println(cf);
         System.out.println("_________________________________");
 
