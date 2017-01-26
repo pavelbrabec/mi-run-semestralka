@@ -42,9 +42,7 @@ public class InvokeStatic extends JavaInstruction {
             newFrame.setValue(i, frame.popOperand());
         }
 
-        System.out.println("stackpointer: " + frame.getVM().stackPointer);
-        frame.getVM().stackPush(frame);
-        System.out.println("stackpointer: " + frame.getVM().stackPointer);
+        frame.getVM().stackPush(newFrame);
         frame.incrementPc();
     }
 

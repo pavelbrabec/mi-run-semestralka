@@ -19,18 +19,13 @@ import java.util.Stack;
  */
 public class StackFrame extends Node{
 
-    @CompilerDirectives.CompilationFinal
     private final StackFrame invoker;
-    @CompilerDirectives.CompilationFinal
     private final VirtualMachine vm;
-    @CompilerDirectives.CompilationFinal
     private final ClassFile classFile;
-    @CompilerDirectives.CompilationFinal
     private final Method method;
     private int pc = 0;
     @Children
     private final Instruction[] instructions;
-    @CompilerDirectives.CompilationFinal
     private Object[] values = new Object[4];
     private final LinkedList<Object> operandStack = new LinkedList<>();
     /*

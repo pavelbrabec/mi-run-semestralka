@@ -11,7 +11,6 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
 import cz.cvut.fit.brabepa1.run.interpret.exceptions.MethodNotFound;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
 
-
 /**
  *
  * @author pavel
@@ -75,7 +74,6 @@ public class VirtualMachine extends RootNode {
             StackFrame frame = stackPeek();
             Instruction instruction = frame.nextInstruction();
             if (instruction == null) {
-                System.out.println("pop");
                 stackPop();
             } else {
                 if (VM_DEBUG) {

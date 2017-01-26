@@ -38,9 +38,8 @@ public class TestPrimes {
     
     public static void main(String[] args) {
         int primesFound = 0;
-        for (int i = 1; i < 10000; i++) {
-            if(isPrime(i)==666){
-                System.out.println(i);
+        for (int i = 1; i < 1000; i++) {
+            if(isPrime(i)==1){
                 primesFound++;
             }
         }
