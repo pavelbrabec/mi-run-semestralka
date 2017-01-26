@@ -41,13 +41,19 @@ public class Heap {
     public ObjectRef allocObject(ClassFile cf) {
         long byteOffset = allocBytes(cf.getSizeInBytes() + ObjectRef.SIZE_IN_BYTES);
         ObjectRef objRef = new ObjectRef(cf, byteOffset);
-        // TODO save all the classfile's data, byte by byte to the memory at byteOffset
-        //   \--> call sth like local method storeBytes(cf.getByteData, byteOffset);
+
+        storeBytes(/*cf.getByteData()*/null, byteOffset);
+        
         objectRefs.add(objRef);
         objRef.addReference();
         return objRef;
     }
 
+    public void storeBytes(byte [] data, long offset) {
+        //store the data starting at memory[offset]
+        throw new UnsupportedOperationException();
+    }
+    
     /**
      *
      * @param bytes number of bytes to allocate in the heap

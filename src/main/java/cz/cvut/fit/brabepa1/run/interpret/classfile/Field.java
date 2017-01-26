@@ -18,9 +18,11 @@ public class Field {
     public Attribute[] attributes;
     public ClassFile classFile;
     private Object value;
+    private long byteOffsetInClass;
 
     public Field(DataInputStream dis, ClassFile classFile) {
         try {
+            this.byteOffsetInClass = 0;
             this.classFile = classFile;
             accessFlags = dis.readShort();
             nameIndex = dis.readShort();
@@ -51,6 +53,18 @@ public class Field {
         this.value = value;
     }
 
+    /**
+     * @return The number of bytes of all fields before this field in the class or subclasses
+     * E.g. If this is the first field in class it returns 0;
+     */
+    public long getByteOffset() {
+        return byteOffsetInClass;
+    }
+
+    public void setByteOffset(long byteOffsetInClass) {
+        this.byteOffsetInClass = byteOffsetInClass;
+    }
+    
     public long getSizeInBytes() {
         switch (getDescriptor().charAt(0)) {
             case 'B': // byte

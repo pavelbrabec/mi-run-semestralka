@@ -75,6 +75,7 @@ public class ClassFileReader {
             cf.fields = new Field[cf.fieldsCount];
             for (int i = 0; i < cf.fieldsCount; i++) {
                 cf.fields[i] = new Field(fis, cf);
+                cf.fields[i].setByteOffset(cf.sizeInBytes);
                 cf.sizeInBytes += cf.fields[i].getSizeInBytes();
             }
             cf.methodsCount = fis.readShort();

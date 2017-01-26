@@ -1,6 +1,7 @@
 package cz.cvut.fit.brabepa1.run.interpret.heap;
 
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.Field;
 
 /**
  *
@@ -16,6 +17,16 @@ public class ObjectRef {
         this.refs = 0;
         this.classFile = cf;
         this.byteOffset = byteOffset;
+    }
+    
+    public Object getFieldValue(Field field) {
+        /**
+         * Read field.getSizeInBytes() from heap starting at addr:
+         * |this.byteOffset + SIZE_IN_BYTES + field.getByteOffset|
+         * then cast to appropriate object (field descriptor hints it) and return that
+         * That's it babe!
+         */
+        throw new UnsupportedOperationException();
     }
     
     /**
