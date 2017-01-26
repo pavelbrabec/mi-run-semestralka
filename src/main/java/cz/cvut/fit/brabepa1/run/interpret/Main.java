@@ -36,7 +36,7 @@ public class Main {
         System.out.println(cf);
         System.out.println("_________________________________");
 
-        boolean useTruffle = true;
+        boolean useTruffle = false;
         VirtualMachine vm = new VirtualMachine(cf);
         if (useTruffle) {
             CallTarget target = Truffle.getRuntime().createCallTarget(vm);

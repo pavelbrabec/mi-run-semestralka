@@ -8,15 +8,15 @@
  */
 public class TestPrimes {
 
-    //todo
-    public static int sqrt(int n){
-        if(n <= 5) {
+    public static int sqrt(int n) {
+        if (n <= 5) {
             return n;
-        }else{
-//            while((n/2)*(n/2)>=n){
-//                n/=2;
-//            }
-            return n/2;
+        } else {
+            int tmp = n / 2;
+            while ((tmp / 2) * (tmp / 2) >= n) {
+                tmp /= 2;
+            }
+            return tmp;
         }
     }
     
@@ -38,7 +38,7 @@ public class TestPrimes {
     
     public static void main(String[] args) {
         int primesFound = 0;
-        for (int i = 1; i < 70000; i++) {
+        for (int i = 1; i < 100000; i++) {
             if(isPrime(i)==1){
                 //System.out.println(i);
                 primesFound++;
