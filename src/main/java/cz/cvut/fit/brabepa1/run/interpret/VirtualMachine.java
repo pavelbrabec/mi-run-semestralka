@@ -1,5 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret;
 
+import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.ExplodeLoop;
@@ -9,7 +10,7 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.Method;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
 import cz.cvut.fit.brabepa1.run.interpret.exceptions.MethodNotFound;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
-import java.util.Stack;
+
 
 /**
  *
@@ -17,9 +18,13 @@ import java.util.Stack;
  */
 public class VirtualMachine extends RootNode {
 
-    public static final boolean VM_DEBUG = false;
-    
-    private final Stack<StackFrame> stack = new Stack<>();
+    @CompilerDirectives.CompilationFinal
+    public static final boolean VM_DEBUG = true;
+
+    @Children
+    private final StackFrame[] stack = new StackFrame[1000];
+
+    public int stackPointer = 0;
 
     public VirtualMachine(ClassFile cf) throws MethodNotFound {
         super(TruffleLanguage.class, null, null);
@@ -34,17 +39,44 @@ public class VirtualMachine extends RootNode {
         if (main == null) {
             throw new MethodNotFound("main");
         }
-        stack.push(new StackFrame(stack, null, cf, main));
+        stackPush(new StackFrame(this, null, cf, main));
+    }
+
+    public void stackPush(StackFrame sf) {
+        stack[stackPointer] = sf;
+        stackPointer++;
+    }
+
+    public boolean stackIsEmpty() {
+        return stackPointer == 0;
+    }
+
+    public StackFrame stackPeek() {
+        if (stackIsEmpty()) {
+            throw new RuntimeException("Peek on empty stack");
+        }
+        return stack[stackPointer - 1];
+    }
+
+    public StackFrame stackPop() {
+        if (stackIsEmpty()) {
+            throw new RuntimeException("Pop on empty stack");
+        }
+        stackPointer--;
+        StackFrame frame = stack[stackPointer];
+        //stack[stackPointer] = null;
+        return frame;
     }
 
     @ExplodeLoop
     @Override
     public Object execute(VirtualFrame vf) {
-        while (!stack.empty()) {
-            StackFrame frame = stack.peek();
+        while (!stackIsEmpty()) {
+            StackFrame frame = stackPeek();
             Instruction instruction = frame.nextInstruction();
             if (instruction == null) {
-                stack.pop();
+                System.out.println("pop");
+                stackPop();
             } else {
                 if (VM_DEBUG) {
                     System.out.println("Before " + frame);

@@ -31,18 +31,20 @@ public class InvokeStatic extends JavaInstruction {
         CP_MethodRef methodRef = frame.getClassFile().constantPool
                 .getItem(cpIndex, CP_MethodRef.class);
         String className = frame.getClassFile().constantPool.getItem(
-                        methodRef.classIndex, CP_Class.class).getClassName();
+                methodRef.classIndex, CP_Class.class).getClassName();
         ClassFile cf = ClassFileReader.lookupAndResolve(className);
         Method invokedMethod = cf.getMethod(methodRef.getNameAndType().getName(),
-                        methodRef.getNameAndType().getDescriptor());
+                methodRef.getNameAndType().getDescriptor());
 
         int argCount = invokedMethod.getArgumentCount();
-        StackFrame newFrame = new StackFrame(frame.getStackRef(), frame, cf, invokedMethod);
+        StackFrame newFrame = new StackFrame(frame.getVM(), frame, cf, invokedMethod);
         for (int i = argCount - 1; i >= 0; i--) {
             newFrame.setValue(i, frame.popOperand());
         }
-        
-        frame.getStackRef().push(newFrame);
+
+        System.out.println("stackpointer: " + frame.getVM().stackPointer);
+        frame.getVM().stackPush(frame);
+        System.out.println("stackpointer: " + frame.getVM().stackPointer);
         frame.incrementPc();
     }
 

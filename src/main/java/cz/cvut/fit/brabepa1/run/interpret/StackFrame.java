@@ -1,5 +1,7 @@
 package cz.cvut.fit.brabepa1.run.interpret;
 
+import com.oracle.truffle.api.CompilerDirectives;
+import com.oracle.truffle.api.nodes.Node;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.Method;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
@@ -15,14 +17,20 @@ import java.util.Stack;
  *
  * @author pajcak
  */
-public class StackFrame {
+public class StackFrame extends Node{
 
+    @CompilerDirectives.CompilationFinal
     private final StackFrame invoker;
-    private final Stack<StackFrame> stackRef;
+    @CompilerDirectives.CompilationFinal
+    private final VirtualMachine vm;
+    @CompilerDirectives.CompilationFinal
     private final ClassFile classFile;
+    @CompilerDirectives.CompilationFinal
     private final Method method;
     private int pc = 0;
+    @Children
     private final Instruction[] instructions;
+    @CompilerDirectives.CompilationFinal
     private Object[] values = new Object[4];
     private final LinkedList<Object> operandStack = new LinkedList<>();
     /*
@@ -33,18 +41,16 @@ public class StackFrame {
     private int[] pcToBc;
     private int[] bcToPc;
 
-    public StackFrame(Stack<StackFrame> stackRef, StackFrame invoker, ClassFile classFile, Method method) {
+    public StackFrame(VirtualMachine vm, StackFrame invoker, ClassFile classFile, Method method) {
         this.invoker = invoker;
         this.classFile = classFile;
         this.method = method;
-        this.stackRef = stackRef;
+        this.vm = vm;
         List<Instruction> insts = JavaInstructionFactory.getInstance()
                 .createInstructions(method.codeAttribute.code);
         this.instructions = insts.toArray(new Instruction[insts.size()]);
 
         setupBcAndPc();
-//        System.out.println("pc2bc " + Arrays.toString(pcToBc));
-//        System.out.println("bc2pc " + Arrays.toString(bcToPc));
         printInstructionSet();
     }
 
@@ -132,8 +138,8 @@ public class StackFrame {
         return values[index];
     }
 
-    public Stack<StackFrame> getStackRef() {
-        return stackRef;
+    public VirtualMachine getVM() {
+        return vm;
     }
 
     // used mostly by <X>RETURN instructions
@@ -170,10 +176,11 @@ public class StackFrame {
 
     private void printInstructionSet() {
         if (VirtualMachine.VM_DEBUG) {
-            System.out.println("Instruction set (instr | offset):");
-            for (int i = 0; i < instructions.length; i++) {
-                System.out.println((i + 1) + ". | " + pcToBc[i] + ": " + instructions[i]);
-            }
+            System.out.println("METHOD: "+((CP_UTF8)(classFile.constantPool.items[method.nameIndex-1])).string);
+//            System.out.println("Instruction set (instr | offset):");
+//            for (int i = 0; i < instructions.length; i++) {
+//                System.out.println((i + 1) + ". | " + pcToBc[i] + ": " + instructions[i]);
+//            }
         }
     }
 

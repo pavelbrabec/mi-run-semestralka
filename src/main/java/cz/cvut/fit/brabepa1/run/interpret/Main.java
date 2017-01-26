@@ -44,6 +44,7 @@ public class Main {
         } else {
             vm.execute(null);
         }
+        System.out.println("Truffle: "+ useTruffle);
     }
 
 }
