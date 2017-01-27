@@ -99,9 +99,6 @@ public class StackFrame extends Node{
 
     public Object popOperand() {
         Object obj = operandStack.pop();
-        if (obj instanceof ObjectRef) {
-            ((ObjectRef)obj).release();
-        }
         return obj;
     }
 

@@ -18,6 +18,8 @@ public class AReturn extends JavaInstruction {
     @Override
     public void execute(StackFrame frame) {
         frame.getInvoker().pushOperand((ObjectRef)frame.popOperand());
+        // discard decreases reference so this allows to left the reference on its orig. value
+        ((ObjectRef)frame.getInvoker().peekOperand()).addReference();
         frame.discard();
     }
 

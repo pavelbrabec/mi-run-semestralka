@@ -43,7 +43,6 @@ public class InvokeSpecial extends JavaInstruction {
         for (int i = argCount; i >= 0; i--) {
             newFrame.setValue(i, frame.popOperand());
         }
-        ((ObjectRef)newFrame.getValue(0)).addReference();
         frame.getVM().stackPush(newFrame);
         frame.incrementPc();
     }
