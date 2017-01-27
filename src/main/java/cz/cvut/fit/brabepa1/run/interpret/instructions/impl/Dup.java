@@ -22,7 +22,7 @@ public class Dup extends JavaInstruction {
     public void execute(StackFrame frame) {
         Object value = frame.peekOperand();
         if (value instanceof ObjectRef) {
-            ((ObjectRef) value).addReference();
+            ((ObjectRef)value).addReference();
         }
         frame.pushOperand(value);
         frame.incrementPc();

@@ -3,8 +3,13 @@
  */
 public class TestDyn {
 
+  private int x;
+
+  public TestDyn() {
+ }
+
     public static void main(String[] args) {
-      Object o = new Object();
-//      Test test = new Test();
+//      Object o = new Object();
+      TestDyn test = new TestDyn();
     }
 }

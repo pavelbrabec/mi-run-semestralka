@@ -9,7 +9,6 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute.AttrType;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
 import cz.cvut.fit.brabepa1.run.interpret.exceptions.ClassNotFound;
-import cz.cvut.fit.brabepa1.run.interpret.exceptions.InterpretException;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;

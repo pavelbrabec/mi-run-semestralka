@@ -1,6 +1,5 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions;
 
-import com.oracle.truffle.api.nodes.Node;
 import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
 import java.util.ArrayList;
 import java.util.HashMap;

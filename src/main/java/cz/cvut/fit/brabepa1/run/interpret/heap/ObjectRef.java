@@ -20,13 +20,26 @@ public class ObjectRef {
     }
     
     public Object getFieldValue(Field field) {
-        /**
-         * Read field.getSizeInBytes() from heap starting at addr:
-         * |this.byteOffset + SIZE_IN_BYTES + field.getByteOffset|
-         * then cast to appropriate object (field descriptor hints it) and return that
-         * That's it babe!
-         */
-        throw new UnsupportedOperationException();
+        // if the field is in superclass, add additional offset,
+        // since every field's offset is relative only to its class (not subclasses)
+        // TODO does this really occur? Isn't that question for instruction set?
+        int inheritanceOffset = 0;
+        ClassFile cf = this.classFile;
+        while (!field.classFile.equals(cf)) {
+            for (Field f : cf.fields) {
+                inheritanceOffset += f.getSizeInBytes();
+            }
+            cf = cf.loadSuperClass();
+        }
+        
+        int startPos = (int)this.byteOffset /*+ SIZE_IN_BYTES*/
+                + inheritanceOffset + (int)field.getByteOffset();
+
+        byte [] fieldData = new byte[(int)field.getSizeInBytes()];
+        for (int i = startPos, j = 0; i < fieldData.length; i++, j++) {
+            fieldData[j] = Heap.getInstance().memory[i];
+        }
+        return field.getDataFromBytes(fieldData);
     }
     
     /**
@@ -42,4 +55,10 @@ public class ObjectRef {
     public void release() {
         this.refs--;
     }
+
+    @Override
+    public String toString() {
+        return "ObjectRef{classFile=" + classFile.getClassName() + ", refs=" + refs + ", byteOffset=" + byteOffset + '}';
+    }
+    
 }

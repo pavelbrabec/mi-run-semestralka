@@ -1,6 +1,12 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFileReader;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.Method;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Class;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_MethodRef;
+import cz.cvut.fit.brabepa1.run.interpret.heap.ObjectRef;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
@@ -23,8 +29,23 @@ public class InvokeSpecial extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-         // invoke method and push result on the stack if method is non-void ("...()V<-")
-        throw new UnsupportedOperationException("Not supported yet.");
+        CP_MethodRef methodRef = frame.getClassFile().constantPool
+                .getItem(cpIndex, CP_MethodRef.class);
+        String className = frame.getClassFile().constantPool.getItem(
+                methodRef.classIndex, CP_Class.class).getClassName();
+        ClassFile cf = ClassFileReader.lookupAndResolve(className);
+        Method invokedMethod = cf.getMethod(methodRef.getNameAndType().getName(),
+                methodRef.getNameAndType().getDescriptor());
+        
+        int argCount = invokedMethod.getArgumentCount();
+        StackFrame newFrame = new StackFrame(frame.getVM(), frame, cf, invokedMethod);
+        // objectRef is stored in local var. 0 (this loop is 1 step longer than in invokeStatic)
+        for (int i = argCount; i >= 0; i--) {
+            newFrame.setValue(i, frame.popOperand());
+        }
+        ((ObjectRef)newFrame.getValue(0)).addReference();
+        frame.getVM().stackPush(newFrame);
+        frame.incrementPc();
     }
 
     @Override

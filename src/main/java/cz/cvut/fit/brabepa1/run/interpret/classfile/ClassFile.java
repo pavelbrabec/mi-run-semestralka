@@ -5,6 +5,8 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Class;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_FieldRef;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.ConstantPool;
 import cz.cvut.fit.brabepa1.run.interpret.exceptions.FieldNotFound;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html
@@ -92,6 +94,40 @@ public class ClassFile {
      */
     public long getSizeInBytes() {
         return sizeInBytes;
+    }
+
+    /**
+     * @return Byte data of all fields in this class and the super class
+     */
+    public byte[] getByteData() {
+        byte[] data = new byte[(int) sizeInBytes];
+        int ptr = 0;
+        ClassFile cf = this;
+        while (cf != null) {
+            for (Field field : cf.fields) {
+                for (byte b : field.getByteFromData()) {
+                    data[ptr++] = b;
+                }
+            }
+            cf = cf.loadSuperClass();
+        }
+        return data;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ClassFile other = (ClassFile) obj;
+
+        return this.getClassName().equals(other.getClassName());
     }
 
     @Override

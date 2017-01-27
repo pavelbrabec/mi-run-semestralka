@@ -41,7 +41,7 @@ public class InvokeStatic extends JavaInstruction {
         for (int i = argCount - 1; i >= 0; i--) {
             newFrame.setValue(i, frame.popOperand());
         }
-
+        
         frame.getVM().stackPush(newFrame);
         frame.incrementPc();
     }

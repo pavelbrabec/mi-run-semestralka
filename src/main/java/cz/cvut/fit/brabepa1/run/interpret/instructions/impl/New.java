@@ -24,7 +24,6 @@ public class New extends JavaInstruction {
     public New() {
     }
     
-// create object on the heap (with ref count) and then push its ref onto the stack
     @Override
     public void execute(StackFrame frame) {
         String className = frame.getClassFile().constantPool

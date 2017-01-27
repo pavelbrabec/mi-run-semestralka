@@ -17,7 +17,7 @@ public class Heap {
     private static final int MAX_HEAP_SIZE = 65536;
     // int because Java supports maximum of 2^31-1 array constructs for byte[]
     private int heapSize;
-    private byte[] memory;
+    public byte[] memory;
     // points to the free byte after the allocated area ( == size of already allocated area)
     private int heapPtr;
 
@@ -37,12 +37,13 @@ public class Heap {
         heapPtr = 0;
     }
 
-    //TODO implement old & young generation (division of the heap or just flags of heap objs)
+    //TODO - GC - implement old & young generation (division of the heap or just flags of heap objs)
     public ObjectRef allocObject(ClassFile cf) {
-        long byteOffset = allocBytes(cf.getSizeInBytes() + ObjectRef.SIZE_IN_BYTES);
+        System.out.println("CLASS_BYTE_ALLOC("+cf.getSizeInBytes()+"): " + Arrays.toString(cf.getByteData()));
+        long byteOffset = allocBytes(cf.getSizeInBytes()/* + ObjectRef.SIZE_IN_BYTES*/);
         ObjectRef objRef = new ObjectRef(cf, byteOffset);
 
-        storeBytes(/*cf.getByteData()*/null, byteOffset);
+        storeBytes(cf.getByteData(), byteOffset);
         
         objectRefs.add(objRef);
         objRef.addReference();
@@ -50,8 +51,10 @@ public class Heap {
     }
 
     public void storeBytes(byte [] data, long offset) {
-        //store the data starting at memory[offset]
-        throw new UnsupportedOperationException();
+        int ptr = (int)offset;
+        for (byte b : data) {
+            memory[ptr++] = b;
+        }
     }
     
     /**
@@ -75,4 +78,12 @@ public class Heap {
         heapPtr += bytes;
         return storeAddr;
     }
+
+    @Override
+    public String toString() {
+        return "Heap{" + "#objRefs=" + objectRefs.size() + ", heapSize=" + heapSize +
+                ", heapPtr=" + heapPtr + "}\n\t mem: " + Arrays.toString(memory);
+    }
+    
+    
 }
