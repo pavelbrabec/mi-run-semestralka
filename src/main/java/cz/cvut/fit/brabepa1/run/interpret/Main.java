@@ -27,7 +27,7 @@ public class Main {
         });
         System.out.println("Loaded " + instructionImpls.size() + " instructions.");
 
-        ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
+        ClassFile cf = ClassFileReader.lookupAndResolve("Knapsack");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestMath");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestLoops");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
