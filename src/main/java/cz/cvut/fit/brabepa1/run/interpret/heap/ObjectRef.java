@@ -19,7 +19,19 @@ public class ObjectRef {
         this.byteOffset = byteOffset;
     }
     
+    public void setFieldValue(Field field, Object value) {
+        int startPos = getFieldMemoryOffset(field);
+        byte [] data = field.getByteFromData(value);
+        Heap.getInstance().storeBytes(data, startPos);
+    }
+    
     public Object getFieldValue(Field field) {
+        int startPos = getFieldMemoryOffset(field);
+        byte [] fieldData = Heap.getInstance().getBytes(startPos, field.getSizeInBytes());
+        return field.getDataFromBytes(fieldData);
+    }
+    
+    private int getFieldMemoryOffset(Field field) {
         // if the field is in superclass, add additional offset,
         // since every field's offset is relative only to its class (not subclasses)
         // TODO does this really occur? Isn't that question for instruction set?
@@ -32,14 +44,8 @@ public class ObjectRef {
             cf = cf.loadSuperClass();
         }
         
-        int startPos = (int)this.byteOffset /*+ SIZE_IN_BYTES*/
-                + inheritanceOffset + (int)field.getByteOffset();
-
-        byte [] fieldData = new byte[(int)field.getSizeInBytes()];
-        for (int i = startPos, j = 0; i < fieldData.length; i++, j++) {
-            fieldData[j] = Heap.getInstance().memory[i];
-        }
-        return field.getDataFromBytes(fieldData);
+        return (int)this.byteOffset /*+ SIZE_IN_BYTES*/
+                + inheritanceOffset + (int)field.getByteOffset(); 
     }
     
     /**

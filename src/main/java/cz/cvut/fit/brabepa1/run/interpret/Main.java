@@ -27,12 +27,13 @@ public class Main {
         });
         System.out.println("Loaded " + instructionImpls.size() + " instructions.");
 
-        ClassFile cf = ClassFileReader.lookupAndResolve("Knapsack");
+//        ClassFile cf = ClassFileReader.lookupAndResolve("Knapsack");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestMath");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestLoops");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestOutput");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestInput");
+        ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
         System.out.println(cf);
         System.out.println("_________________________________");
 
@@ -44,7 +45,7 @@ public class Main {
         } else {
             vm.execute(null);
         }
-        System.out.println("Truffle: "+ useTruffle);
+        System.out.println("Truffle: " + useTruffle);
     }
 
 }

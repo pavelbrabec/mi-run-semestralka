@@ -48,7 +48,6 @@ public class ClassFile {
         ClassFile cf = this;
         String fieldClassName = constantPool.getItem(fieldRef.classIndex, CP_Class.class).getClassName();
         if (!cf.getClassName().equals(fieldClassName)) {
-            // TODO do I have to call constructor of the foreign class ? Where ?
             cf = ClassFileReader.lookupAndResolve(fieldClassName);
         }
         Field field = cf.getField(fieldRef.getNameAndType().getName(),
@@ -105,7 +104,7 @@ public class ClassFile {
         ClassFile cf = this;
         while (cf != null) {
             for (Field field : cf.fields) {
-                for (byte b : field.getByteFromData()) {
+                for (byte b : field.getByteFromData(field.getValue())) {
                     data[ptr++] = b;
                 }
             }

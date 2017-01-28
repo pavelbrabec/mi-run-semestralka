@@ -32,14 +32,15 @@ public class Heap {
 
     private Heap() {
         objectRefs = new HashSet<ObjectRef>();
-        heapSize = 8192;
+//        heapSize = 8192;
+        heapSize = 20;
         memory = new byte[heapSize];
         heapPtr = 0;
     }
 
     //TODO - GC - implement old & young generation (division of the heap or just flags of heap objs)
     public ObjectRef allocObject(ClassFile cf) {
-        System.out.println("CLASS_BYTE_ALLOC("+cf.getSizeInBytes()+"): " + Arrays.toString(cf.getByteData()));
+        System.out.println("HEAP--ALLOC OBJ(size="+cf.getSizeInBytes()+"): " + Arrays.toString(cf.getByteData()));
         long byteOffset = allocBytes(cf.getSizeInBytes()/* + ObjectRef.SIZE_IN_BYTES*/);
         ObjectRef objRef = new ObjectRef(cf, byteOffset);
 
@@ -51,10 +52,20 @@ public class Heap {
     }
 
     public void storeBytes(byte [] data, long offset) {
+        System.out.println("HEAP--STORE_BYTES(size="+data.length+", off="+offset+"):"
+                +Arrays.toString(data));
         int ptr = (int)offset;
         for (byte b : data) {
             memory[ptr++] = b;
         }
+    }
+    
+    public byte[] getBytes(long offset, long length) {
+        byte[] res = new byte[(int)length];
+        for (int i = (int)offset, j = 0; i < (int)offset + length; i++, j++) {
+            res[j] = memory[i];
+        }
+        return res;
     }
     
     /**
@@ -81,8 +92,15 @@ public class Heap {
 
     @Override
     public String toString() {
+        char [] occupiedBytes = new char[heapSize];
+        for (int i = 0; i < heapSize; i++) {
+            if (i < heapPtr) occupiedBytes[i] = 'x';
+            else occupiedBytes[i] = ' ';
+        }
         return "Heap{" + "#objRefs=" + objectRefs.size() + ", heapSize=" + heapSize +
-                ", heapPtr=" + heapPtr + "}\n\t mem: " + Arrays.toString(memory);
+                ", heapPtr=" + heapPtr + "}\n"
+                + "  memory: " + Arrays.toString(memory) + "\n"
+                + "occupied: " + Arrays.toString(occupiedBytes);
     }
     
     

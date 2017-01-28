@@ -92,58 +92,58 @@ public class Field {
                 throw new UnsupportedOperationException("Invalid field descriptor!");
         }
     }
-    
-    public byte[] getByteFromData() {
-        byte[] data;
+
+    public byte[] getByteFromData(Object data) {
+        byte[] res;
         switch (getDescriptor().charAt(0)) {
             case 'B': // byte
-                if (value == null) {
-                    value = (byte) 0;
+                if (data == null) {
+                    data = (byte) 0;
                 }
-                data = ByteBuffer.allocate(1).put((Byte) value).array();
+                res = ByteBuffer.allocate(1).put((Byte) data).array();
                 break;
             case 'Z': // boolean
-                if (value == null) {
-                    value = false;
+                if (data == null) {
+                    data = false;
                 }
-                boolean b = (Boolean) value;
-                data = ByteBuffer.allocate(1).put((byte) (b ? 1 : 0)).array();
+                boolean b = (Boolean) data;
+                res = ByteBuffer.allocate(1).put((byte) (b ? 1 : 0)).array();
                 break;
             case 'C': // char
-                if (value == null) {
-                    value = '\u0000';
+                if (data == null) {
+                    data = '\u0000';
                 }
-                data = ByteBuffer.allocate(2).putChar((Character) value).array();
+                res = ByteBuffer.allocate(2).putChar((Character) data).array();
                 break;
             case 'S': // short
-                if (value == null) {
-                    value = (short) 0;
+                if (data == null) {
+                    data = (short) 0;
                 }
-                data = ByteBuffer.allocate(2).putShort((Short) value).array();
+                res = ByteBuffer.allocate(2).putShort((Short) data).array();
                 break;
             case 'F': // float
-                if (value == null) {
-                    value = new Float(0);
+                if (data == null) {
+                    data = new Float(0);
                 }
-                data = ByteBuffer.allocate(4).putFloat((Float) value).array();
+                res = ByteBuffer.allocate(4).putFloat((Float) data).array();
                 break;
             case 'I': // int
-                if (value == null) {
-                    value = 0;
+                if (data == null) {
+                    data = 0;
                 }
-                data = ByteBuffer.allocate(4).putInt(((Integer) value)).array();
+                res = ByteBuffer.allocate(4).putInt(((Integer) data)).array();
                 break;
             case 'J': // long
-                if (value == null) {
-                    value = new Long(0);
+                if (data == null) {
+                    data = new Long(0);
                 }
-                data = ByteBuffer.allocate(8).putLong((Long) value).array();
+                res = ByteBuffer.allocate(8).putLong((Long) data).array();
                 break;
             case 'D': // double
-                if (value == null) {
-                    value = new Double(0);
+                if (data == null) {
+                    data = new Double(0);
                 }
-                data = ByteBuffer.allocate(8).putDouble((Double) value).array();
+                res = ByteBuffer.allocate(8).putDouble((Double) data).array();
                 break;
             case 'L': // object reference
                 throw new UnsupportedOperationException("LABLABLALA!");
@@ -152,19 +152,35 @@ public class Field {
             default:
                 throw new UnsupportedOperationException("Invalid field descriptor!");
         }
-        return data;
+        return res;
     }
+
+    /**
+     * Transforms given byte array into an object, using this field's'
+     * descriptor!!
+     *
+     * @param bytes bytes to be converted to final Object
+     * @return the Object generated from bytes[] array
+     */
     public Object getDataFromBytes(byte[] bytes) {
         ByteBuffer buf = ByteBuffer.wrap(bytes);
         switch (getDescriptor().charAt(0)) {
-            case 'B': return buf.get(0);
-            case 'Z': return buf.get(0);
-            case 'C': return buf.getChar(0);
-            case 'S': return buf.getShort(0);
-            case 'F': return buf.getFloat(0);
-            case 'I': return buf.getInt(0);
-            case 'J': return buf.getLong(0);
-            case 'D': return buf.getDouble(0);
+            case 'B':
+                return buf.get(0);
+            case 'Z':
+                return buf.get(0);
+            case 'C':
+                return buf.getChar(0);
+            case 'S':
+                return buf.getShort(0);
+            case 'F':
+                return buf.getFloat(0);
+            case 'I':
+                return buf.getInt(0);
+            case 'J':
+                return buf.getLong(0);
+            case 'D':
+                return buf.getDouble(0);
             case 'L': // object reference
                 throw new UnsupportedOperationException("LABLABLALA!");
             case '[': // array reference
@@ -173,8 +189,6 @@ public class Field {
                 throw new UnsupportedOperationException("Invalid field descriptor!");
         }
     }
-    
-    
 
     @Override
     public String toString() {
