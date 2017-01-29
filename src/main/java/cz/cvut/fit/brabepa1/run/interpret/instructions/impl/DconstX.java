@@ -6,18 +6,18 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
 /**
  *
- * @author pavel
+ * @author pajcak
  */
-public class LconstX extends JavaInstruction {
+public class DconstX extends JavaInstruction {
 
     static {
-        JavaInstructionFactory.getInstance().registerInstruction(0x09, new LconstX(0L));
-        JavaInstructionFactory.getInstance().registerInstruction(0x0A, new LconstX(1L));
+        JavaInstructionFactory.getInstance().registerInstruction(0x0e, new DconstX(0.0));
+        JavaInstructionFactory.getInstance().registerInstruction(0x0f, new DconstX(1.0));
     }
 
-    private final long value;
+    private final double value;
 
-    public LconstX(long value) {
+    public DconstX(double value) {
         this.value = value;
     }
 
