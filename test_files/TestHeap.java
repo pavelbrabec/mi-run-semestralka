@@ -1,7 +1,7 @@
 /**
  * Trida slouzici pro testovani interpretu
  */
-public class TestDyn {
+public class TestHeap {
 
   private byte a;
   private boolean b;
@@ -12,12 +12,12 @@ public class TestDyn {
   private long g;
   private double h;
 
-  public TestDyn() {
+  public TestHeap() {
  }
 
     public static void main(String[] args) {
 //      Object o = new Object();
-      TestDyn test = new TestDyn();
+      TestHeap test = new TestHeap();
       test.a = 1;
       test.b = true;
       test.c = 1;

@@ -33,7 +33,8 @@ public class Main {
 //        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestOutput");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestInput");
-        ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
+        ClassFile cf = ClassFileReader.lookupAndResolve("TestHeap");
+//        ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
         System.out.println(cf);
         System.out.println("_________________________________");
 
