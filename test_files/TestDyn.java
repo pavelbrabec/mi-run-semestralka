@@ -3,21 +3,29 @@
  */
 public class TestDyn {
 
-  private int x;
-//  private int y;
-//  private short z;
-//  private byte zz;
+  private byte a;
+  private boolean b;
+  private char c;
+  private short d;
+  private float e;
+  private int f;
+  private long g;
+  private double h;
+
   public TestDyn() {
  }
 
     public static void main(String[] args) {
 //      Object o = new Object();
       TestDyn test = new TestDyn();
-      test.x = 7;
-//      test.y = 3;
-      test.x = 9;
-//      test.z = 2000;
-//      test.zz = 5;
+      test.a = 1;
+      test.b = true;
+      test.c = 1;
+      test.d = 1;
+      test.e = 1;
+      test.f = 1;
+      test.g = 1;
+      test.h = 254.750;
 
 
     }

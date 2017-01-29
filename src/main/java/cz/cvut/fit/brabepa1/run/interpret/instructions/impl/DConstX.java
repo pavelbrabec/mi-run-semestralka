@@ -8,16 +8,16 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
  *
  * @author pajcak
  */
-public class DconstX extends JavaInstruction {
+public class DConstX extends JavaInstruction {
 
     static {
-        JavaInstructionFactory.getInstance().registerInstruction(0x0e, new DconstX(0.0));
-        JavaInstructionFactory.getInstance().registerInstruction(0x0f, new DconstX(1.0));
+        JavaInstructionFactory.getInstance().registerInstruction(0x0e, new DConstX(0.0));
+        JavaInstructionFactory.getInstance().registerInstruction(0x0f, new DConstX(1.0));
     }
 
     private final double value;
 
-    public DconstX(double value) {
+    public DConstX(double value) {
         this.value = value;
     }
 

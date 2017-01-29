@@ -2,8 +2,11 @@ package cz.cvut.fit.brabepa1.run.interpret.classfile;
 
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 
 /**
@@ -33,8 +36,44 @@ public class Field {
             for (int i = 0; i < attributesCount; i++) {
                 attributes[i] = ClassFileReader.readAttribute(dis, classFile);
             }
+            initValue();
         } catch (IOException ex) {
             System.out.println("ERROR\t" + Field.class.getName() + ": exception: " + ex);
+        }
+    }
+
+    private void initValue() {
+        switch (getDescriptor().charAt(0)) {
+            case 'B': // byte
+                    value = (byte) 0;
+                break;
+            case 'Z': // boolean
+                    value = false;
+                break;
+            case 'C': // char
+                    value = '\u0000';
+                break;
+            case 'S': // short
+                    value = (short) 0;
+                break;
+            case 'F': // float
+                    value = new Float(0);
+                break;
+            case 'I': // int
+                    value = 0;
+                break;
+            case 'J': // long
+                    value = new Long(0);
+                break;
+            case 'D': // double
+                    value = new Double(0);
+                break;
+            case 'L': // object reference
+                throw new UnsupportedOperationException("Reference to object not finished!");
+            case '[': // array reference
+                throw new UnsupportedOperationException("Reference to array not implemented.");
+            default:
+                throw new UnsupportedOperationException("Invalid field descriptor!");
         }
     }
 
@@ -93,60 +132,81 @@ public class Field {
         }
     }
 
-    public byte[] getByteFromData(Object data) {
-        byte[] res;
+    public byte[] getByteFromData(Object obj) {
+        // potreba, protoze v obj muze bejt "int" a ten se blbe convertuje napr na byte nebo short
+        // Toto muze nastat napr. kdyz do boolean promenne priradim 1 
+        //   -> vyvola to instrukci "BiPush 1", ktera pushuje integer na stack
+        byte[] res = new byte[0];
+        ByteBuffer data;
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ObjectOutput out = new ObjectOutputStream(bos)) {
+            out.writeObject(obj);
+            data = ByteBuffer.wrap(bos.toByteArray());
+        } catch (IOException ex) {
+            throw new UnsupportedOperationException("getByteFromData() -" + ex);
+        }
+
         switch (getDescriptor().charAt(0)) {
             case 'B': // byte
-                if (data == null) {
-                    data = (byte) 0;
-                }
-                res = ByteBuffer.allocate(1).put((Byte) data).array();
+                res = new byte[] {data.get(data.capacity()-1)};
                 break;
             case 'Z': // boolean
-                if (data == null) {
-                    data = false;
-                }
-                boolean b = (Boolean) data;
-                res = ByteBuffer.allocate(1).put((byte) (b ? 1 : 0)).array();
+                res = new byte[] {data.get(data.capacity()-1)};
                 break;
             case 'C': // char
-                if (data == null) {
-                    data = '\u0000';
-                }
-                res = ByteBuffer.allocate(2).putChar((Character) data).array();
+                res = new byte[] {
+                    data.get(data.capacity()-2),
+                    data.get(data.capacity()-1)
+                };
                 break;
             case 'S': // short
-                if (data == null) {
-                    data = (short) 0;
-                }
-                res = ByteBuffer.allocate(2).putShort((Short) data).array();
+                res = new byte[] {
+                    data.get(data.capacity()-2),
+                    data.get(data.capacity()-1)
+                };
                 break;
             case 'F': // float
-                if (data == null) {
-                    data = new Float(0);
-                }
-                res = ByteBuffer.allocate(4).putFloat((Float) data).array();
+                res = new byte[] {
+                    data.get(data.capacity()-4),
+                    data.get(data.capacity()-3),
+                    data.get(data.capacity()-2),
+                    data.get(data.capacity()-1)
+                };
                 break;
             case 'I': // int
-                if (data == null) {
-                    data = 0;
-                }
-                res = ByteBuffer.allocate(4).putInt(((Integer) data)).array();
+                res = new byte[] {
+                    data.get(data.capacity()-4),
+                    data.get(data.capacity()-3),
+                    data.get(data.capacity()-2),
+                    data.get(data.capacity()-1)
+                };
                 break;
             case 'J': // long
-                if (data == null) {
-                    data = new Long(0);
-                }
-                res = ByteBuffer.allocate(8).putLong((Long) data).array();
+                res = new byte[] {
+                    data.get(data.capacity()-8),
+                    data.get(data.capacity()-7),
+                    data.get(data.capacity()-6),
+                    data.get(data.capacity()-5),
+                    data.get(data.capacity()-4),
+                    data.get(data.capacity()-3),
+                    data.get(data.capacity()-2),
+                    data.get(data.capacity()-1)
+                };
                 break;
             case 'D': // double
-                if (data == null) {
-                    data = new Double(0);
-                }
-                res = ByteBuffer.allocate(8).putDouble((Double) data).array();
+                res = new byte[] {
+                    data.get(data.capacity()-8),
+                    data.get(data.capacity()-7),
+                    data.get(data.capacity()-6),
+                    data.get(data.capacity()-5),
+                    data.get(data.capacity()-4),
+                    data.get(data.capacity()-3),
+                    data.get(data.capacity()-2),
+                    data.get(data.capacity()-1)
+                };
                 break;
             case 'L': // object reference
-                throw new UnsupportedOperationException("LABLABLALA!");
+                throw new UnsupportedOperationException("Reference to object not finished!");
             case '[': // array reference
                 throw new UnsupportedOperationException("Reference to array not implemented.");
             default:
