@@ -2,14 +2,19 @@ package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.Field;
+import cz.cvut.fit.brabepa1.run.interpret.heap.Heap;
 import cz.cvut.fit.brabepa1.run.interpret.heap.ObjectRef;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
-public class PutField extends JavaInstruction {
+/**
+ *
+ * @author pajcak
+ */
+public class GetField extends JavaInstruction {
 
     static {
-        JavaInstructionFactory.getInstance().registerInstruction(0xb5, new PutField());
+        JavaInstructionFactory.getInstance().registerInstruction(0xb4, new GetField());
     }
 
     /**
@@ -20,9 +25,8 @@ public class PutField extends JavaInstruction {
     @Override
     public void execute(StackFrame frame) {
         Field field = frame.getClassFile().getFieldWithLookup(cpIndex);
-        Object value = frame.popOperand();
         ObjectRef objRef = (ObjectRef)(frame.popOperand());
-        objRef.setFieldValue(field, value);
+        frame.pushOperand(objRef.getFieldValue(field)); 
         frame.incrementPc();
     }
 

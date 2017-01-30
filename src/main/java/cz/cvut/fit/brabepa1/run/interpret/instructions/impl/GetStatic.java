@@ -25,7 +25,8 @@ public class GetStatic extends JavaInstruction {
 //        Field field = frame.getClassFile().getFieldWithLookup(cpIndex);
 //        frame.pushOperand(field.getValue());
         //skip instruction
-        frame.incrementPc();
+//        frame.incrementPc();
+throw new UnsupportedOperationException();
     }
 
     @Override

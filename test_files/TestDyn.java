@@ -1,24 +1,18 @@
-/**
- * Trida slouzici pro testovani interpretu
- */
 public class TestDyn {
 
   private int x;
-//  private int y;
-//  private short z;
-//  private byte zz;
+  private TestDyn test;
+  private long y;
   public TestDyn() {
- }
+    x = 3;
+  }
 
-    public static void main(String[] args) {
-//      Object o = new Object();
-      TestDyn test = new TestDyn();
-      test.x = 7;
-//      test.y = 3;
-      test.x = 9;
-//      test.z = 2000;
-//      test.zz = 5;
-
-
-    }
+  public static void main () {
+    TestDyn t = new TestDyn();
+    t.y = 8;
+    t.test = null;
+    t.test = new TestDyn();
+    t.test.x = 5;
+    t.test.y = 9;
+  }
 }

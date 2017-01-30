@@ -25,11 +25,11 @@ public class Ldc extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        CP_Item item = frame.getClassFile().constantPool.items[index - 1];
+        CP_Item item = frame.getClassFile().constantPool.getItem(index);
         switch (item.tag) {
             case STRING:
                 CP_String tmp = (CP_String) item;
-                CP_UTF8 utf8 = (CP_UTF8) frame.getClassFile().constantPool.items[tmp.stringIndex - 1];
+                CP_UTF8 utf8 = (CP_UTF8) frame.getClassFile().constantPool.getItem(tmp.stringIndex);
                 frame.pushOperand(utf8.string);
                 break;
             case INTEGER:

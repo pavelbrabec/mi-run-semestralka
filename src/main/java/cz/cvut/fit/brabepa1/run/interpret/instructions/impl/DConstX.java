@@ -6,24 +6,25 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
 /**
  *
- * @author pavel
+ * @author pajcak
  */
-public class LconstX extends JavaInstruction {
+public class DConstX extends JavaInstruction {
 
     static {
-        JavaInstructionFactory.getInstance().registerInstruction(0x09, new LconstX(0L));
-        JavaInstructionFactory.getInstance().registerInstruction(0x0A, new LconstX(1L));
+        JavaInstructionFactory.getInstance().registerInstruction(0x0e, new DConstX(0.0));
+        JavaInstructionFactory.getInstance().registerInstruction(0x0f, new DConstX(1.0));
     }
 
-    private final long value;
+    private final double value;
 
-    public LconstX(long value) {
+    public DConstX(double value) {
         this.value = value;
     }
 
     @Override
     public void execute(StackFrame frame) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        frame.pushOperand(value);
+        frame.incrementPc();
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class Heap {
 
-    private Set<ObjectRef> objectRefs;
+    public Set<ObjectRef> objectRefs;
 
     private static final int MAX_HEAP_SIZE = 65536;
     // int because Java supports maximum of 2^31-1 array constructs for byte[]

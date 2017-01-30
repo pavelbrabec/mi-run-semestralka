@@ -4,6 +4,7 @@ import com.oracle.truffle.api.CallTarget;
 import com.oracle.truffle.api.Truffle;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFileReader;
+import cz.cvut.fit.brabepa1.run.interpret.heap.Heap;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import java.util.Set;
 import org.reflections.Reflections;
@@ -33,6 +34,7 @@ public class Main {
 //        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestOutput");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestInput");
+//        ClassFile cf = ClassFileReader.lookupAndResolve("TestHeap");
         ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
         System.out.println(cf);
         System.out.println("_________________________________");
@@ -46,6 +48,7 @@ public class Main {
             vm.execute(null);
         }
         System.out.println("Truffle: " + useTruffle);
+        System.out.println("\n"+Heap.getInstance());
     }
 
 }

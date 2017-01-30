@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public class ConstantPool {
 
-    public final int count;
+    public int count;
     public DataInputStream input;
 
     public CP_Item[] items;
@@ -64,6 +64,7 @@ public class ConstantPool {
                     break;
                 case DOUBLE:
                     items[i] = new CP_Double(this, tag);
+                    items[++i] = null; // za double je 1 polozka null
                     break;
                 case INTEGER:
                     items[i] = new CP_Integer(this, tag);
@@ -73,6 +74,7 @@ public class ConstantPool {
                     break;
                 case LONG:
                     items[i] = new CP_Long(this, tag);
+                    items[++i] = null; // za long je 1 polozka null
                     break;
                 case METHODHANDLE:
                     items[i] = new CP_MethodHandle(this, tag);
@@ -94,9 +96,11 @@ public class ConstantPool {
     public String toString() {
         String str = "ConstantPool {count=" + count + "}\n";
         for (int i = 0; i < items.length; i++) {
-            str += "\t\t" + (i+1) + ": ";
-            str += items[i].toString();
-            if (i < items.length - 1) str += '\n';
+            str += "\t\t" + (i + 1) + ": ";
+            str += (items[i] == null ? "null" : items[i].toString());
+            if (i < items.length - 1) {
+                str += '\n';
+            }
         }
         return str;
     }

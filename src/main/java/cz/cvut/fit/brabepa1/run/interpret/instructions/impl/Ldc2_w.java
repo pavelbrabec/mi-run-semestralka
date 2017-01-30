@@ -1,15 +1,21 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
-import cz.cvut.fit.brabepa1.run.interpret.classfile.Field;
-import cz.cvut.fit.brabepa1.run.interpret.heap.ObjectRef;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Double;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Item;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Item.Tag;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Long;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
-public class PutField extends JavaInstruction {
+/**
+ *
+ * @author pajcak
+ */
+public class Ldc2_w extends JavaInstruction {
 
     static {
-        JavaInstructionFactory.getInstance().registerInstruction(0xb5, new PutField());
+        JavaInstructionFactory.getInstance().registerInstruction(0x14, new Ldc2_w());
     }
 
     /**
@@ -19,10 +25,14 @@ public class PutField extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        Field field = frame.getClassFile().getFieldWithLookup(cpIndex);
-        Object value = frame.popOperand();
-        ObjectRef objRef = (ObjectRef)(frame.popOperand());
-        objRef.setFieldValue(field, value);
+        CP_Item item = frame.getClassFile().constantPool.getItem(cpIndex);
+        if (item.tag == Tag.DOUBLE) {
+            CP_Double dbl = (CP_Double)item;
+            frame.pushOperand(dbl.value);
+        } else { // LONG
+            CP_Long lng = (CP_Long) item;
+            frame.pushOperand(lng.value);
+        }
         frame.incrementPc();
     }
 
