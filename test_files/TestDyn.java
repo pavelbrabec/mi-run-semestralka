@@ -8,7 +8,8 @@ public class TestDyn {
 
   public static void main () {
     TestDyn t = new TestDyn();
+    t.test = null;
     t.test = new TestDyn();
-    t.test.x = 5;
+    t.x = 5;
   }
 }

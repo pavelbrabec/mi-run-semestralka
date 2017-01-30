@@ -21,7 +21,6 @@ public class ObjectRef {
     
     public void setFieldValue(Field field, Object value) {
         int startPos = getFieldMemoryOffset(field);
-        System.out.println("Setting field("+field.getName()+") to val:" +value+" at pos "+startPos);
         byte [] data = field.getByteFromData(value);
         Heap.getInstance().storeBytes(data, startPos);
     }
@@ -33,6 +32,11 @@ public class ObjectRef {
     }
     
     private int getFieldMemoryOffset(Field field) {
+        if (classFile == null) {
+            // souvisi to s tim, ze nejdriv to fieldu typu ObjectRef
+            // priradim null (Objectreff s cf=null) a pozdeji tam hodim
+            throw new UnsupportedOperationException("Doufal jsem, ze se tohle nestane :-D");
+        }
         // if the field is in superclass, add additional offset,
         // since every field's offset is relative only to its class (not subclasses)
         // TODO does this really occur? Isn't that question for instruction set?
