@@ -261,7 +261,7 @@ public class Field {
             case 'D':
                 return buf.getDouble(0);
             case 'L': // object reference
-                return buf.getLong(0);
+                return new ObjectRef(buf.getLong(0));
             case '[': // array reference
                 throw new UnsupportedOperationException("Reference to array not implemented.");
             default:

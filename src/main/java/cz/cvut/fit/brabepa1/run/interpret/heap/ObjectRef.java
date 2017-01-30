@@ -11,7 +11,7 @@ public class ObjectRef {
     public static final int SIZE_IN_BYTES = 4 + 4 + 4;
     private int refs;
     private ClassFile classFile;
-    private long byteOffset;
+    private final long byteOffset;
     
     public ObjectRef(ClassFile cf, long byteOffset) {
         this.refs = 0;
@@ -19,8 +19,24 @@ public class ObjectRef {
         this.byteOffset = byteOffset;
     }
     
+    public ObjectRef(long byteOffset) {
+//        this.refs = 1;
+        this.byteOffset = byteOffset;
+        this.classFile = null;
+        for (ObjectRef o : Heap.getInstance().objectRefs) {
+            if (o.byteOffset == this.byteOffset) {
+                this.classFile = o.classFile;
+                this.refs = o.refs;
+                break;
+            }
+        }
+        if (this.classFile == null) throw new UnsupportedOperationException();
+    }
+    
     public void setFieldValue(Field field, Object value) {
         int startPos = getFieldMemoryOffset(field);
+        System.out.println("ObjectRef cf="+classFile.getClassName()+" at "+byteOffset);
+        System.out.println("Setting field("+field.getName()+") to val:" +value+" at pos "+startPos);
         byte [] data = field.getByteFromData(value);
         Heap.getInstance().storeBytes(data, startPos);
     }

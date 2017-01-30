@@ -48,6 +48,7 @@ public class Main {
             vm.execute(null);
         }
         System.out.println("Truffle: " + useTruffle);
+        System.out.println("\n"+Heap.getInstance());
     }
 
 }

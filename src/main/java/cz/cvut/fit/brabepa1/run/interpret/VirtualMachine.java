@@ -86,7 +86,6 @@ public class VirtualMachine extends RootNode {
                     System.out.println("After " + frame);
                 }
             }
-            System.out.println(Heap.getInstance());
         }
         return null;
     }
