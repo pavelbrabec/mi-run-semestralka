@@ -21,6 +21,7 @@ public class ObjectRef {
     
     public void setFieldValue(Field field, Object value) {
         int startPos = getFieldMemoryOffset(field);
+        System.out.println("Setting field("+field.getName()+") to val:" +value+" at pos "+startPos);
         byte [] data = field.getByteFromData(value);
         Heap.getInstance().storeBytes(data, startPos);
     }
@@ -47,6 +48,10 @@ public class ObjectRef {
         return (int)this.byteOffset /*+ SIZE_IN_BYTES*/
                 + inheritanceOffset + (int)field.getByteOffset(); 
     }
+
+    public long getByteOffset() {
+        return byteOffset;
+    }
     
     /**
      * Increases reference counter by one on this object
@@ -64,7 +69,8 @@ public class ObjectRef {
 
     @Override
     public String toString() {
-        return "ObjectRef{classFile=" + classFile.getClassName() + ", refs=" + refs + ", byteOffset=" + byteOffset + '}';
+        return "ObjectRef{classFile=" + (classFile == null ? "null" : classFile.getClassName())
+                + ", refs=" + refs + ", byteOffset=" + byteOffset + '}';
     }
     
 }

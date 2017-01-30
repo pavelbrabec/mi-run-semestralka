@@ -2,6 +2,7 @@ package cz.cvut.fit.brabepa1.run.interpret.classfile;
 
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
+import cz.cvut.fit.brabepa1.run.interpret.heap.ObjectRef;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -45,31 +46,32 @@ public class Field {
     private void initValue() {
         switch (getDescriptor().charAt(0)) {
             case 'B': // byte
-                    value = (byte) 0;
+                value = (byte) 0;
                 break;
             case 'Z': // boolean
-                    value = false;
+                value = false;
                 break;
             case 'C': // char
-                    value = '\u0000';
+                value = '\u0000';
                 break;
             case 'S': // short
-                    value = (short) 0;
+                value = (short) 0;
                 break;
             case 'F': // float
-                    value = new Float(0);
+                value = new Float(0);
                 break;
             case 'I': // int
-                    value = 0;
+                value = 0;
                 break;
             case 'J': // long
-                    value = new Long(0);
+                value = new Long(0);
                 break;
             case 'D': // double
-                    value = new Double(0);
+                value = new Double(0);
                 break;
             case 'L': // object reference
-                throw new UnsupportedOperationException("Reference to object not finished!");
+                value = new Long(-1); // only its offset in heap
+                break;
             case '[': // array reference
                 throw new UnsupportedOperationException("Reference to array not implemented.");
             default:
@@ -132,12 +134,19 @@ public class Field {
         }
     }
 
-    public byte[] getByteFromData(Object obj) {
+    public byte[] getByteFromData(Object input) {
+        byte[] res = null;
+        ByteBuffer data = null;
+        Object obj = null;
+        if (input instanceof ObjectRef) {
+            obj = ((ObjectRef)input).getByteOffset();
+        } else {
+            obj = input;
+        }// TODO else if array
+        
         // potreba, protoze v obj muze bejt "int" a ten se blbe convertuje napr na byte nebo short
         // Toto muze nastat napr. kdyz do boolean promenne priradim 1 
         //   -> vyvola to instrukci "BiPush 1", ktera pushuje integer na stack
-        byte[] res = new byte[0];
-        ByteBuffer data;
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 ObjectOutput out = new ObjectOutputStream(bos)) {
             out.writeObject(obj);
@@ -148,65 +157,75 @@ public class Field {
 
         switch (getDescriptor().charAt(0)) {
             case 'B': // byte
-                res = new byte[] {data.get(data.capacity()-1)};
+                res = new byte[]{data.get(data.capacity() - 1)};
                 break;
             case 'Z': // boolean
-                res = new byte[] {data.get(data.capacity()-1)};
+                res = new byte[]{data.get(data.capacity() - 1)};
                 break;
             case 'C': // char
-                res = new byte[] {
-                    data.get(data.capacity()-2),
-                    data.get(data.capacity()-1)
+                res = new byte[]{
+                    data.get(data.capacity() - 2),
+                    data.get(data.capacity() - 1)
                 };
                 break;
             case 'S': // short
-                res = new byte[] {
-                    data.get(data.capacity()-2),
-                    data.get(data.capacity()-1)
+                res = new byte[]{
+                    data.get(data.capacity() - 2),
+                    data.get(data.capacity() - 1)
                 };
                 break;
             case 'F': // float
-                res = new byte[] {
-                    data.get(data.capacity()-4),
-                    data.get(data.capacity()-3),
-                    data.get(data.capacity()-2),
-                    data.get(data.capacity()-1)
+                res = new byte[]{
+                    data.get(data.capacity() - 4),
+                    data.get(data.capacity() - 3),
+                    data.get(data.capacity() - 2),
+                    data.get(data.capacity() - 1)
                 };
                 break;
             case 'I': // int
-                res = new byte[] {
-                    data.get(data.capacity()-4),
-                    data.get(data.capacity()-3),
-                    data.get(data.capacity()-2),
-                    data.get(data.capacity()-1)
+                res = new byte[]{
+                    data.get(data.capacity() - 4),
+                    data.get(data.capacity() - 3),
+                    data.get(data.capacity() - 2),
+                    data.get(data.capacity() - 1)
                 };
                 break;
             case 'J': // long
-                res = new byte[] {
-                    data.get(data.capacity()-8),
-                    data.get(data.capacity()-7),
-                    data.get(data.capacity()-6),
-                    data.get(data.capacity()-5),
-                    data.get(data.capacity()-4),
-                    data.get(data.capacity()-3),
-                    data.get(data.capacity()-2),
-                    data.get(data.capacity()-1)
+                res = new byte[]{
+                    data.get(data.capacity() - 8),
+                    data.get(data.capacity() - 7),
+                    data.get(data.capacity() - 6),
+                    data.get(data.capacity() - 5),
+                    data.get(data.capacity() - 4),
+                    data.get(data.capacity() - 3),
+                    data.get(data.capacity() - 2),
+                    data.get(data.capacity() - 1)
                 };
                 break;
             case 'D': // double
-                res = new byte[] {
-                    data.get(data.capacity()-8),
-                    data.get(data.capacity()-7),
-                    data.get(data.capacity()-6),
-                    data.get(data.capacity()-5),
-                    data.get(data.capacity()-4),
-                    data.get(data.capacity()-3),
-                    data.get(data.capacity()-2),
-                    data.get(data.capacity()-1)
+                res = new byte[]{
+                    data.get(data.capacity() - 8),
+                    data.get(data.capacity() - 7),
+                    data.get(data.capacity() - 6),
+                    data.get(data.capacity() - 5),
+                    data.get(data.capacity() - 4),
+                    data.get(data.capacity() - 3),
+                    data.get(data.capacity() - 2),
+                    data.get(data.capacity() - 1)
                 };
                 break;
             case 'L': // object reference
-                throw new UnsupportedOperationException("Reference to object not finished!");
+                res = new byte[]{
+                    data.get(data.capacity() - 8),
+                    data.get(data.capacity() - 7),
+                    data.get(data.capacity() - 6),
+                    data.get(data.capacity() - 5),
+                    data.get(data.capacity() - 4),
+                    data.get(data.capacity() - 3),
+                    data.get(data.capacity() - 2),
+                    data.get(data.capacity() - 1)
+                };
+                break;
             case '[': // array reference
                 throw new UnsupportedOperationException("Reference to array not implemented.");
             default:
@@ -242,7 +261,7 @@ public class Field {
             case 'D':
                 return buf.getDouble(0);
             case 'L': // object reference
-                throw new UnsupportedOperationException("LABLABLALA!");
+                return buf.getLong(0);
             case '[': // array reference
                 throw new UnsupportedOperationException("Reference to array not implemented.");
             default:

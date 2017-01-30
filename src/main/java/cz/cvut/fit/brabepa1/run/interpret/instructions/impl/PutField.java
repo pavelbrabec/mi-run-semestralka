@@ -2,7 +2,6 @@ package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.Field;
-import cz.cvut.fit.brabepa1.run.interpret.heap.Heap;
 import cz.cvut.fit.brabepa1.run.interpret.heap.ObjectRef;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
@@ -23,9 +22,9 @@ public class PutField extends JavaInstruction {
         Field field = frame.getClassFile().getFieldWithLookup(cpIndex);
         Object value = frame.popOperand();
         ObjectRef objRef = (ObjectRef)(frame.popOperand());
-        System.out.println(Heap.getInstance());
+//        System.out.println(Heap.getInstance());
         objRef.setFieldValue(field, value);
-        System.out.println(Heap.getInstance());
+//        System.out.println(Heap.getInstance());
         frame.incrementPc();
     }
 
