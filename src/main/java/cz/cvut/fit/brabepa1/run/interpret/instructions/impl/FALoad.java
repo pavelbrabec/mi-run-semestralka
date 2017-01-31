@@ -10,10 +10,10 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
  * @author pajcak
  *
  */
-public class IALoad extends JavaInstruction {
+public class FALoad extends JavaInstruction {
 
     static {
-        JavaInstructionFactory.getInstance().registerInstruction(0x2e, new IALoad());
+        JavaInstructionFactory.getInstance().registerInstruction(0x30, new FALoad());
     }
 
     @Override

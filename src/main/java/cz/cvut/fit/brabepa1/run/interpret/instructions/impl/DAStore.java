@@ -10,18 +10,18 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
  * @author pajcak
  *
  */
-public class IALoad extends JavaInstruction {
+public class DAStore extends JavaInstruction {
 
     static {
-        JavaInstructionFactory.getInstance().registerInstruction(0x2e, new IALoad());
+        JavaInstructionFactory.getInstance().registerInstruction(0x52, new DAStore());
     }
 
     @Override
     public void execute(StackFrame frame) {
+        Object value = frame.popOperand();
         Integer index = (Integer) frame.popOperand();
         ArrayRef arrRef = (ArrayRef)(frame.popOperand());
-        Object elem = arrRef.getElem(index);
-        frame.pushOperand(elem);
+        arrRef.setElem(index, value);
         frame.incrementPc();
     }
 }

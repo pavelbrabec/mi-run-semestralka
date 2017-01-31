@@ -1,6 +1,7 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
+import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Float;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Integer;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_Item;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_String;
@@ -35,6 +36,10 @@ public class Ldc extends JavaInstruction {
             case INTEGER:
                 CP_Integer i = (CP_Integer) item;
                 frame.pushOperand(i.value);
+                break;
+            case FLOAT:
+                CP_Float f = (CP_Float) item;
+                frame.pushOperand(f.value);
                 break;
             default:
                 throw new UnsupportedOperationException("Not supported, yet\t" + item.tag);
