@@ -1,5 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.classfile;
 
+import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attr_Code;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attr_LineNumberTable;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attr_NotImplemented;
@@ -9,6 +10,7 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute.AttrType;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
 import cz.cvut.fit.brabepa1.run.interpret.exceptions.ClassNotFound;
+import cz.cvut.fit.brabepa1.run.interpret.exceptions.UnknowFileFormat;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,7 +47,9 @@ public class ClassFileReader {
             if (f.exists() && !f.isDirectory() && f.canRead()) {
                 cf = readFromFile(f.getPath());
                 classFiles.put(cfName, cf);
-                System.out.println("INFO\tLoaded class:" + classpath + cfName + ".class");
+                if (VirtualMachine.VM_DEBUG) {
+                    System.out.println("INFO\tLoaded class:" + classpath + cfName + ".class");
+                }
                 return cf;
             }
         }
@@ -56,6 +60,9 @@ public class ClassFileReader {
         ClassFile cf = new ClassFile();
         try (DataInputStream fis = new DataInputStream(new FileInputStream(path))) {
             cf.magicNumber = fis.readInt();
+            if (cf.magicNumber != 0xCAFEBABE) {
+                throw new UnknowFileFormat(cf.magicNumber);
+            }
             cf.minorVersion = fis.readShort();
             cf.majorVersion = fis.readShort();
             cf.constantPoolCount = fis.readShort(); // count - 1 is the # items in constantPool [by oracle doc]
@@ -68,7 +75,7 @@ public class ClassFileReader {
             for (int i = 0; i < cf.interfacesCount; i++) {
                 cf.interfaces[i] = fis.readShort();
             }
-            
+
             cf.sizeInBytes = 0;
             cf.fieldsCount = fis.readShort();
             cf.fields = new Field[cf.fieldsCount];

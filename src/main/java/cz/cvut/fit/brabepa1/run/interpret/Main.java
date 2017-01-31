@@ -6,6 +6,8 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFileReader;
 import cz.cvut.fit.brabepa1.run.interpret.heap.Heap;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Set;
 import org.reflections.Reflections;
 
@@ -15,7 +17,39 @@ import org.reflections.Reflections;
  */
 public class Main {
 
+    private static String TRUFFLE = "-truffle";
+    private static String DEBUG = "-debug";
+
+    private static boolean contains(String[] args, String arg) {
+        for (String a : args) {
+            if (a.equalsIgnoreCase(arg)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) throws Throwable {
+        if (args.length == 0) {
+            System.out.println("There is a mandatory paramameter class name!");
+            return;
+        }
+
+        File classFile = new File(args[0] + ".class");
+        if (!classFile.exists()) {
+            System.out.println("File does not exists " + classFile.getAbsolutePath());
+            return;
+        }
+
+        boolean useTruffle = false;
+        if (contains(args, TRUFFLE)) {
+            useTruffle = true;
+        }
+
+        if (contains(args, DEBUG)) {
+            VirtualMachine.VM_DEBUG = true;
+        }
+
         //Register all implementations of Instruction interface into JavaInstructionFactory
         Reflections reflections = new Reflections("cz.cvut.fit.brabepa1.run.interpret.instructions.impl");
         Set<Class<? extends JavaInstruction>> instructionImpls = reflections.getSubTypesOf(JavaInstruction.class);
@@ -26,21 +60,15 @@ public class Main {
                 System.out.println("WARNING\tCannot load class " + clazz.getCanonicalName());
             }
         });
-        System.out.println("Loaded " + instructionImpls.size() + " instructions.");
+        if (VirtualMachine.VM_DEBUG) {
+            System.out.println("Loaded " + instructionImpls.size() + " instructions.");
+        }
 
         ClassFile cf = ClassFileReader.lookupAndResolve("Knapsack");
-//        ClassFile cf = ClassFileReader.lookupAndResolve("TestMath");
-//        ClassFile cf = ClassFileReader.lookupAndResolve("TestLoops");
-//        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
-//        ClassFile cf = ClassFileReader.lookupAndResolve("TestOutput");
-//        ClassFile cf = ClassFileReader.lookupAndResolve("TestInput");
-//        ClassFile cf = ClassFileReader.lookupAndResolve("TestHeap");
-//        ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
-        //ClassFile cf = ClassFileReader.lookupAndResolve("TestArrays");
-        System.out.println(cf);
-        System.out.println("_________________________________");
+        if (VirtualMachine.VM_DEBUG) {
+            System.out.println(cf);
+        }
 
-        boolean useTruffle = false;
         VirtualMachine vm = new VirtualMachine(cf);
         if (useTruffle) {
             CallTarget target = Truffle.getRuntime().createCallTarget(vm);
@@ -48,8 +76,10 @@ public class Main {
         } else {
             vm.execute(null);
         }
-        System.out.println("Truffle: " + useTruffle);
-        System.out.println("\n"+Heap.getInstance());
+        if (VirtualMachine.VM_DEBUG) {
+            System.out.println("Truffle: " + useTruffle);
+            System.out.println("\n" + Heap.getInstance());
+        }
     }
 
 }

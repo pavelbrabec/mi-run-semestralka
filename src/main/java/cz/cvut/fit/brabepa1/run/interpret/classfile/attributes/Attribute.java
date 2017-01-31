@@ -1,5 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.classfile.attributes;
 
+import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.*;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.Field;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
@@ -16,7 +17,7 @@ public class Attribute {
     public int attrLength;
     public ClassFile classFile;
     public Field field;
-    
+
     //field - bcs of determining type of field, where e.g. Attr_ConstValue belongs to (more in attr_constValue)
     public Attribute(short attrNameIndex, DataInputStream dis, ClassFile classFile, Field field) {
         this.classFile = classFile;
@@ -34,13 +35,16 @@ public class Attribute {
         try {
             type = AttrType.valueOf(name);
         } catch (IllegalArgumentException | NullPointerException ex) {
-            System.out.println("Unimplemented AttrType "+name);
+            if (VirtualMachine.VM_DEBUG) {
+                System.out.println("Unimplemented AttrType " + name);
+            }
             type = AttrType.NotImplemented;
         }
         return type;
     }
 
     public enum AttrType {
+
         Code,
         LineNumberTable,
         SourceFile,
@@ -50,8 +54,8 @@ public class Attribute {
     @Override
     public String toString() {
         String attrName = this.classFile.constantPool.getItem(attrNameIndex, CP_UTF8.class).getStringContent();
-        return "Attr_" + attrName + "{" + "attrNameIndex=" + attrNameIndex +
-                ", attrLength=" + attrLength;
+        return "Attr_" + attrName + "{" + "attrNameIndex=" + attrNameIndex
+                + ", attrLength=" + attrLength;
     }
-    
+
 }

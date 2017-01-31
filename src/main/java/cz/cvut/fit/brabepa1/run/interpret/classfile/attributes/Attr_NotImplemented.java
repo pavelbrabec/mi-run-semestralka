@@ -1,5 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.classfile.attributes;
 
+import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.Field;
 import java.io.DataInputStream;
@@ -24,8 +25,10 @@ public class Attr_NotImplemented extends Attribute {
             System.out.println("ERROR\t" + Attr_NotImplemented.class.getName()
                     + ": exception: " + ex);
         }
-        System.out.println("WARNING\t" + Attr_NotImplemented.class.getName()
-                + "Just read attribute which is not implemented!");
+        if (VirtualMachine.VM_DEBUG) {
+            System.out.println("WARNING\t" + Attr_NotImplemented.class.getName()
+                    + "Just read attribute which is not implemented!");
+        }
     }
 
     @Override
@@ -33,5 +36,4 @@ public class Attr_NotImplemented extends Attribute {
         return super.toString() + '}';
     }
 
-    
 }

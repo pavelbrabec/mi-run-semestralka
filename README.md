@@ -1,7 +1,7 @@
 # MI-RUN interpret
 Cílem tohoto projektu bylo vytvořit interpret bytecodu podmožiny jazyka Java.
 ## Popis jazyka
-Interpret umožňuje intepretovat přibližně 70 základních instrukcí javovského bytecodu.
+Interpret umožňuje intepretovat přibližně 75 základních instrukcí javovského bytecodu.
 Implementovány jsou:
 * řídící struktury programu: if-else, for, while, do-while
 * matematické operace s celočíselnými hodnotami
@@ -24,7 +24,7 @@ Pro sestavení projektu spustíme v jeho kořenovém adresáři příkaz `mvn pa
 1. Napiš program v podmnožině jazyka Java, který využívá pouze výše popsané konstrukty a je přeložitelný překladačem `javac`.
 2. Tento program ulož do *.java souboru.
 3. Přelož program překladačem javac např: `javac TestPrimes.java`
-4. Spusť program v interpretu např: `java -jar run-interpret-1.0-SNAPSHOT-jar-with-dependencies.jar TestPrimes.class`.//TODO upravit, otestovat
+4. Spusť program v interpretu např: `java -jar run-interpret.jar TestPrimes.class`. Volitelné přepínače jsou `-debug` `-truffle`.
 
 ### Ukázkové soubory
 Ukázkové soubory určené k demonstraci funkčnosti interpretu jsou připraveny ve složce test_files.

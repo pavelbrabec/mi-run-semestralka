@@ -17,8 +17,8 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
  */
 public class VirtualMachine extends RootNode {
 
-    @CompilerDirectives.CompilationFinal
-    public static final boolean VM_DEBUG = false;
+    //@CompilerDirectives.CompilationFinal
+    public static boolean VM_DEBUG = false;
 
     @Children
     private final StackFrame[] stack = new StackFrame[1000];

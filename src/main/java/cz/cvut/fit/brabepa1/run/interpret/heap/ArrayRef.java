@@ -1,5 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.heap;
 
+import cz.cvut.fit.brabepa1.run.interpret.VirtualMachine;
 import cz.cvut.fit.brabepa1.run.interpret.exceptions.IndexOutOfBounds;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -86,8 +87,10 @@ public class ArrayRef {
         long elemOffset = byteOffset + index * getTypeSize(aType);
         byte[] data = getBytesFromValue(value);
         Heap.getInstance().storeBytes(data, elemOffset);
-        System.out.println("ArrayRef type=" + aType + ", count=" + count + ", at s" + byteOffset);
-        System.out.println("Setting elem idx=" + index + " to val:" + value + " at pos " + elemOffset);
+        if (VirtualMachine.VM_DEBUG) {
+            System.out.println("ArrayRef type=" + aType + ", count=" + count + ", at s" + byteOffset);
+            System.out.println("Setting elem idx=" + index + " to val:" + value + " at pos " + elemOffset);
+        }
     }
 
     public Object getElem(long index) {
