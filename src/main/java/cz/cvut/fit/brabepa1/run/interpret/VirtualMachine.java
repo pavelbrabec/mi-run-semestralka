@@ -9,7 +9,6 @@ import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.Method;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
 import cz.cvut.fit.brabepa1.run.interpret.exceptions.MethodNotFound;
-import cz.cvut.fit.brabepa1.run.interpret.heap.Heap;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
 
 /**
@@ -19,7 +18,7 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.Instruction;
 public class VirtualMachine extends RootNode {
 
     @CompilerDirectives.CompilationFinal
-    public static final boolean VM_DEBUG = true;
+    public static final boolean VM_DEBUG = false;
 
     @Children
     private final StackFrame[] stack = new StackFrame[1000];

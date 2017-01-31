@@ -28,7 +28,7 @@ public class Main {
         });
         System.out.println("Loaded " + instructionImpls.size() + " instructions.");
 
-//        ClassFile cf = ClassFileReader.lookupAndResolve("Knapsack");
+        ClassFile cf = ClassFileReader.lookupAndResolve("Knapsack");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestMath");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestLoops");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("Test");
@@ -36,7 +36,7 @@ public class Main {
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestInput");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestHeap");
 //        ClassFile cf = ClassFileReader.lookupAndResolve("TestDyn");
-        ClassFile cf = ClassFileReader.lookupAndResolve("TestArrays");
+        //ClassFile cf = ClassFileReader.lookupAndResolve("TestArrays");
         System.out.println(cf);
         System.out.println("_________________________________");
 

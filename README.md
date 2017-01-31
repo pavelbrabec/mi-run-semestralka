@@ -1,7 +1,7 @@
 # MI-RUN interpret
 Cílem tohoto projektu bylo vytvořit interpret bytecodu podmožiny jazyka Java.
 ## Popis jazyka
-Interpret umožňuje intepretovat přibližně 50 základních instrukcí javovského bytecodu.
+Interpret umožňuje intepretovat přibližně 70 základních instrukcí javovského bytecodu.
 Implementovány jsou:
 * řídící struktury programu: if-else, for, while, do-while
 * matematické operace s celočíselnými hodnotami

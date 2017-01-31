@@ -1,7 +1,6 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
-import cz.cvut.fit.brabepa1.run.interpret.heap.ObjectRef;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 
