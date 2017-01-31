@@ -35,8 +35,8 @@ public class ObjectRef {
     
     public void setFieldValue(Field field, Object value) {
         int startPos = getFieldMemoryOffset(field);
-        System.out.println("ObjectRef cf="+classFile.getClassName()+" at "+byteOffset);
-        System.out.println("Setting field("+field.getName()+") to val:" +value+" at pos "+startPos);
+//        System.out.println("ObjectRef cf="+classFile.getClassName()+" at "+byteOffset);
+//        System.out.println("Setting field("+field.getName()+") to val:" +value+" at pos "+startPos);
         byte [] data = field.getByteFromData(value);
         Heap.getInstance().storeBytes(data, startPos);
     }

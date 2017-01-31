@@ -26,7 +26,7 @@ public class ALoadX extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        ObjectRef value = (ObjectRef)frame.getValue(index);
+        Object value = frame.getValue(index);
         frame.pushOperand(value);
         frame.incrementPc();
     }

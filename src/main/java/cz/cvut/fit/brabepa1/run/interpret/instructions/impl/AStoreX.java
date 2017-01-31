@@ -26,7 +26,7 @@ public class AStoreX extends JavaInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        ObjectRef value = (ObjectRef) frame.popOperand();
+        Object value = frame.popOperand();
         frame.setValue(index, value);
         frame.incrementPc();
     }

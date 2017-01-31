@@ -1,6 +1,7 @@
 package cz.cvut.fit.brabepa1.run.interpret.instructions.impl;
 
 import cz.cvut.fit.brabepa1.run.interpret.StackFrame;
+import cz.cvut.fit.brabepa1.run.interpret.heap.ArrayRef;
 import cz.cvut.fit.brabepa1.run.interpret.heap.Heap;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstruction;
 import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
@@ -14,10 +15,14 @@ public class NewArray extends JavaInstruction {
     static {
         JavaInstructionFactory.getInstance().registerInstruction(0xbc, new NewArray());
     }
+    private int type;
 
     @Override
     public void execute(StackFrame frame) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Integer arraySize = (Integer)frame.popOperand();
+        ArrayRef arrRef = Heap.getInstance().allocArray(type, arraySize);
+        frame.pushOperand(arrRef);
+        frame.incrementPc();
     }
 
     @Override
@@ -27,7 +32,7 @@ public class NewArray extends JavaInstruction {
 
     @Override
     public void setParameters(int pointer, byte[] bytecode) {
-        //TODO set parametr
+        type = bytecode[pointer + 1];
     }
     
 }

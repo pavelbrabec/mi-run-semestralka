@@ -13,6 +13,7 @@ import java.util.Set;
 public class Heap {
 
     public Set<ObjectRef> objectRefs;
+    public Set<ArrayRef> arrayRefs;
 
     private static final int MAX_HEAP_SIZE = 65536;
     // int because Java supports maximum of 2^31-1 array constructs for byte[]
@@ -32,6 +33,7 @@ public class Heap {
 
     private Heap() {
         objectRefs = new HashSet<ObjectRef>();
+        arrayRefs = new HashSet<ArrayRef>();
 //        heapSize = 8192;
         heapSize = 20;
         memory = new byte[heapSize];
@@ -40,7 +42,7 @@ public class Heap {
 
     //TODO - GC - implement old & young generation (division of the heap or just flags of heap objs)
     public ObjectRef allocObject(ClassFile cf) {
-        System.out.println("HEAP--ALLOC OBJ(size="+cf.getSizeInBytes()+"): " + Arrays.toString(cf.getByteData()));
+        System.out.println("HEAP--ALLOC OBJ (size="+cf.getSizeInBytes()+"): " + Arrays.toString(cf.getByteData()));
         long byteOffset = allocBytes(cf.getSizeInBytes()/* + ObjectRef.SIZE_IN_BYTES*/);
         ObjectRef objRef = new ObjectRef(cf, byteOffset);
 
@@ -49,6 +51,18 @@ public class Heap {
         objectRefs.add(objRef);
         objRef.addReference();
         return objRef;
+    }
+    
+    public ArrayRef allocArray(int type, long count) {
+        System.out.println("HEAP--ALLOC ARR (type=" + type + ", count=" + count + ")");
+        long byteOffset = allocBytes(ArrayRef.getSize(type, count));
+        ArrayRef arrRef = new ArrayRef(type, count, byteOffset);
+
+        storeBytes(arrRef.getInitData(), byteOffset);
+        
+        arrayRefs.add(arrRef);
+        arrRef.addReference();
+        return arrRef;
     }
 
     public void storeBytes(byte [] data, long offset) {
