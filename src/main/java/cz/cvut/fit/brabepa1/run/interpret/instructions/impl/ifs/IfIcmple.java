@@ -15,12 +15,12 @@ public class IfIcmple extends IfInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        Integer value1 = (Integer) frame.popOperand();
-        Integer value2 = (Integer) frame.popOperand();
-        if (value1 <= value2) {
-            frame.incrementPc();
-        } else {
+        Integer val2 = (Integer) frame.popOperand(); // condition end (for cycle with <)
+        Integer val1 = (Integer) frame.popOperand(); // incrementor (for cycle with <)
+        if (val1 <= val2) {
             frame.addOffsetToPc(branchOffset);
+        } else {
+            frame.incrementPc();
         }
 
     }

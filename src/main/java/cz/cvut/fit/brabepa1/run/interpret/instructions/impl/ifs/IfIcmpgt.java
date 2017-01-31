@@ -18,12 +18,12 @@ public class IfIcmpgt extends IfInstruction {
 
     @Override
     public void execute(StackFrame frame) {
-        Integer val1 = (Integer) frame.popOperand();
-        Integer val2 = (Integer) frame.popOperand();
+        Integer val2 = (Integer) frame.popOperand(); // condition end (for cycle with <)
+        Integer val1 = (Integer) frame.popOperand(); // incrementor (for cycle with <)
         if (val1 > val2) {
-            frame.incrementPc();
-        } else {
             frame.addOffsetToPc(branchOffset);
+        } else {
+            frame.incrementPc();
         }
     }
 
