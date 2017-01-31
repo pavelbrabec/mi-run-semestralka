@@ -6,12 +6,15 @@ Implementovány jsou:
 * řídící struktury programu: if-else, for, while, do-while
 * matematické operace s celočíselnými hodnotami
 * logické operace: &&, ||, !, ^
-* práce s poli //TODO
-* volání metod //TODO umíme i nestatické metody?
+* práce s poli
+* práce s objekty
+* volání statických metod 
 * vstup ze stdin (ASCII hodnoty znaků)
 * výstup na stdout (celočíselné datové typy a textové řetězce)
-* dynamické alokace paměti
+* dynamická alokace paměti
 * //TODO dopsat další features
+
+Pro podrobnější seznámení se syntaxí jazyka doporučujeme nastudovat příklady ve složce test_files.
 
 ## Použití interpretu
 Práce s intepretem vyžaduje nainstalované [JDK8] (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)

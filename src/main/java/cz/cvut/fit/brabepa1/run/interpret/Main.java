@@ -64,7 +64,7 @@ public class Main {
             System.out.println("Loaded " + instructionImpls.size() + " instructions.");
         }
 
-        ClassFile cf = ClassFileReader.lookupAndResolve("Knapsack");
+        ClassFile cf = ClassFileReader.lookupAndResolve(args[0]);
         if (VirtualMachine.VM_DEBUG) {
             System.out.println(cf);
         }

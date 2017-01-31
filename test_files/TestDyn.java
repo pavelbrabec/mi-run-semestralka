@@ -6,7 +6,7 @@ public class TestDyn {
   public TestDyn() {
     x = 3;
   }
-
+  
   public static void main () {
     TestDyn t = new TestDyn();
     t.y = 8;
