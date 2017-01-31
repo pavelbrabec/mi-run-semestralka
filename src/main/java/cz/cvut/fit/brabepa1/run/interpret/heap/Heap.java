@@ -111,8 +111,11 @@ public class Heap {
             if (i < heapPtr) occupiedBytes[i] = 'x';
             else occupiedBytes[i] = ' ';
         }
-        return "Heap{" + "#objRefs=" + objectRefs.size() + ", heapSize=" + heapSize +
-                ", heapPtr=" + heapPtr + "}\n"
+        return "Heap{"
+                + "#objRefs=" + objectRefs.size()
+                + ", #arrRefs=" + arrayRefs.size()
+                + ", heapSize=" + heapSize 
+                + ", heapPtr=" + heapPtr + "}\n"
                 + "  memory: " + Arrays.toString(memory) + "\n"
                 + "occupied: " + Arrays.toString(occupiedBytes);
     }

@@ -2,6 +2,7 @@ package cz.cvut.fit.brabepa1.run.interpret.classfile;
 
 import cz.cvut.fit.brabepa1.run.interpret.classfile.attributes.Attribute;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.constantpool.CP_UTF8;
+import cz.cvut.fit.brabepa1.run.interpret.heap.ArrayRef;
 import cz.cvut.fit.brabepa1.run.interpret.heap.ObjectRef;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -73,7 +74,8 @@ public class Field {
                 value = new Long(-1); // only its offset in heap
                 break;
             case '[': // array reference
-                throw new UnsupportedOperationException("Reference to array not implemented.");
+                value = new Long(-1); // only its offset in heap
+                break;
             default:
                 throw new UnsupportedOperationException("Invalid field descriptor!");
         }
@@ -128,7 +130,7 @@ public class Field {
             case 'L': // object reference
                 return 8;
             case '[': // array reference
-                throw new UnsupportedOperationException("Reference to array not implemented.");
+                return 8;
             default:
                 throw new UnsupportedOperationException("Invalid field descriptor!");
         }
@@ -139,11 +141,13 @@ public class Field {
         ByteBuffer data = null;
         Object obj = null;
         if (input instanceof ObjectRef) {
-            obj = ((ObjectRef)input).getByteOffset();
+            obj = ((ObjectRef) input).getByteOffset();
+        } else if (input instanceof ArrayRef) {
+            obj = ((ArrayRef) input).getByteOffset();
         } else {
             obj = input;
         }// TODO else if array
-        
+
         // potreba, protoze v obj muze bejt "int" a ten se blbe convertuje napr na byte nebo short
         // Toto muze nastat napr. kdyz do boolean promenne priradim 1 
         //   -> vyvola to instrukci "BiPush 1", ktera pushuje integer na stack
@@ -214,7 +218,7 @@ public class Field {
                     data.get(data.capacity() - 1)
                 };
                 break;
-            case 'L': // object reference
+            case 'L': // object reference (as offset)
                 res = new byte[]{
                     data.get(data.capacity() - 8),
                     data.get(data.capacity() - 7),
@@ -226,8 +230,18 @@ public class Field {
                     data.get(data.capacity() - 1)
                 };
                 break;
-            case '[': // array reference
-                throw new UnsupportedOperationException("Reference to array not implemented.");
+            case '[': // array reference (as offset)
+                res = new byte[]{
+                    data.get(data.capacity() - 8),
+                    data.get(data.capacity() - 7),
+                    data.get(data.capacity() - 6),
+                    data.get(data.capacity() - 5),
+                    data.get(data.capacity() - 4),
+                    data.get(data.capacity() - 3),
+                    data.get(data.capacity() - 2),
+                    data.get(data.capacity() - 1)
+                };
+                break;
             default:
                 throw new UnsupportedOperationException("Invalid field descriptor!");
         }
@@ -263,7 +277,7 @@ public class Field {
             case 'L': // object reference
                 return new ObjectRef(buf.getLong(0));
             case '[': // array reference
-                throw new UnsupportedOperationException("Reference to array not implemented.");
+                return new ArrayRef(buf.getLong(0));
             default:
                 throw new UnsupportedOperationException("Invalid field descriptor!");
         }

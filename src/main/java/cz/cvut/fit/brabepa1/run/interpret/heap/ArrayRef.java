@@ -15,14 +15,32 @@ public class ArrayRef {
 
     private int refs;
     private final long byteOffset;
-    private final int aType;
+    private int aType;
     private long count;
 
-    public ArrayRef(int type, long count, long byteOffset) {        
+    public ArrayRef(int type, long count, long byteOffset) {
         this.refs = 0;
         this.aType = type;
         this.count = count;
         this.byteOffset = byteOffset;
+    }
+
+    public ArrayRef(long byteOffset) {
+        this.byteOffset = byteOffset;
+        boolean found = false;
+        for (ArrayRef a : Heap.getInstance().arrayRefs) {
+            if (a.byteOffset == this.byteOffset) {
+                this.refs = a.refs;
+                this.aType = a.aType;
+                this.count = a.count;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            throw new UnsupportedOperationException(
+                    "ArrayRef(offset) - Referential ArrayRef not found in heap!");
+        }
     }
 
     public Object getInitValue() {
@@ -61,8 +79,10 @@ public class ArrayRef {
     }
 
     public void setElem(long index, Object value) {
-        if (index >= this.count || index < 0) throw new IndexOutOfBounds(index);
-        
+        if (index >= this.count || index < 0) {
+            throw new IndexOutOfBounds(index);
+        }
+
         long elemOffset = byteOffset + index * getTypeSize(aType);
         byte[] data = getBytesFromValue(value);
         Heap.getInstance().storeBytes(data, elemOffset);
@@ -71,8 +91,10 @@ public class ArrayRef {
     }
 
     public Object getElem(long index) {
-        if (index >= this.count || index < 0) throw new IndexOutOfBounds(index);
-        
+        if (index >= this.count || index < 0) {
+            throw new IndexOutOfBounds(index);
+        }
+
         long offset = byteOffset + index * getTypeSize(aType);
         byte[] bytes = Heap.getInstance().getBytes(offset, getTypeSize(aType));
         ByteBuffer buf = ByteBuffer.wrap(bytes);
@@ -156,19 +178,6 @@ public class ArrayRef {
     }
 
     /**
-     * @return Byte data of all values in this array
-     */
-//    public byte[] getByteData() {
-//        byte[] data = new byte[(int) getSize(aType, count)];
-//        int ptr = 0;
-//        for (Object o : ) {
-//            for (byte b : field.getByteFromData(field.getValue())) {
-//                data[ptr++] = b;
-//            }
-//        }
-//        return data;
-//    }
-    /**
      * Increases reference counter by one on this object
      */
     public void addReference() {
@@ -184,7 +193,8 @@ public class ArrayRef {
 
     @Override
     public String toString() {
-        return "ArrayRef{refs=" + refs + ", byteOffset=" + byteOffset + '}';
+        return "ArrayRef{refs=" + refs + ", elemCount=" + count
+                + ", aType=" + aType + ", byteOffset=" + byteOffset + '}';
     }
 
 }
