@@ -38,12 +38,12 @@ public class TestPrimes {
     
     public static void main(String[] args) {
         int primesFound = 0;
-        for (int i = 1; i < 1000; i++) {
+        for (int i = 1; i < 200000; i++) {
             if(isPrime(i)==1){
                 primesFound++;
             }
         }
-        System.out.println("--------");
+        System.out.println("Primes found:");
         System.out.println(primesFound);
     }
 }

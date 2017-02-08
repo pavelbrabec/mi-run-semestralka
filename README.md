@@ -27,7 +27,7 @@ Pro sestavení projektu spustíme v jeho kořenovém adresáři příkaz `mvn pa
 1. Napiš program v podmnožině jazyka Java, který využívá pouze výše popsané konstrukty a je přeložitelný překladačem `javac`.
 2. Tento program ulož do *.java souboru.
 3. Přelož program překladačem javac např: `javac TestPrimes.java`
-4. Spusť program v interpretu např: `java -jar run-interpret.jar TestPrimes.class`. Volitelné přepínače jsou `-debug` `-truffle`.
+4. Spusť program v interpretu např: `java -jar run-interpret.jar TestPrimes`. Volitelné přepínače jsou `-debug` `-truffle`.
 
 ### Ukázkové soubory
 Ukázkové soubory určené k demonstraci funkčnosti interpretu jsou připraveny ve složce test_files.
