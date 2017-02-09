@@ -51,7 +51,8 @@ public class InvokeVirtual extends JavaInstruction {
                         ex.printStackTrace();
                     }
                 } else {
-                    throw new UnsupportedOperationException("Class " + name.string + " is not supported for output");
+//                    used to kill all other method invocation which were not OUTPUT or INPUT
+//                    throw new UnsupportedOperationException("Class " + name.string + " is not supported for output");
                 }
                 break;
             default:
