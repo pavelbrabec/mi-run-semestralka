@@ -6,13 +6,16 @@ Implementovány jsou:
 * řídící struktury programu: if-else, for, while, do-while
 * matematické operace s celočíselnými hodnotami
 * logické operace: &&, ||, !, ^
-* práce s poli
-* práce s objekty
-* volání statických metod 
+* práce s třídními, instančními i lokálními proměnnými
+* vytváření a práce s poli
+* vytváření a práce s objekty
+* životní cyklus metod
+* volání statických metod
+* vlastní vyjímky typu Exception i RuntimeException
 * vstup ze stdin (ASCII hodnoty znaků)
 * výstup na stdout (celočíselné datové typy a textové řetězce)
+* vyhledávání a načítání tříd a supertříd na předem definované classpath
 * dynamická alokace paměti
-* //TODO dopsat další features
 
 Pro podrobnější seznámení se syntaxí jazyka doporučujeme nastudovat příklady ve složce test_files.
 
