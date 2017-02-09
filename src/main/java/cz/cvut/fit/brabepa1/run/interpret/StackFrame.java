@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author pajcak
  */
-public class StackFrame extends Node{
+public class StackFrame extends Node {
 
     private final StackFrame invoker;
     private final VirtualMachine vm;
@@ -33,6 +33,14 @@ public class StackFrame extends Node{
      */
     private int[] pcToBc;
     private int[] bcToPc;
+
+    public StackFrame() {
+        invoker = null;
+        vm = null;
+        classFile = null;
+        method = null;
+        instructions = null;
+    }
 
     public StackFrame(VirtualMachine vm, StackFrame invoker, ClassFile classFile, Method method) {
         this.invoker = invoker;
@@ -165,7 +173,7 @@ public class StackFrame extends Node{
 
     private void printInstructionSet() {
         if (VirtualMachine.VM_DEBUG) {
-            System.out.println("METHOD: "+((CP_UTF8)(classFile.constantPool.items[method.nameIndex-1])).string);
+            System.out.println("METHOD: " + ((CP_UTF8) (classFile.constantPool.items[method.nameIndex - 1])).string);
             System.out.println("Instruction set (instr | offset):");
             for (int i = 0; i < instructions.length; i++) {
                 System.out.println((i + 1) + ". | " + pcToBc[i] + ": " + instructions[i]);

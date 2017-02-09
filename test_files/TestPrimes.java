@@ -43,7 +43,6 @@ public class TestPrimes {
                 primesFound++;
             }
         }
-        System.out.println("Primes found:");
         System.out.println(primesFound);
     }
 }
