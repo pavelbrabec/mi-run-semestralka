@@ -1,6 +1,5 @@
 package cz.cvut.fit.brabepa1.run.interpret;
 
-import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.nodes.Node;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.ClassFile;
 import cz.cvut.fit.brabepa1.run.interpret.classfile.Method;
@@ -11,7 +10,6 @@ import cz.cvut.fit.brabepa1.run.interpret.instructions.JavaInstructionFactory;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 /**
  *

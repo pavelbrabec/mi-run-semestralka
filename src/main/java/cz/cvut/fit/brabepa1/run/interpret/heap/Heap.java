@@ -35,8 +35,8 @@ public class Heap {
     private Heap() {
         objectRefs = new HashSet<ObjectRef>();
         arrayRefs = new HashSet<ArrayRef>();
-//        heapSize = 8192;
-        heapSize = 20;
+        heapSize = 8192;
+//        heapSize = 20;
         memory = new byte[heapSize];
         heapPtr = 0;
     }
@@ -109,6 +109,19 @@ public class Heap {
         }
         heapPtr += bytes;
         return storeAddr;
+    }
+
+    public int getHeapSize() {
+        return heapSize;
+    }
+
+    /**
+     * 
+     * @return index, which points to the free byte after all the already 
+     * allocated area ( == size of already allocated area)
+     */
+    public int getHeapPtr() {
+        return heapPtr;
     }
 
     @Override

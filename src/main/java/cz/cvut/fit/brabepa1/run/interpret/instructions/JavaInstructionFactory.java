@@ -30,7 +30,7 @@ public class JavaInstructionFactory implements InstructionFactory {
         instructions.put(opCode, instr);
     }
 
-    private Instruction getInstruction(int opCode) {
+    public Instruction getInstruction(int opCode) {
         Instruction instr = instructions.get(opCode);
         if (instr == null) {
             throw new IllegalArgumentException("Unknown instruction with opCode " + Integer.toHexString(opCode));

@@ -187,6 +187,12 @@ public class ArrayRef {
         this.refs++;
     }
 
+    public int getReferenceCnt() {
+        return refs;
+    }
+
+    
+    
     /**
      * Decreases reference counter by one on this object
      */
